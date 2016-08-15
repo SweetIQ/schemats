@@ -1,0 +1,18 @@
+{
+  "name": "schemats",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mengxuan Xia",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.4.1",
+    "lodash": "^4.14.2",
+    "pg-promise": "^5.2.7",
+    "typescript-formatter": "^2.3.0",
+    "yargs": "^4.8.1"
+  }
+}
