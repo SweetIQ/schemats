@@ -16,6 +16,7 @@
     "bluebird": "^3.4.1",
     "lodash": "^4.14.2",
     "pg-promise": "^5.2.7",
+    "typescript": "^1.8.10",
     "typescript-formatter": "^2.3.0",
     "yargs": "^4.8.1"
   }
