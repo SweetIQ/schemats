@@ -7,7 +7,7 @@
 import * as yargs from 'yargs'
 import * as bluebird from 'bluebird'
 const fsAsync: any = bluebird.promisifyAll(require('fs'));
-import { typescriptOfSchema, Database } from '../index'
+import { typescriptOfSchema, Database } from '../src/index'
 
 let argv: any = yargs
     .usage('Usage: $0 <command> [options]')
