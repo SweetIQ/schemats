@@ -11,7 +11,7 @@ export class Database {
 
     public async getDBSchema(tableName: string) {
         let schemaList: Array<any> = await this.db.query(
-            `SELECT column_name, data_type 
+            `SELECT column_name, udt_name 
              FROM information_schema.columns
              WHERE table_name = $/tableName/`,
             {tableName}
@@ -20,7 +20,7 @@ export class Database {
         let schema = {};
 
         schemaList.forEach(schemaItem => {
-            schema[schemaItem['column_name']] = schemaItem['data_type']
+            schema[schemaItem['column_name']] = schemaItem['udt_name']
         });
 
         return schema
@@ -31,23 +31,27 @@ export class Database {
     }
 
     private mapDBSchemaToType(schema: Object) {
-        return mapValues(schema, data_type => {
-            switch (data_type) {
-                case 'character varying':
+        return mapValues(schema, udt_name => {
+            switch (udt_name) {
+                case 'varchar':
                 case 'text':
                     return 'string';
-                case 'integer':
-                case 'double precision':
+                case 'int4':
+                case 'float8':
                     return 'number';
-                case 'boolean':
+                case 'bool':
                     return 'boolean';
                 case 'json':
                     return 'Object';
                 case 'date':
-                case 'timestamp without time zone':
+                case 'timestamp':
                     return 'Date';
+                case '_float8':
+                    return 'Array<number>'
+                case '_text':
+                    return 'Array<string>'                    
                 default:
-                    throw new TypeError('do not know how to convert type ' + data_type);
+                    throw new TypeError('do not know how to convert type ' + udt_name);
             }
         })
     }
