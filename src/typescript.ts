@@ -4,10 +4,9 @@
  */
 
 export function generateTableInterface(tableName: string, schema: Object) {
-    let members = "";
-    for (let columnName in schema){
+    let members = ''
+    for (let columnName in schema) {
         if (schema.hasOwnProperty(columnName)) {
-            let type = schema[columnName];
             members += `${columnName}: ${tableName}Fields.${columnName};\n`
         }
     }
@@ -20,10 +19,10 @@ export function generateTableInterface(tableName: string, schema: Object) {
 }
 
 export function generateSchemaTypes(tableName: string, schema: Object) {
-    let fields = "";
-    for (let columnName in schema){
+    let fields = ''
+    for (let columnName in schema) {
         if (schema.hasOwnProperty(columnName)) {
-            let type = schema[columnName];
+            let type = schema[columnName]
             fields += `export type ${columnName} = ${type};\n`
         }
     }
