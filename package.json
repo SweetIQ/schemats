@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "tslint src/**/*.ts",
-    "build": "typings install && tsc"
+    "build": "typings install && tsc",
+    "test": "npm run lint && npm run build"
   },
   "bin": {
     "schemats": "bin/schemats.js"
