@@ -36,6 +36,7 @@ export class Database {
                 case 'varchar':
                 case 'text':
                     return 'string'
+                case 'int2':
                 case 'int4':
                 case 'int8':
                 case 'float8':
