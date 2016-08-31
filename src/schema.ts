@@ -37,6 +37,7 @@ export class Database {
                 case 'text':
                     return 'string'
                 case 'int4':
+                case 'int8':
                 case 'float8':
                     return 'number'
                 case 'bool':
@@ -51,7 +52,7 @@ export class Database {
                 case '_text':
                     return 'Array<string>'
                 default:
-                    throw new TypeError('do not know how to convert type ' + udtName)
+                    throw new TypeError(`do not know how to convert type [${udtName}]`)
             }
         })
     }
