@@ -1,12 +1,5 @@
 {
-  "dependencies": {
-    "bluebird": "registry:npm/bluebird#3.3.4+20160802085254",
-    "lodash": "registry:npm/lodash#4.0.0+20160723033700",
-    "yargs": "registry:npm/yargs#3.31.0+20160723033700"
-  },
   "globalDependencies": {
-    "mz": "registry:dt/mz#0.0.0+20160811111312",
-    "node": "registry:dt/node#6.0.0+20160807145350",
     "pg-promise": "github:vitaly-t/pg-promise#5beb5565b1c7a8544433db2da3ca798070b625f6",
     "spex": "github:vitaly-t/spex#3f36c74343e7775e9ed0d342ca65fade2ac2cdcd"
   }
