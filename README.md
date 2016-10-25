@@ -20,7 +20,7 @@ schemats generate -c postgres://postgres@localhost/osm -t users osm.ts -n osm
 
 
 The command above will generate typescript interfaces for [`osm`](test/osm_schema.sql) database 
-with table`users` under namespace `osm`. The resulting file is stored as [`osm.ts`](test/example/osm.ts).
+with table [`users`](test/osm_schema.sql#L18) under namespace `osm`. The resulting file is stored as [`osm.ts`](test/example/osm.ts).
 
 
 ### Writing code with typed schema
@@ -28,7 +28,11 @@ with table`users` under namespace `osm`. The resulting file is stored as [`osm.t
 We can import `osm.ts` directly
 
 ```typescript
+
+// imports the _osm_ namespace from ./osm.ts
+
 import {osm} from './osm'
+
 
 // Now query with pg-promise and have a completely typed return value
   
@@ -51,3 +55,12 @@ let emailOfUsersCreatedAfter2013: Array<{
     creation_time: Date
 }> = await db.query("SELECT (email, creation_time) FROM users WHERE creation_time >= '2013-01-01'");
 ```
+
+With genearted type definition for your database schema, you can write code with autocompletion and static type checks.
+
+![demo](demo.gif)
+
+
+### Using schemats as a library
+
+Schemats exposes two high-level functions for generating typescript definition from a database schema. They can be used by a build tool such as grunt and gulp.
