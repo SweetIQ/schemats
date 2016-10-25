@@ -39,7 +39,7 @@ import {osm} from './osm'
 let usersCreatedAfter2013: Array<osm.users>
    = await db.query("SELECT * FROM users WHERE creation_time >= '2013-01-01'");
 
-// You can decide to only get selected fields
+// We can decide to only get selected fields
 
 let emailOfUsersCreatedAfter2013: Array<{
     email: osm.usersFields.email,
@@ -56,7 +56,7 @@ let emailOfUsersCreatedAfter2013: Array<{
 }> = await db.query("SELECT (email, creation_time) FROM users WHERE creation_time >= '2013-01-01'");
 ```
 
-With genearted type definition for your database schema, you can write code with autocompletion and static type checks.
+With genearted type definition for our database schema, we can write code with autocompletion and static type checks.
 
 ![demo](demo.gif)
 
