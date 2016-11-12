@@ -70,3 +70,16 @@ With genearted type definition for our database schema, we can write code with a
 ### Using schemats as a library
 
 Schemats exposes two high-level functions for generating typescript definition from a database schema. They can be used by a build tool such as grunt and gulp.
+
+### Contributing
+
+:+1::tada: First off, thanks for taking the time to contribute! :tada::+1:
+
+Steps to contribute:
+
+- Make your awesome changes
+- Run `npm run lint`
+- Optionally, run `DATABASE_URL="postgres://youruser@localhost/anyemptytestdatabase" npm test`
+- Submit pull request
+
+Our project runs `npm test` automatically on pull requests via CircleCI.
