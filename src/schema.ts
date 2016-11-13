@@ -10,19 +10,14 @@ export class Database {
     }
 
     public async getDBSchema(tableName: string) {
-        let schemaList: Array<any> = await this.db.query(
+        let schema = {}
+        await this.db.each(
             `SELECT column_name, udt_name 
              FROM information_schema.columns
-             WHERE table_name = $/tableName/`,
-            {tableName}
-        )
-
-        let schema = {}
-
-        schemaList.forEach(schemaItem => {
-            schema[schemaItem['column_name']] = schemaItem['udt_name']
-        })
-
+             WHERE table_name = $1`,
+            tableName, schemaItem => {
+                schema[schemaItem.column_name] = schemaItem.udt_name
+            })
         return schema
     }
 
