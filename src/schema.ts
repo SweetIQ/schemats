@@ -9,7 +9,7 @@ export class Database {
         this.db = pgp(connectionString)
     }
 
-    public async getDBSchema(tableName: string) {        
+    public async getDBSchema(tableName: string) {
         let schema = {}
         await this.db.each(
             `SELECT column_name, udt_name 
@@ -17,7 +17,7 @@ export class Database {
              WHERE table_name = $1`,
             tableName, schemaItem => {
                 schema[schemaItem.column_name] = schemaItem.udt_name
-            })        
+            })
         return schema
     }
 
