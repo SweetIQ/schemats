@@ -3,12 +3,7 @@
         "module": "commonjs",
         "target": "es6",
         "noImplicitAny": false,
-        "sourceMap": false,
-        "typeRoots": [
-            "node_modules/@types",
-            "node_modules/spex/typescript/@types",
-            "node_modules/pg-promise/typescript/@types"
-        ]
+        "sourceMap": false
     },
     "exclude": [
         "node_modules"
