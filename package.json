@@ -2,7 +2,12 @@
   "name": "schemats",
   "version": "0.1.8",
   "description": "Generate typecript interface definitions from (postgres) SQL database schema",
-  "keywords": ["postgres", "schema", "typescript", "sql"],
+  "keywords": [
+    "postgres",
+    "schema",
+    "typescript",
+    "sql"
+  ],
   "main": "index.js",
   "scripts": {
     "lint": "tslint src/**/*.ts",
@@ -10,17 +15,17 @@
     "dependency-check": "dependency-check . --entry bin/schemats.js --missing --no-dev",
     "test": "npm run lint && npm run build && npm run dependency-check && node test/test",
     "prepublish": "npm run build",
-    "clean": "rm -rf node_modules && rm -rf **/*.js"
+    "clean": "del-cli node_modules **/*.js"
   },
   "bin": {
     "schemats": "bin/schemats.js"
   },
-  "repository" :  {
-    "type" : "git",
-    "url" : "https://github.com/sweetiq/schemats.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sweetiq/schemats.git"
   },
   "bugs": {
-    "url" : "https://github.com/sweetiq/schemats/issues"
+    "url": "https://github.com/sweetiq/schemats/issues"
   },
   "author": "Mengxuan Xia <xiamx2004@gmail.com>",
   "license": "MIT",
@@ -31,6 +36,7 @@
     "@types/mz": "^0.0.30",
     "@types/node": "^6.0.45",
     "@types/yargs": "0.0.33",
+    "del-cli": "^0.2.0",
     "dependency-check": "^2.6.0"
   },
   "dependencies": {
