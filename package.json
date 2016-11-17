@@ -44,7 +44,7 @@
     "diff": "^3.0.1",
     "lodash": "^4.14.2",
     "mz": "^2.4.0",
-    "pg-promise": "git://github.com/sweetiq/pg-promise.git#df6c269792ad0dc4728d89d273d4d8b357e0f660",
+    "pg-promise": "git://github.com/sweetiq/pg-promise.git#04836250abab5da51857adb775878f6f75b4c029",
     "tslint": "^3.15.1",
     "tslint-config-standard": "^1.3.0",
     "yargs": "^4.8.1",
