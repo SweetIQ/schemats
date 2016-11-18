@@ -4,7 +4,7 @@
 [![GitHub tag](https://img.shields.io/github/tag/SweetIQ/schemats.svg)](https://github.com/SweetIQ/schemats)
 [![CircleCI](https://img.shields.io/circleci/project/github/SweetIQ/schemats/master.svg)](https://circleci.com/gh/SweetIQ/schemats)
 
-Generate typecript interface definitions from (postgres) SQL database schema
+Generate typescript interface definitions from (postgres) SQL database schema
 
 ## Quick Start
 
