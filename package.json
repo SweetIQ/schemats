@@ -1,7 +1,7 @@
 {
   "name": "schemats",
   "version": "0.1.11",
-  "description": "Generate typecript interface definitions from (postgres) SQL database schema",
+  "description": "Generate typescript interface definitions from (postgres) SQL database schema",
   "keywords": [
     "postgres",
     "schema",
