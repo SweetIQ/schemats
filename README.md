@@ -58,7 +58,7 @@ let emailOfUsersCreatedAfter2013: Array<{
 }> = await db.query("SELECT (email, creation_time) FROM users WHERE creation_time >= '2013-01-01'");
 ```
 
-With genearted type definition for our database schema, we can write code with autocompletion and static type checks.
+With generated type definition for our database schema, we can write code with autocompletion and static type checks.
 
 <p align="center">
 <img align="center" src="demo.gif" width="100%" alt="demo 1"/>
