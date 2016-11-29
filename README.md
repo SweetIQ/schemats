@@ -17,7 +17,7 @@ npm install -g schemats
 ### Generating the type definition from schema
 
 ```
-schemats generate -c postgres://postgres@localhost/osm -t users osm.ts -n osm
+schemats generate -c postgres://postgres@localhost/osm -t users -o osm.ts -n osm
 ```
 
 
