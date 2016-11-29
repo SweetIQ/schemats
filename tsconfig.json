@@ -3,6 +3,7 @@
         "module": "commonjs",
         "target": "es6",
         "noImplicitAny": false,
+        "newLine": "LF",
         "sourceMap": false
     },
     "exclude": [
