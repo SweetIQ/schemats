@@ -6,6 +6,9 @@
 
 Generate typescript interface definitions from (postgres) SQL database schema
 
+For an overview on the motivation and rational behind this project, please take a look at [Statically typed PostgreSQL queries in Typescript
+](http://cs.mcgill.ca/~mxia3/2016/11/18/Statically-typed-PostgreSQL-queries-and-typescript-schemats/).
+
 ## Quick Start
 
 ### Installing Schemats
