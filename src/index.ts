@@ -15,13 +15,22 @@ export async function typescriptOfTable(db: Database, table: string) {
     return interfaces
 }
 
-export async function typescriptOfSchema(db: Database, namespace: string, tables: string[]) {
+export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], commandRan: string) {
     let interfaces = ''
     for (let i = 0; i < tables.length; i++) {
         interfaces += await typescriptOfTable(db, tables[i])
     }
 
     let output = `
+            /**
+             * AUTO-GENERATED FILE - DO NOT EDIT!
+             *
+             * This file was generated with schemats node package:
+             * $ schemats ${commandRan}
+             *
+             * Re-run command above if your DB schema was changed.
+             *
+             */
             export namespace ${namespace} {
             ${interfaces}
             }

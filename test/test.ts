@@ -14,8 +14,13 @@ import * as diff from 'diff'
         console.log('loaded osm schema')
 
         let db = new Database(process.env.DATABASE_URL)
-        let formattedOutput = await typescriptOfSchema(db, 'osm', ['users'])
-        let outputFile = process.env.CIRCLE_ARTIFACTS + '/osm.ts'
+        let formattedOutput = await typescriptOfSchema(
+            db,
+            'osm',
+            ['users'],
+            'schemats generate -c postgresql://user:password@localhost/test -t users -o osm.ts'
+        )
+        let outputFile = (process.env.CIRCLE_ARTIFACTS || '.') + '/osm.ts'
         await fs.writeFile(outputFile, formattedOutput.dest)
 
         // compare against gold standard
