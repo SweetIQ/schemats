@@ -35,7 +35,7 @@ export async function typescriptOfSchema(db: Database, namespace: string, tables
              * This file was generated with schemats node package:
              * $ schemats ${commandRan}
              *
-             * Re-run command above if your DB schema was changed.
+             * Re-run the command above.
              *
              */
             export namespace ${namespace} {
