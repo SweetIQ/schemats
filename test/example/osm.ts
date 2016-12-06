@@ -3,7 +3,7 @@
  * AUTO-GENERATED FILE - DO NOT EDIT!
  *
  * This file was generated with schemats node package:
- * $ schemats schemats generate -c postgresql://user:password@localhost/test -t users -o osm.ts
+ * $ schemats generate -c postgres://username:password@localhost/test -t users -o osm.ts
  *
  * Re-run command above if your DB schema was changed.
  *

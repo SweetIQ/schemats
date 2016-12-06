@@ -5,7 +5,7 @@
 
 import {loadOSM} from './load_osm'
 import * as fs from 'mz/fs'
-import { typescriptOfSchema, Database } from '../src/index'
+import { typescriptOfSchema, Database, extractCommand } from '../src/index'
 import * as diff from 'diff'
 
 (async () => {
@@ -18,7 +18,10 @@ import * as diff from 'diff'
             db,
             'osm',
             ['users'],
-            'schemats generate -c postgresql://user:password@localhost/test -t users -o osm.ts'
+            extractCommand(
+                ['node', 'schemats', 'generate', '-c', 'postgres://secretUser:secretPassword@localhost/test', '-t', 'users', '-o', 'osm.ts'],
+                'postgres://secretUser:secretPassword@localhost/test'
+            )
         )
         let outputFile = (process.env.CIRCLE_ARTIFACTS || '.') + '/osm.ts'
         await fs.writeFile(outputFile, formattedOutput.dest)

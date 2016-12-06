@@ -7,7 +7,7 @@
 import * as yargs from 'yargs'
 import * as bluebird from 'bluebird'
 const fsAsync: any = bluebird.promisifyAll(require('fs'));
-import { typescriptOfSchema, Database } from '../src/index'
+import { typescriptOfSchema, Database, extractCommand } from '../src/index'
 
 let argv: any = yargs
     .usage('Usage: $0 <command> [options]')
@@ -34,11 +34,6 @@ let argv: any = yargs
     .alias('h', 'help')
     .argv;
 
-const commandRan = process.argv
-    .slice(2)
-    .join(' ')
-    .replace(argv.c.split('@')[0], 'postgres://username:password'); // hide real username:password pair
-
 (async () => {
 
     try {
@@ -48,7 +43,7 @@ const commandRan = process.argv
             argv.t = [argv.t]
         }
 
-        let formattedOutput = await typescriptOfSchema(db, argv.n, argv.t, commandRan);
+        let formattedOutput = await typescriptOfSchema(db, argv.n, argv.t, extractCommand(process.argv, argv.c));
         await fsAsync.writeFileAsync(argv.o, formattedOutput.dest)
 
     } catch (e) {
