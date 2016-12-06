@@ -339,4 +339,4 @@ paket-files/
 *.js
 typings/
 
-/osm.ts
+/test/osm.ts
