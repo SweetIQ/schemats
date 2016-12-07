@@ -25,7 +25,13 @@ export function extractCommand(args: string[], dbConfig: string): string {
 export function getTime() {
     let padTime = (value) => `0${value}`.slice(-2)
     let time = new Date()
-    return `${time.getFullYear()}-${padTime(time.getMonth() + 1)}-${padTime(time.getDate())} ${padTime(time.getHours())}:${padTime(time.getMinutes())}:${padTime(time.getSeconds())}`
+    const yyyy = time.getFullYear()
+    const MM = padTime(time.getMonth() + 1)
+    const dd = padTime(time.getDate())
+    const hh = padTime(time.getHours())
+    const mm = padTime(time.getMinutes())
+    const ss = padTime(time.getSeconds())
+    return `${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}`
 }
 
 export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], commandRan: string, time: string) {
