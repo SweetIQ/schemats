@@ -1,11 +1,11 @@
 /**
- * 
+ *
  * Created by xiamx on 2016-08-31.
  */
 
 import {loadOSM} from './load_osm'
 import * as fs from 'mz/fs'
-import { typescriptOfSchema, Database } from '../src/index'
+import { typescriptOfSchema, Database, extractCommand } from '../src/index'
 import * as diff from 'diff'
 
 (async () => {
@@ -14,8 +14,17 @@ import * as diff from 'diff'
         console.log('loaded osm schema')
 
         let db = new Database(process.env.DATABASE_URL)
-        let formattedOutput = await typescriptOfSchema(db, 'osm', ['users'])
-        let outputFile = process.env.CIRCLE_ARTIFACTS + '/osm.ts'
+        let formattedOutput = await typescriptOfSchema(
+            db,
+            'osm',
+            ['users'],
+            extractCommand(
+                ['node', 'schemats', 'generate', '-c', 'postgres://secretUser:secretPassword@localhost/test', '-t', 'users', '-o', './test/osm.ts'],
+                'postgres://secretUser:secretPassword@localhost/test'
+            ),
+            '2016-12-07 13:17:46'
+        )
+        let outputFile = (process.env.CIRCLE_ARTIFACTS || '.') + '/test/osm.ts'
         await fs.writeFile(outputFile, formattedOutput.dest)
 
         // compare against gold standard

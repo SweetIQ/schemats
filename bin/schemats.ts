@@ -7,13 +7,13 @@
 import * as yargs from 'yargs'
 import * as bluebird from 'bluebird'
 const fsAsync: any = bluebird.promisifyAll(require('fs'));
-import { typescriptOfSchema, Database } from '../src/index'
+import { typescriptOfSchema, Database, extractCommand, getTime } from '../src/index'
 
 let argv: any = yargs
     .usage('Usage: $0 <command> [options]')
     .command('generate', 'generate type definition')
     .demand(1)
-    .example('$0 generate -c postgres://username:pssword@localhost/db -t table1 -t table2 -n namespace -o interface_output.ts', 'generate typescript interfaces from schema')
+    .example('$0 generate -c postgres://username:password@localhost/db -t table1 -t table2 -n namespace -o interface_output.ts', 'generate typescript interfaces from schema')
     .demand('c')
     .alias('c', 'conn')
     .nargs('c', 1)
@@ -34,7 +34,6 @@ let argv: any = yargs
     .alias('h', 'help')
     .argv;
 
-
 (async () => {
 
     try {
@@ -44,7 +43,7 @@ let argv: any = yargs
             argv.t = [argv.t]
         }
 
-        let formattedOutput = await typescriptOfSchema(db, argv.n, argv.t);
+        let formattedOutput = await typescriptOfSchema(db, argv.n, argv.t, extractCommand(process.argv, argv.c), getTime());
         await fsAsync.writeFileAsync(argv.o, formattedOutput.dest)
 
     } catch (e) {

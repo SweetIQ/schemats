@@ -15,13 +15,35 @@ export async function typescriptOfTable(db: Database, table: string) {
     return interfaces
 }
 
-export async function typescriptOfSchema(db: Database, namespace: string, tables: string[]) {
+export function extractCommand(args: string[], dbConfig: string): string {
+    return args
+        .slice(2)
+        .join(' ')
+        .replace(dbConfig.split('@')[0], 'postgres://username:password') // hide real username:password pair
+}
+
+export function getTime() {
+    let padTime = (value) => `0${value}`.slice(-2)
+    let time = new Date()
+    return `${time.getFullYear()}-${padTime(time.getMonth() + 1)}-${padTime(time.getDate())} ${padTime(time.getHours())}:${padTime(time.getMinutes())}:${padTime(time.getSeconds())}`
+}
+
+export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], commandRan: string, time: string) {
     let interfaces = ''
     for (let i = 0; i < tables.length; i++) {
         interfaces += await typescriptOfTable(db, tables[i])
     }
 
     let output = `
+            /**
+             * AUTO-GENERATED FILE @ ${time} - DO NOT EDIT!
+             *
+             * This file was generated with schemats node package:
+             * $ schemats ${commandRan}
+             *
+             * Re-run the command above.
+             *
+             */
             export namespace ${namespace} {
             ${interfaces}
             }
