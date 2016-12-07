@@ -20,7 +20,7 @@ import * as diff from 'diff'
             'osm',
             ['users'],
             extractCommand(
-                ['node', 'schemats', 'generate', '-c', 'postgres://secretUser:secretPassword@localhost/test', '-t', 'users', '-o', outputFile],
+                ['node', 'schemats', 'generate', '-c', 'postgres://secretUser:secretPassword@localhost/test', '-t', 'users', '-o', './test/osm.ts'],
                 'postgres://secretUser:secretPassword@localhost/test'
             ),
             '2016-12-07 13:17:46'
