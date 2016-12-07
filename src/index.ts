@@ -34,7 +34,8 @@ export function getTime() {
     return `${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}`
 }
 
-export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], commandRan: string, time: string) {
+export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], 
+                                         commandRan: string, time: string) {
     let interfaces = ''
     for (let i = 0; i < tables.length; i++) {
         interfaces += await typescriptOfTable(db, tables[i])

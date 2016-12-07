@@ -43,7 +43,10 @@ let argv: any = yargs
             argv.t = [argv.t]
         }
 
-        let formattedOutput = await typescriptOfSchema(db, argv.n, argv.t, extractCommand(process.argv, argv.c), getTime());
+        let formattedOutput = await typescriptOfSchema(
+            db, argv.n, argv.t,
+            extractCommand(process.argv, argv.c), getTime()
+        );
         await fsAsync.writeFileAsync(argv.o, formattedOutput.dest)
 
     } catch (e) {
