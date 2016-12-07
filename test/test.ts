@@ -1,5 +1,5 @@
 /**
- * 
+ *
  * Created by xiamx on 2016-08-31.
  */
 
@@ -14,16 +14,16 @@ import * as diff from 'diff'
         console.log('loaded osm schema')
 
         let db = new Database(process.env.DATABASE_URL)
-        let outputFile = (process.env.CIRCLE_ARTIFACTS || './test') + '/osm.ts'
         let formattedOutput = await typescriptOfSchema(
             db,
             'osm',
             ['users'],
             extractCommand(
-                ['node', 'schemats', 'generate', '-c', 'postgres://secretUser:secretPassword@localhost/test', '-t', 'users', '-o', outputFile],
+                ['node', 'schemats', 'generate', '-c', 'postgres://secretUser:secretPassword@localhost/test', '-t', 'users', '-o', './test/osm.ts'],
                 'postgres://secretUser:secretPassword@localhost/test'
             )
         )
+        let outputFile = (process.env.CIRCLE_ARTIFACTS || '.') + '/test/osm.ts'
         await fs.writeFile(outputFile, formattedOutput.dest)
 
         // compare against gold standard
