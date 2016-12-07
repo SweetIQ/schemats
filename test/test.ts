@@ -14,6 +14,7 @@ import * as diff from 'diff'
         console.log('loaded osm schema')
 
         let db = new Database(process.env.DATABASE_URL)
+        let outputFile = (process.env.CIRCLE_ARTIFACTS || './test') + '/osm.ts'
         let formattedOutput = await typescriptOfSchema(
             db,
             'osm',
@@ -24,7 +25,6 @@ import * as diff from 'diff'
             ),
             '2016-12-07 13:17:46'
         )
-        let outputFile = (process.env.CIRCLE_ARTIFACTS || '.') + '/test/osm.ts'
         await fs.writeFile(outputFile, formattedOutput.dest)
 
         // compare against gold standard
