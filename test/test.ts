@@ -14,7 +14,7 @@ import * as diff from 'diff'
         console.log('loaded osm schema')
 
         let db = new Database(process.env.DATABASE_URL)
-        let outputFile = (process.env.CIRCLE_ARTIFACTS || '.') + '/test/osm.ts'
+        let outputFile = (process.env.CIRCLE_ARTIFACTS || './test') + '/osm.ts'
         let formattedOutput = await typescriptOfSchema(
             db,
             'osm',
