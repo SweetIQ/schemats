@@ -1,6 +1,6 @@
 
 /**
- * AUTO-GENERATED FILE - DO NOT EDIT!
+ * AUTO-GENERATED FILE @ 2016-12-07 13:17:46 - DO NOT EDIT!
  *
  * This file was generated with schemats node package:
  * $ schemats generate -c postgres://username:password@localhost/test -t users -o ./test/osm.ts

@@ -21,7 +21,8 @@ import * as diff from 'diff'
             extractCommand(
                 ['node', 'schemats', 'generate', '-c', 'postgres://secretUser:secretPassword@localhost/test', '-t', 'users', '-o', './test/osm.ts'],
                 'postgres://secretUser:secretPassword@localhost/test'
-            )
+            ),
+            '2016-12-07 13:17:46'
         )
         let outputFile = (process.env.CIRCLE_ARTIFACTS || '.') + '/test/osm.ts'
         await fs.writeFile(outputFile, formattedOutput.dest)

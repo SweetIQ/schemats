@@ -7,7 +7,7 @@
 import * as yargs from 'yargs'
 import * as bluebird from 'bluebird'
 const fsAsync: any = bluebird.promisifyAll(require('fs'));
-import { typescriptOfSchema, Database, extractCommand } from '../src/index'
+import { typescriptOfSchema, Database, extractCommand, getTime } from '../src/index'
 
 let argv: any = yargs
     .usage('Usage: $0 <command> [options]')
@@ -43,7 +43,7 @@ let argv: any = yargs
             argv.t = [argv.t]
         }
 
-        let formattedOutput = await typescriptOfSchema(db, argv.n, argv.t, extractCommand(process.argv, argv.c));
+        let formattedOutput = await typescriptOfSchema(db, argv.n, argv.t, extractCommand(process.argv, argv.c), getTime());
         await fsAsync.writeFileAsync(argv.o, formattedOutput.dest)
 
     } catch (e) {
