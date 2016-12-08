@@ -19,6 +19,7 @@ import * as diff from 'diff'
             db,
             'osm',
             ['users'],
+            'public',
             extractCommand(
                 ['node', 'schemats', 'generate', '-c', 'postgres://secretUser:secretPassword@localhost/test', '-t', 'users', '-o', './test/osm.ts'],
                 'postgres://secretUser:secretPassword@localhost/test'

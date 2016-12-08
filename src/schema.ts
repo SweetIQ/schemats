@@ -11,12 +11,13 @@ export class Database {
 
     public async getDBSchema(schemaName: string, tableName?: string) {
         let schema = {}
-        await this.db.each(`
-            SELECT column_name, udt_name
+        await this.db.each(
+            `SELECT column_name, udt_name
             FROM information_schema.columns
             WHERE table_schema = $1 
             AND table_name = $2`,
-            [schemaName, tableName], schemaItem => {
+            [schemaName, tableName],
+            schemaItem => {
                 schema[schemaItem.column_name] = schemaItem.udt_name
             })
         return schema
@@ -26,13 +27,14 @@ export class Database {
         return this.mapDBSchemaToType(await this.getDBSchema(schemaName, tableName))
     }
 
-    public async getDBSchemaTables(schemaName: string) : Promise<{table_name: string}[]> {
-        return await this.db.each(`
-            SELECT table_name
+    public async getDBSchemaTables(schemaName: string): Promise<{table_name: string}[]> {
+        return await this.db.each(
+            `SELECT table_name
             FROM information_schema.columns
             WHERE table_schema = $1
             GROUP BY table_name`,
-            [schemaName], schemaItem => schemaItem.table_name
+            [schemaName],
+            schemaItem => schemaItem.table_name
         )
     }
 
