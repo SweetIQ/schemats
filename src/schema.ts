@@ -26,7 +26,7 @@ export class Database {
         return this.mapDBSchemaToType(await this.getDBSchema(schemaName, tableName))
     }
 
-    public async getDBSchemaTables(schemaName: string) {
+    public async getDBSchemaTables(schemaName: string) : Promise<{table_name: string}[]> {
         return await this.db.each(`
             SELECT table_name
             FROM information_schema.columns
