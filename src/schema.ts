@@ -9,20 +9,31 @@ export class Database {
         this.db = pgp(connectionString)
     }
 
-    public async getDBSchema(tableName: string) {
+    public async getDBSchema(schemaName: string, tableName?: string) {
         let schema = {}
-        await this.db.each(
-            `SELECT column_name, udt_name 
-             FROM information_schema.columns
-             WHERE table_name = $1`,
-            tableName, schemaItem => {
+        await this.db.each(`
+            SELECT column_name, udt_name
+            FROM information_schema.columns
+            WHERE table_schema = $1 
+            AND table_name = $2`,
+            [schemaName, tableName], schemaItem => {
                 schema[schemaItem.column_name] = schemaItem.udt_name
             })
         return schema
     }
 
-    public async getTableTypes(tableName: string) {
-        return this.mapDBSchemaToType(await this.getDBSchema(tableName))
+    public async getTableTypes(schemaName: string, tableName: string) {
+        return this.mapDBSchemaToType(await this.getDBSchema(schemaName, tableName))
+    }
+
+    public async getDBSchemaTables(schemaName: string) {
+        return await this.db.each(`
+            SELECT table_name
+            FROM information_schema.columns
+            WHERE table_schema = $1
+            GROUP BY table_name`,
+            [schemaName], schemaItem => schemaItem.table_name
+        )
     }
 
     private mapDBSchemaToType(schema: Object) {

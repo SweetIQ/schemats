@@ -7,9 +7,9 @@ import {generateSchemaTypes, generateTableInterface} from './typescript'
 import {Database} from './schema'
 import {processString} from 'typescript-formatter'
 
-export async function typescriptOfTable(db: Database, table: string) {
+export async function typescriptOfTable(db: Database, table: string, schema: string = 'public') {
     let interfaces = ''
-    let tableTypes = await db.getTableTypes(table)
+    let tableTypes = await db.getTableTypes(schema, table)
     interfaces += generateSchemaTypes(table, tableTypes)
     interfaces += generateTableInterface(table, tableTypes)
     return interfaces
@@ -34,12 +34,18 @@ export function getTime() {
     return `${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}`
 }
 
-export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], 
+export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], schema: string,
                                          commandRan: string, time: string) {
-    let interfaces = ''
-    for (let i = 0; i < tables.length; i++) {
-        interfaces += await typescriptOfTable(db, tables[i])
+
+    if (schema && tables.length === 0) {
+        const tablePromises = await db.getDBSchemaTables(schema)
+        tables = await Promise.all(tablePromises)
+            .then(tables => tables.map(table => table.table_name))
     }
+
+    const interfacePromises = tables.map((table) => typescriptOfTable(db, table, schema))
+    const interfaces = await Promise.all(interfacePromises)
+        .then(tsOfTable => tsOfTable.reduce((init, tsOfTable) => init + tsOfTable, ''))
 
     let output = `
             /**
