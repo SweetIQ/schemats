@@ -18,6 +18,16 @@ export function generateTableInterface(tableName: string, schema: Object) {
     `
 }
 
+export function generateEnumType(enumObject: Object) {
+    let enumString = ''
+    for (let enumName in enumObject) {
+        enumString += `export type ${enumName} = `
+        enumString += enumObject[enumName].map( v => `"${v}"`).join(' | ')
+        enumString += `;`
+    }
+    return enumString
+}
+
 export function generateSchemaTypes(tableName: string, schema: Object) {
     let fields = ''
     for (let columnName in schema) {

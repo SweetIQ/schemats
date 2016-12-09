@@ -10,18 +10,24 @@ export class Database {
     }
 
     public async getEnumTypes(schema = 'public') {
+        let enums = {}
         await this.db.each(
-            `select n.nspname as enum_schema,  
-                 t.typname as enum_name,  
-                 e.enumlabel as enum_value
+            `select n.nspname as schema,  
+                 t.typname as name,  
+                 e.enumlabel as value
              from pg_type t 
              join pg_enum e on t.oid = e.enumtypid  
              join pg_catalog.pg_namespace n ON n.oid = t.typnamespace
              where enum_schema = '$1'`,
             schema, enumItem => {
-                console.log(enumItem)
+                const {name, value} = enumItem
+                if (!enums[name]) {
+                    enums[name] = []
+                }
+                enums[name].append(value)
             }
         )
+        return enums
     }
 
     public async getDBSchema(tableName: string) {
