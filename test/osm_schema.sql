@@ -1,5 +1,11 @@
 -- Openstreetmap schema obtained from https://git.openstreetmap.org/rails.git/blob/HEAD:/db/structure.sql
 
+CREATE TYPE format_enum AS ENUM (
+    'html',
+    'markdown',
+    'text'
+);
+
 DROP TYPE IF EXISTS user_status_enum;
 CREATE TYPE user_status_enum AS ENUM (
     'pending',
