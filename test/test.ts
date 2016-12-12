@@ -8,7 +8,12 @@ import * as fs from 'mz/fs'
 import { typescriptOfSchema, Database, extractCommand } from '../src/index'
 import * as diff from 'diff'
 
-function compare(gold, actual) {
+async function compare(outputFile: string, formattedOutput: { dest: string }) {
+    await fs.writeFile(outputFile, formattedOutput.dest)
+
+    let gold = await fs.readFile('./test/example/osm.ts', {encoding: 'utf8'});
+    let actual = await fs.readFile(outputFile, {encoding: 'utf8'});
+
     let diffs = diff.diffLines(gold, actual)
 
     const addOrRemovedLines = diffs.filter(d => d.added || d.removed);
@@ -26,11 +31,10 @@ function compare(gold, actual) {
     }
 }
 
-async function testGeneratingTables() {
+async function testGeneratingTables(db: Database) {
     await loadSchema('test/osm_schema.sql')
     console.log('loaded osm schema')
 
-    let db = new Database(process.env.DATABASE_URL)
     let outputFile = (process.env.CIRCLE_ARTIFACTS || './test') + '/osm.ts'
     let formattedOutput = await typescriptOfSchema(
         db,
@@ -43,21 +47,14 @@ async function testGeneratingTables() {
         ),
         '2016-12-07 13:17:46'
     )
-    await fs.writeFile(outputFile, formattedOutput.dest)
 
-        // compare against gold standard
-        let gold = await fs.readFile('./test/example/osm.ts', {encoding: 'utf8'});
-        let actual = await fs.readFile(outputFile, {encoding: 'utf8'});
-        let diffs = diff.diffLines(gold, actual)
-
-    compare(gold, actual)
+    compare(outputFile, formattedOutput)
 }
 
-async function testGeneratingSchema() {
+async function testGeneratingSchema(db: Database) {
     await loadSchema('test/maxi_schema.sql')
     console.log('loaded maxi schema')
 
-    let db = new Database(process.env.DATABASE_URL)
     let outputFile = (process.env.CIRCLE_ARTIFACTS || './test') + '/maxi.ts'
     let formattedOutput = await typescriptOfSchema(
         db,
@@ -72,16 +69,14 @@ async function testGeneratingSchema() {
     )
     await fs.writeFile(outputFile, formattedOutput.dest)
 
-    let gold = await fs.readFile('./test/example/maxi.ts', {encoding: 'utf8'});
-    let actual = await fs.readFile(outputFile, {encoding: 'utf8'});
-
-    compare(gold, actual)
+    compare(outputFile, formattedOutput)
 }
 
 (async () => {
     try {
-        testGeneratingTables()
-        testGeneratingSchema()
+        let db = new Database(process.env.DATABASE_URL)
+        testGeneratingTables(db)
+        testGeneratingSchema(db)
     } catch (e) {
         console.error(e)
         process.exit(1)
