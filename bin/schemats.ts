@@ -13,7 +13,7 @@ let argv: any = yargs
     .usage('Usage: $0 <command> [options]')
     .command('generate', 'generate type definition')
     .demand(1)
-    .example('$0 generate -c postgres://username:password@localhost/db -t table1 -t table2 -n namespace -o interface_output.ts', 'generate typescript interfaces from schema')
+    .example('$0 generate -c postgres://username:password@localhost/db -t table1 -t table2 -s schema -n namespace -o interface_output.ts', 'generate typescript interfaces from schema')
     .demand('c')
     .alias('c', 'conn')
     .nargs('c', 1)
@@ -43,6 +43,8 @@ let argv: any = yargs
 
         if (!Array.isArray(argv.t)) {
             argv.t = [argv.t]
+        } else if (!argv.t) {
+            argv.t = []
         }
 
         let formattedOutput = await typescriptOfSchema(
