@@ -6,9 +6,9 @@ import * as fs from 'mz/fs'
 import * as PgPromise from 'pg-promise'
 const pgp = PgPromise()
 
-export async function loadOSM() {
+export async function loadSchema(file: string) {
     let db = pgp(process.env.DATABASE_URL)
-    let query = await fs.readFile('test/osm_schema.sql', {
+    let query = await fs.readFile(file, {
         encoding: 'utf8'
     })
     await db.query(query)

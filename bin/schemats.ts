@@ -42,9 +42,11 @@ let argv: any = yargs
         let db = new Database(argv.c);
 
         if (!Array.isArray(argv.t)) {
-            argv.t = [argv.t]
-        } else if (!argv.t) {
-            argv.t = []
+            if (!argv.t) {
+                argv.t = []
+            } else {
+                argv.t = [argv.t]
+            }
         }
 
         let formattedOutput = await typescriptOfSchema(

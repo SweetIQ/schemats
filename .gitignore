@@ -340,3 +340,4 @@ paket-files/
 typings/
 
 /test/osm.ts
+/test/maxi.ts
