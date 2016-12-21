@@ -48,7 +48,8 @@ CREATE TABLE users (
     diary_entries_count integer DEFAULT 0 NOT NULL,
     image_use_gravatar boolean DEFAULT false NOT NULL,
     image_content_type character varying(255),
-    auth_provider character varying
+    auth_provider character varying,
+    uuid_column uuid
 );
 
 

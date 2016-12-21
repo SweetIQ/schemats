@@ -30,6 +30,7 @@ export class Database {
             switch (udtName) {
                 case 'varchar':
                 case 'text':
+                case 'uuid':
                     return 'string'
                 case 'int2':
                 case 'int4':
