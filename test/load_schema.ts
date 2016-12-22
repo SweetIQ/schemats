@@ -11,6 +11,6 @@ export async function loadSchema(file: string) {
     let query = await fs.readFile(file, {
         encoding: 'utf8'
     })
-    await db.query(query)
+    return await db.query(query)
 }
 

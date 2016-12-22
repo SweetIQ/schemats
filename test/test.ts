@@ -8,10 +8,10 @@ import * as fs from 'mz/fs'
 import { typescriptOfSchema, Database, extractCommand } from '../src/index'
 import * as diff from 'diff'
 
-async function compare(outputFile: string, formattedOutput: { dest: string }) {
+async function compare(goldStandardFile: string, outputFile: string, formattedOutput: { dest: string }) {
     await fs.writeFile(outputFile, formattedOutput.dest)
 
-    let gold = await fs.readFile('./test/example/osm.ts', {encoding: 'utf8'});
+    let gold = await fs.readFile(goldStandardFile, {encoding: 'utf8'});
     let actual = await fs.readFile(outputFile, {encoding: 'utf8'});
 
     let diffs = diff.diffLines(gold, actual)
@@ -24,10 +24,10 @@ async function compare(outputFile: string, formattedOutput: { dest: string }) {
             const t = d.added ? '+' : d.removed ? '-' : 'x';
             console.error(`  [${i}] ${t} ${d.value}`);
         })
+        console.error('Generated type definition different to the standard')
         process.exit(1)
     } else {
         console.log('Generated type definition identical to the standard')
-        process.exit(0)
     }
 }
 
@@ -48,7 +48,7 @@ async function testGeneratingTables(db: Database) {
         '2016-12-07 13:17:46'
     )
 
-    compare(outputFile, formattedOutput)
+    compare('./test/example/osm.ts', outputFile, formattedOutput)
 }
 
 async function testGeneratingSchema(db: Database) {
@@ -69,7 +69,7 @@ async function testGeneratingSchema(db: Database) {
     )
     await fs.writeFile(outputFile, formattedOutput.dest)
 
-    compare(outputFile, formattedOutput)
+    compare('./test/example/maxi.ts', outputFile, formattedOutput)
 }
 
 (async () => {
