@@ -58,9 +58,9 @@ export async function typescriptOfSchema(db: Database, namespace: string, tables
 
     let formatterOption = {
         replace: false,
-        verify: true,
+        verify: false,
         tsconfig: true,
-        tslint: false,
+        tslint: true,
         editorconfig: true,
         tsfmt: true
     }
