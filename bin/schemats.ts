@@ -30,6 +30,10 @@ let argv: any = yargs
     .nargs('o', 1)
     .alias('o', 'output')
     .describe('o', 'output file name')
+    .alias('s', 'schema')
+    .nargs('s', 1)
+    .describe('s', 'schema name')
+    .default('s', 'public')
     .help('h')
     .alias('h', 'help')
     .argv;
@@ -44,7 +48,7 @@ let argv: any = yargs
         }
 
         let formattedOutput = await typescriptOfSchema(
-            db, argv.n, argv.t,
+            db, argv.n, argv.s, argv.t,
             extractCommand(process.argv, argv.c), getTime()
         );
         await fsAsync.writeFileAsync(argv.o, formattedOutput.dest)

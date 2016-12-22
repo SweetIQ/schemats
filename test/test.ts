@@ -18,6 +18,7 @@ import * as diff from 'diff'
         let formattedOutput = await typescriptOfSchema(
             db,
             'osm',
+            'public',
             ['users'],
             extractCommand(
                 ['node', 'schemats', 'generate', '-c', 'postgres://secretUser:secretPassword@localhost/test', '-t', 'users', '-o', './test/osm.ts'],

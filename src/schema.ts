@@ -9,41 +9,40 @@ export class Database {
         this.db = pgp(connectionString)
     }
 
-    public async getEnumTypes(schema = 'public') {
+    public async getEnumTypes(schema: string) {
         let enums = {}
         await this.db.each(
-            `select n.nspname as schema,  
-                 t.typname as name,  
+            `select n.nspname as schema,
+                 t.typname as name,
                  e.enumlabel as value
-             from pg_type t 
-             join pg_enum e on t.oid = e.enumtypid  
+             from pg_type t
+             join pg_enum e on t.oid = e.enumtypid
              join pg_catalog.pg_namespace n ON n.oid = t.typnamespace
              where enum_schema = '$1'`,
             schema, enumItem => {
-                const {name, value} = enumItem
-                if (!enums[name]) {
-                    enums[name] = []
+                if (!enums[enumItem.name]) {
+                    enums[enumItem.name] = []
                 }
-                enums[name].append(value)
+                enums[enumItem.name].append(enumItem.value)
             }
         )
         return enums
     }
 
-    public async getDBSchema(tableName: string) {
+    public async getDBSchema(tableName: string, schemaName: string) {
         let schema = {}
         await this.db.each(
-            `SELECT column_name, udt_name 
+            `SELECT column_name, udt_name
              FROM information_schema.columns
-             WHERE table_name = $1`,
-            tableName, schemaItem => {
+             WHERE table_name = $1 AND table_schema = $2`,
+            [tableName, schemaName], schemaItem => {
                 schema[schemaItem.column_name] = schemaItem.udt_name
             })
         return schema
     }
 
-    public async getTableTypes(tableName: string) {
-        return this.mapDBSchemaToType(await this.getDBSchema(tableName))
+    public async getTableTypes(tableName: string, schema: string) {
+        return this.mapDBSchemaToType(await this.getDBSchema(tableName, schema))
     }
 
     private mapDBSchemaToType(schema: Object) {
