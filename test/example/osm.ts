@@ -40,7 +40,7 @@ export namespace osm {
         export type image_use_gravatar = boolean;
         export type image_content_type = string;
         export type auth_provider = string;
-        export type uuid_column=string;
+        export type uuid_column = string;
     }
 
     export interface users {
