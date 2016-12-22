@@ -49,7 +49,9 @@ CREATE TABLE users (
     image_use_gravatar boolean DEFAULT false NOT NULL,
     image_content_type character varying(255),
     auth_provider character varying,
-    uuid_column uuid
+    uuid_column uuid,
+    number integer,
+    string character varying
 );
 
 
