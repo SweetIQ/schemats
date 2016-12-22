@@ -3,7 +3,7 @@
  * Created by xiamx on 2016-08-10.
  */
 
-import {generateSchemaTypes, generateTableInterface} from './typescript'
+import {generateSchemaTypes, generateTableInterface, generateEnumType} from './typescript'
 import {Database} from './schema'
 import {processString} from 'typescript-formatter'
 
@@ -12,6 +12,13 @@ export async function typescriptOfTable(db: Database, table: string, schema: str
     let tableTypes = await db.getTableTypes(table, schema)
     interfaces += generateSchemaTypes(table, tableTypes)
     interfaces += generateTableInterface(table, tableTypes)
+    return interfaces
+}
+
+export async function typescriptOfEnums(db: Database, schema: string) {
+    let interfaces = ''
+    let enumTypes = await db.getEnumTypes(schema)
+    interfaces += generateEnumType(enumTypes)
     return interfaces
 }
 
@@ -36,7 +43,7 @@ export function getTime() {
 
 export async function typescriptOfSchema(db: Database, namespace: string, schema: string, tables: string[],
                                          commandRan: string, time: string) {
-    let interfaces = ''
+    let interfaces = await typescriptOfEnums(db, schema)
     for (let i = 0; i < tables.length; i++) {
         interfaces += await typescriptOfTable(db, tables[i], schema)
     }

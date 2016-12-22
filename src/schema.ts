@@ -68,7 +68,7 @@ export class Database {
                 case '_text':
                     return 'Array<string>'
                 default:
-                    throw new TypeError(`do not know how to convert type [${udtName}]`)
+                    return udtName
             }
         })
     }
