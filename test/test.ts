@@ -75,8 +75,8 @@ async function testGeneratingSchema(db: Database) {
 (async () => {
     try {
         let db = new Database(process.env.DATABASE_URL)
-        testGeneratingTables(db)
-        testGeneratingSchema(db)
+        await testGeneratingTables(db)
+        await testGeneratingSchema(db)
     } catch (e) {
         console.error(e)
         process.exit(1)

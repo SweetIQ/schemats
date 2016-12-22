@@ -27,7 +27,7 @@ export class Database {
     }
 
     public async getDBSchemaTables(schemaName: string): Promise<{table_name: string}[]> {
-        return await this.db.each(
+        return await this.db.map(
             `SELECT table_name
             FROM information_schema.columns
             WHERE table_schema = $1
