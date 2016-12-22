@@ -3,11 +3,27 @@
  * Created by xiamx on 2016-08-10.
  */
 
+function columnNameIsReservedKeyword(columnName: string): boolean {
+    const reservedKeywords = [
+        'string',
+        'number'
+    ]
+    return reservedKeywords.indexOf(columnName) !== -1
+}
+
+function normalizeColumnName(columnName: string): string {
+    if (columnNameIsReservedKeyword(columnName)) {
+        return columnName + '_'
+    } else {
+        return columnName
+    }
+}
+
 export function generateTableInterface(tableName: string, schema: Object) {
     let members = ''
     for (let columnName in schema) {
         if (schema.hasOwnProperty(columnName)) {
-            members += `${columnName}: ${tableName}Fields.${columnName};\n`
+            members += `${columnName}: ${tableName}Fields.${normalizeColumnName(columnName)};\n`
         }
     }
 
@@ -23,7 +39,7 @@ export function generateSchemaTypes(tableName: string, schema: Object) {
     for (let columnName in schema) {
         if (schema.hasOwnProperty(columnName)) {
             let type = schema[columnName]
-            fields += `export type ${columnName} = ${type};\n`
+            fields += `export type ${normalizeColumnName(columnName)} = ${type};\n`
         }
     }
 
