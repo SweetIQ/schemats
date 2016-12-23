@@ -35,7 +35,7 @@ async function testGeneratingTables(db: Database) {
     await loadSchema('test/osm_schema.sql')
     console.log('loaded osm schema')
 
-    let outputFile = (process.env.CIRCLE_ARTIFACTS || './test') + '/osm.ts'
+    let outputFile = (process.env.CIRCLE_ARTIFACTS || './test/artifacts') + '/osm.ts'
     let formattedOutput = await typescriptOfSchema(
         db,
         'osm',
@@ -56,7 +56,7 @@ async function testGeneratingSchema(db: Database) {
     await loadSchema('test/maxi_schema.sql')
     console.log('loaded maxi schema')
 
-    let outputFile = (process.env.CIRCLE_ARTIFACTS || './test') + '/maxi.ts'
+    let outputFile = (process.env.CIRCLE_ARTIFACTS || './test/artifacts') + '/maxi.ts'
     let formattedOutput = await typescriptOfSchema(
         db,
         'maxi',
