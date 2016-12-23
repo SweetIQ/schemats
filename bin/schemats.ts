@@ -6,13 +6,14 @@
 
 import * as yargs from 'yargs'
 import * as bluebird from 'bluebird'
-const fsAsync: any = bluebird.promisifyAll(require('fs'));
+const fsAsync: any = bluebird.promisifyAll(require('fs'))
 import { typescriptOfSchema, Database, extractCommand, getTime } from '../src/index'
 
 let argv: any = yargs
     .usage('Usage: $0 <command> [options]')
     .command('generate', 'generate type definition')
     .demand(1)
+    // tslint:disable-next-line 
     .example('$0 generate -c postgres://username:password@localhost/db -t table1 -t table2 -s schema -n namespace -o interface_output.ts', 'generate typescript interfaces from schema')
     .demand('c')
     .alias('c', 'conn')
@@ -39,7 +40,7 @@ let argv: any = yargs
 (async () => {
 
     try {
-        let db = new Database(argv.c);
+        let db = new Database(argv.c)
 
         if (!Array.isArray(argv.t)) {
             if (!argv.t) {
@@ -52,14 +53,14 @@ let argv: any = yargs
         let formattedOutput = await typescriptOfSchema(
             db, argv.n, argv.t, argv.s,
             extractCommand(process.argv, argv.c), getTime()
-        );
+        )
         await fsAsync.writeFileAsync(argv.o, formattedOutput.dest)
 
     } catch (e) {
-        console.error(e);
+        console.error(e)
         process.exit(1)
     }
 
 })().then(() => {
-    process.exit();
-});
+    process.exit()
+})

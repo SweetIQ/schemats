@@ -11,18 +11,18 @@ import * as diff from 'diff'
 async function compare(goldStandardFile: string, outputFile: string, formattedOutput: { dest: string }) {
     await fs.writeFile(outputFile, formattedOutput.dest)
 
-    let gold = await fs.readFile(goldStandardFile, {encoding: 'utf8'});
-    let actual = await fs.readFile(outputFile, {encoding: 'utf8'});
+    let gold = await fs.readFile(goldStandardFile, {encoding: 'utf8'})
+    let actual = await fs.readFile(outputFile, {encoding: 'utf8'})
 
     let diffs = diff.diffLines(gold, actual)
 
-    const addOrRemovedLines = diffs.filter(d => d.added || d.removed);
+    const addOrRemovedLines = diffs.filter(d => d.added || d.removed)
 
     if (addOrRemovedLines.length > 0) {
-        console.error('Generated type definition different from the standard');
+        console.error('Generated type definition different from the standard')
         addOrRemovedLines.forEach((d, i) => {
-            const t = d.added ? '+' : d.removed ? '-' : 'x';
-            console.error(`  [${i}] ${t} ${d.value}`);
+            const t = d.added ? '+' : d.removed ? '-' : 'x'
+            console.error(`  [${i}] ${t} ${d.value}`)
         })
         console.error('Generated type definition different to the standard')
         process.exit(1)
@@ -42,7 +42,9 @@ async function testGeneratingTables(db: Database) {
         ['users'],
         null,
         extractCommand(
-            ['node', 'schemats', 'generate', '-c', 'postgres://secretUser:secretPassword@localhost/test', '-t', 'users', '-o', './test/osm.ts'],
+            ['node', 'schemats', 'generate', '-c', 
+            'postgres://secretUser:secretPassword@localhost/test', 
+            '-t', 'users', '-o', './test/osm.ts'],
             'postgres://secretUser:secretPassword@localhost/test'
         ),
         '2016-12-07 13:17:46'
@@ -62,7 +64,9 @@ async function testGeneratingSchema(db: Database) {
         [],
         'maxi',
         extractCommand(
-            ['node', 'schemats', 'generate', '-c', 'postgres://secretUser:secretPassword@localhost/test', '-s', 'maxi', '-o', './test/maxi.ts'],
+            ['node', 'schemats', 'generate', '-c',
+            'postgres://secretUser:secretPassword@localhost/test',
+            '-s', 'maxi', '-o', './test/maxi.ts'],
             'postgres://secretUser:secretPassword@localhost/test'
         ),
         '2016-12-07 13:17:46'

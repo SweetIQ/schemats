@@ -10,7 +10,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "lint": "tslint src/**/*.ts",
+    "lint": "tslint src/**/*.ts test/test.ts bin/**/*.ts",
     "build": "tsc",
     "dependency-check": "dependency-check . --entry bin/schemats.js --missing --no-dev",
     "test": "npm run lint && npm run build && npm run dependency-check && node test/test",
