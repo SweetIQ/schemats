@@ -34,12 +34,15 @@ export function getTime() {
     return `${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}`
 }
 
-export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], 
+export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], schema: string = 'public',
                                          commandRan: string, time: string) {
-    let interfaces = ''
-    for (let i = 0; i < tables.length; i++) {
-        interfaces += await typescriptOfTable(db, tables[i])
+    if (tables.length === 0) {
+        tables = await db.getSchemaTables(schema)
     }
+
+    const interfacePromises = tables.map((table) => typescriptOfTable(db, table))
+    const interfaces = await Promise.all(interfacePromises)
+        .then(tsOfTable => tsOfTable.reduce((init, tsOfTable) => init + tsOfTable, ''))
 
     let output = `
             /**

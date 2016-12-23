@@ -2,6 +2,10 @@ import * as PgPromise from 'pg-promise'
 import { mapValues } from 'lodash'
 const pgp = PgPromise()
 
+interface TableDefinition {
+    [columnName: string]: string
+}
+
 export class Database {
     private db
 
@@ -9,24 +13,36 @@ export class Database {
         this.db = pgp(connectionString)
     }
 
-    public async getDBSchema(tableName: string) {
+    public async getTableDefinition(tableName: string) {
         let schema = {}
         await this.db.each(
-            `SELECT column_name, udt_name 
-             FROM information_schema.columns
-             WHERE table_name = $1`,
-            tableName, schemaItem => {
+            `SELECT column_name, udt_name
+            FROM information_schema.columns
+            WHERE table_name = $1`,
+            [tableName],
+            schemaItem => {
                 schema[schemaItem.column_name] = schemaItem.udt_name
             })
         return schema
     }
 
     public async getTableTypes(tableName: string) {
-        return this.mapDBSchemaToType(await this.getDBSchema(tableName))
+        return this.mapTableDefinitionToType(await this.getTableDefinition(tableName))
     }
 
-    private mapDBSchemaToType(schema: Object) {
-        return mapValues(schema, udtName => {
+    public async getSchemaTables(schemaName: string): Promise<string[]> {
+        return await this.db.map(
+            `SELECT table_name
+            FROM information_schema.columns
+            WHERE table_schema = $1
+            GROUP BY table_name`,
+            [schemaName],
+            schemaItem => schemaItem.table_name
+        )
+    }
+
+    private mapTableDefinitionToType(tableDefinition: TableDefinition) {
+        return mapValues(tableDefinition, udtName => {
             switch (udtName) {
                 case 'varchar':
                 case 'text':

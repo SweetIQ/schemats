@@ -13,15 +13,17 @@ let argv: any = yargs
     .usage('Usage: $0 <command> [options]')
     .command('generate', 'generate type definition')
     .demand(1)
-    .example('$0 generate -c postgres://username:password@localhost/db -t table1 -t table2 -n namespace -o interface_output.ts', 'generate typescript interfaces from schema')
+    .example('$0 generate -c postgres://username:password@localhost/db -t table1 -t table2 -s schema -n namespace -o interface_output.ts', 'generate typescript interfaces from schema')
     .demand('c')
     .alias('c', 'conn')
     .nargs('c', 1)
     .describe('c', 'database connection string')
-    .demand('t')
     .alias('t', 'table')
     .nargs('t', 1)
     .describe('t', 'table name')
+    .alias('s', 'schema')
+    .nargs('s', 1)
+    .describe('s', 'schema name')
     .demand('n')
     .alias('n', 'namespace')
     .nargs('n', 1)
@@ -40,11 +42,15 @@ let argv: any = yargs
         let db = new Database(argv.c);
 
         if (!Array.isArray(argv.t)) {
-            argv.t = [argv.t]
+            if (!argv.t) {
+                argv.t = []
+            } else {
+                argv.t = [argv.t]
+            }
         }
 
         let formattedOutput = await typescriptOfSchema(
-            db, argv.n, argv.t,
+            db, argv.n, argv.t, argv.s,
             extractCommand(process.argv, argv.c), getTime()
         );
         await fsAsync.writeFileAsync(argv.o, formattedOutput.dest)
