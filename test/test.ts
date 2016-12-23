@@ -48,7 +48,7 @@ async function testGeneratingTables(db: Database) {
         '2016-12-07 13:17:46'
     )
 
-    compare('./test/example/osm.ts', outputFile, formattedOutput)
+    await compare('./test/example/osm.ts', outputFile, formattedOutput)
 }
 
 async function testGeneratingSchema(db: Database) {
@@ -69,7 +69,7 @@ async function testGeneratingSchema(db: Database) {
     )
     await fs.writeFile(outputFile, formattedOutput.dest)
 
-    compare('./test/example/maxi.ts', outputFile, formattedOutput)
+    await compare('./test/example/maxi.ts', outputFile, formattedOutput)
 }
 
 (async () => {
@@ -77,6 +77,7 @@ async function testGeneratingSchema(db: Database) {
         let db = new Database(process.env.DATABASE_URL)
         await testGeneratingTables(db)
         await testGeneratingSchema(db)
+        process.exit(0)
     } catch (e) {
         console.error(e)
         process.exit(1)

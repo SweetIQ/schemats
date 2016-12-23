@@ -37,9 +37,7 @@ export function getTime() {
 export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], schema: string = 'public',
                                          commandRan: string, time: string) {
     if (tables.length === 0) {
-        const tablePromises = await db.getDBSchemaTables(schema)
-        tables = await Promise.all(tablePromises)
-            .then(tables => tables.map(table => table.table_name))
+        tables = await db.getSchemaTables(schema)
     }
 
     const interfacePromises = tables.map((table) => typescriptOfTable(db, table))

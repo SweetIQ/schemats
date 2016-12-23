@@ -2,6 +2,10 @@ import * as PgPromise from 'pg-promise'
 import { mapValues } from 'lodash'
 const pgp = PgPromise()
 
+interface TableDefinition {
+    [columnName: string]: string
+}
+
 export class Database {
     private db
 
@@ -9,7 +13,7 @@ export class Database {
         this.db = pgp(connectionString)
     }
 
-    public async getDBSchema(tableName: string) {
+    public async getTableDefinition(tableName: string) {
         let schema = {}
         await this.db.each(
             `SELECT column_name, udt_name
@@ -23,10 +27,10 @@ export class Database {
     }
 
     public async getTableTypes(tableName: string) {
-        return this.mapDBSchemaToType(await this.getDBSchema(tableName))
+        return this.mapTableDefinitionToType(await this.getTableDefinition(tableName))
     }
 
-    public async getDBSchemaTables(schemaName: string): Promise<{table_name: string}[]> {
+    public async getSchemaTables(schemaName: string): Promise<string[]> {
         return await this.db.map(
             `SELECT table_name
             FROM information_schema.columns
@@ -37,8 +41,8 @@ export class Database {
         )
     }
 
-    private mapDBSchemaToType(schema: Object) {
-        return mapValues(schema, udtName => {
+    private mapTableDefinitionToType(tableDefinition: TableDefinition) {
+        return mapValues(tableDefinition, udtName => {
             switch (udtName) {
                 case 'varchar':
                 case 'text':
