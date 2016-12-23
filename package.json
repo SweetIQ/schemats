@@ -38,7 +38,9 @@
     "@types/node": "^6.0.45",
     "@types/yargs": "^6.3.3",
     "del-cli": "^0.2.0",
-    "dependency-check": "^2.6.0"
+    "dependency-check": "^2.6.0",
+    "tslint": "^4.2.0",
+    "tslint-config-standard": "^2.0.0"
   },
   "dependencies": {
     "bluebird": "^3.4.1",
