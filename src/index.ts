@@ -35,7 +35,7 @@ export function getTime() {
 }
 
 export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], schema: string = 'public',
-                                         commandRan: string, time: string) {
+                                         commandRan: string, time: string): Promise<string> {
     if (tables.length === 0) {
         tables = await db.getSchemaTables(schema)
     }
@@ -68,7 +68,8 @@ export async function typescriptOfSchema(db: Database, namespace: string, tables
         tsfmt: true
     }
 
-    return await processString('schema.ts', output, formatterOption)
+    const processedResult = await processString('schema.ts', output, formatterOption)
+    return processedResult.dest
 }
 
 export {Database} from './schema'

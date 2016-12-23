@@ -2,7 +2,7 @@ import * as PgPromise from 'pg-promise'
 import { mapValues } from 'lodash'
 const pgp = PgPromise()
 
-interface TableDefinition {
+export interface TableDefinition {
     [columnName: string]: string
 }
 
@@ -41,7 +41,7 @@ export class Database {
         )
     }
 
-    private mapTableDefinitionToType(tableDefinition: TableDefinition) {
+    private mapTableDefinitionToType(tableDefinition: TableDefinition): TableDefinition {
         return mapValues(tableDefinition, udtName => {
             switch (udtName) {
                 case 'varchar':

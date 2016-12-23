@@ -8,8 +8,8 @@ import * as fs from 'mz/fs'
 import { typescriptOfSchema, Database, extractCommand } from '../src/index'
 import * as diff from 'diff'
 
-async function compare(goldStandardFile: string, outputFile: string, formattedOutput: { dest: string }) {
-    await fs.writeFile(outputFile, formattedOutput.dest)
+async function compare(goldStandardFile: string, outputFile: string, formattedOutput: string ) {
+    await fs.writeFile(outputFile, formattedOutput)
 
     let gold = await fs.readFile(goldStandardFile, {encoding: 'utf8'})
     let actual = await fs.readFile(outputFile, {encoding: 'utf8'})
@@ -49,7 +49,6 @@ async function testGeneratingTables(db: Database) {
         ),
         '2016-12-07 13:17:46'
     )
-
     await compare('./test/example/osm.ts', outputFile, formattedOutput)
 }
 
@@ -71,8 +70,6 @@ async function testGeneratingSchema(db: Database) {
         ),
         '2016-12-07 13:17:46'
     )
-    await fs.writeFile(outputFile, formattedOutput.dest)
-
     await compare('./test/example/maxi.ts', outputFile, formattedOutput)
 }
 

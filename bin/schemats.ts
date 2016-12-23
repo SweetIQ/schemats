@@ -54,7 +54,7 @@ let argv: any = yargs
             db, argv.n, argv.t, argv.s,
             extractCommand(process.argv, argv.c), getTime()
         )
-        await fsAsync.writeFileAsync(argv.o, formattedOutput.dest)
+        await fsAsync.writeFileAsync(argv.o, formattedOutput)
 
     } catch (e) {
         console.error(e)

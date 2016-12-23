@@ -3,10 +3,13 @@
         "module": "commonjs",
         "target": "es6",
         "noImplicitAny": false,
+        "declaration": true,
+        "declarationDir": "dts",
         "newLine": "LF",
         "sourceMap": false
     },
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "dts"
     ]
 }

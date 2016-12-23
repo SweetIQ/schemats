@@ -9,6 +9,7 @@
     "sql"
   ],
   "main": "index.js",
+  "types": "./dts/src/index.d.ts",
   "scripts": {
     "lint": "tslint src/**/*.ts test/test.ts bin/**/*.ts",
     "build": "tsc",

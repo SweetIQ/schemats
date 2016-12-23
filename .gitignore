@@ -341,3 +341,4 @@ typings/
 
 /test/osm.ts
 /test/maxi.ts
+dts/
