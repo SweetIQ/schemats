@@ -4,7 +4,6 @@
         "target": "es6",
         "noImplicitAny": true,
         "declaration": true,
-        "declarationDir": "dts",
         "newLine": "LF",
         "sourceMap": false
     },
