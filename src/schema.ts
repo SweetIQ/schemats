@@ -7,23 +7,23 @@ export interface TableDefinition {
 }
 
 export class Database {
-    private db
+    private db: PgPromise.IDatabase<{}>
 
     constructor(connectionString: string) {
         this.db = pgp(connectionString)
     }
 
     public async getTableDefinition(tableName: string) {
-        let schema = {}
+        let tableDefinition: TableDefinition = {}
         await this.db.each(
             `SELECT column_name, udt_name
             FROM information_schema.columns
             WHERE table_name = $1`,
             [tableName],
-            schemaItem => {
-                schema[schemaItem.column_name] = schemaItem.udt_name
+            (schemaItem: {column_name: string, udt_name: string}) => {
+                tableDefinition[schemaItem.column_name] = schemaItem.udt_name
             })
-        return schema
+        return tableDefinition
     }
 
     public async getTableTypes(tableName: string) {

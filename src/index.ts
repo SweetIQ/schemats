@@ -3,14 +3,14 @@
  * Created by xiamx on 2016-08-10.
  */
 
-import {generateSchemaTypes, generateTableInterface} from './typescript'
+import {generateTableTypes, generateTableInterface} from './typescript'
 import {Database} from './schema'
 import {processString} from 'typescript-formatter'
 
 export async function typescriptOfTable(db: Database, table: string) {
     let interfaces = ''
     let tableTypes = await db.getTableTypes(table)
-    interfaces += generateSchemaTypes(table, tableTypes)
+    interfaces += generateTableTypes(table, tableTypes)
     interfaces += generateTableInterface(table, tableTypes)
     return interfaces
 }
@@ -23,7 +23,7 @@ export function extractCommand(args: string[], dbConfig: string): string {
 }
 
 export function getTime() {
-    let padTime = (value) => `0${value}`.slice(-2)
+    let padTime = (value: number) => `0${value}`.slice(-2)
     let time = new Date()
     const yyyy = time.getFullYear()
     const MM = padTime(time.getMonth() + 1)
