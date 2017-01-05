@@ -51,7 +51,19 @@ CREATE TABLE users (
     auth_provider character varying,
     uuid_column uuid,
     number integer,
-    string character varying
+    string character varying,
+    money_col money,
+    char_col char,
+    numeric_col numeric(5,2),
+    bytea_col bytea,
+    bool_array_col boolean[],
+    varchar_array_col character varying[],
+    int2_array_col int2[],
+    int4_array_col int4[],
+    int8_array_col int8[],
+    uuid_array_col uuid[],
+    text_array_col text[],
+    bytea_array_col bytea[]
 );
 
 

@@ -28,14 +28,18 @@ export class Database {
     private mapDBSchemaToType(schema: Object) {
         return mapValues(schema, udtName => {
             switch (udtName) {
+                case 'bpchar':
                 case 'varchar':
                 case 'text':
                 case 'uuid':
+                case 'bytea':
                     return 'string'
                 case 'int2':
                 case 'int4':
                 case 'int8':
                 case 'float8':
+                case 'numeric':
+                case 'money':
                     return 'number'
                 case 'bool':
                     return 'boolean'
@@ -44,9 +48,19 @@ export class Database {
                 case 'date':
                 case 'timestamp':
                     return 'Date'
+                case '_int2':
+                case '_int4':
+                case '_int8':
                 case '_float8':
+                case '_numeric':
+                case '_money':
                     return 'Array<number>'
+                case '_bool':
+                    return 'Array<boolean>'
+                case '_varchar':
                 case '_text':
+                case '_uuid':
+                case '_bytea':
                     return 'Array<string>'
                 default:
                     throw new TypeError(`do not know how to convert type [${udtName}]`)

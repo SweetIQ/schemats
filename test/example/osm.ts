@@ -43,6 +43,18 @@ export namespace osm {
         export type uuid_column = string;
         export type number_ = number;
         export type string_ = string;
+        export type money_col = number;
+        export type char_col = string;
+        export type numeric_col = number;
+        export type bytea_col = string;
+        export type bool_array_col = Array<boolean>;
+        export type varchar_array_col = Array<string>;
+        export type int2_array_col = Array<number>;
+        export type int4_array_col = Array<number>;
+        export type int8_array_col = Array<number>;
+        export type uuid_array_col = Array<string>;
+        export type text_array_col = Array<string>;
+        export type bytea_array_col = Array<string>;
 
     }
 
@@ -79,6 +91,18 @@ export namespace osm {
         uuid_column: usersFields.uuid_column;
         number: usersFields.number_;
         string: usersFields.string_;
+        money_col: usersFields.money_col;
+        char_col: usersFields.char_col;
+        numeric_col: usersFields.numeric_col;
+        bytea_col: usersFields.bytea_col;
+        bool_array_col: usersFields.bool_array_col;
+        varchar_array_col: usersFields.varchar_array_col;
+        int2_array_col: usersFields.int2_array_col;
+        int4_array_col: usersFields.int4_array_col;
+        int8_array_col: usersFields.int8_array_col;
+        uuid_array_col: usersFields.uuid_array_col;
+        text_array_col: usersFields.text_array_col;
+        bytea_array_col: usersFields.bytea_array_col;
 
     }
 
