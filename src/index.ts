@@ -3,14 +3,14 @@
  * Created by xiamx on 2016-08-10.
  */
 
-import {generateSchemaTypes, generateTableInterface} from './typescript'
+import {generateTableTypes, generateTableInterface} from './typescript'
 import {Database} from './schema'
 import {processString} from 'typescript-formatter'
 
 export async function typescriptOfTable(db: Database, table: string) {
     let interfaces = ''
     let tableTypes = await db.getTableTypes(table)
-    interfaces += generateSchemaTypes(table, tableTypes)
+    interfaces += generateTableTypes(table, tableTypes)
     interfaces += generateTableInterface(table, tableTypes)
     return interfaces
 }
@@ -23,7 +23,7 @@ export function extractCommand(args: string[], dbConfig: string): string {
 }
 
 export function getTime() {
-    let padTime = (value) => `0${value}`.slice(-2)
+    let padTime = (value: number) => `0${value}`.slice(-2)
     let time = new Date()
     const yyyy = time.getFullYear()
     const MM = padTime(time.getMonth() + 1)
@@ -34,12 +34,15 @@ export function getTime() {
     return `${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}`
 }
 
-export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], 
-                                         commandRan: string, time: string) {
-    let interfaces = ''
-    for (let i = 0; i < tables.length; i++) {
-        interfaces += await typescriptOfTable(db, tables[i])
+export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], schema: string = 'public',
+                                         commandRan: string, time: string): Promise<string> {
+    if (tables.length === 0) {
+        tables = await db.getSchemaTables(schema)
     }
+
+    const interfacePromises = tables.map((table) => typescriptOfTable(db, table))
+    const interfaces = await Promise.all(interfacePromises)
+        .then(tsOfTable => tsOfTable.reduce((init, tsOfTable) => init + tsOfTable, ''))
 
     let output = `
             /**
@@ -65,7 +68,8 @@ export async function typescriptOfSchema(db: Database, namespace: string, tables
         tsfmt: true
     }
 
-    return await processString('schema.ts', output, formatterOption)
+    const processedResult = await processString('schema.ts', output, formatterOption)
+    return processedResult.dest
 }
 
 export {Database} from './schema'

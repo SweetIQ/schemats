@@ -1,6 +1,6 @@
 {
   "name": "schemats",
-  "version": "0.4.0",
+  "version": "0.5.2",
   "description": "Generate typescript interface definitions from (postgres) SQL database schema",
   "keywords": [
     "postgres",
@@ -8,9 +8,10 @@
     "typescript",
     "sql"
   ],
-  "main": "index.js",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
   "scripts": {
-    "lint": "tslint src/**/*.ts",
+    "lint": "tslint src/**/*.ts test/test.ts bin/**/*.ts --exclude=**/*.d.ts",
     "build": "tsc",
     "dependency-check": "dependency-check . --entry bin/schemats.js --missing --no-dev",
     "test": "npm run lint && npm run build && npm run dependency-check && node test/test",
@@ -37,7 +38,9 @@
     "@types/node": "^6.0.45",
     "@types/yargs": "^6.3.3",
     "del-cli": "^0.2.0",
-    "dependency-check": "^2.6.0"
+    "dependency-check": "^2.6.0",
+    "tslint": "^4.2.0",
+    "tslint-config-standard": "^2.0.0"
   },
   "dependencies": {
     "bluebird": "^3.4.1",

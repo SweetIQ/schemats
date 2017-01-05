@@ -3,6 +3,8 @@
  * Created by xiamx on 2016-08-10.
  */
 
+import { TableDefinition } from './schema'
+
 function columnNameIsReservedKeyword(columnName: string): boolean {
     const reservedKeywords = [
         'string',
@@ -34,11 +36,11 @@ export function generateTableInterface(tableName: string, schema: Object) {
     `
 }
 
-export function generateSchemaTypes(tableName: string, schema: Object) {
+export function generateTableTypes(tableName: string, tableDefinition: TableDefinition) {
     let fields = ''
-    for (let columnName in schema) {
-        if (schema.hasOwnProperty(columnName)) {
-            let type = schema[columnName]
+    for (let columnName in tableDefinition) {
+        if (tableDefinition.hasOwnProperty(columnName)) {
+            let type = tableDefinition[columnName]
             fields += `export type ${normalizeColumnName(columnName)} = ${type};\n`
         }
     }
