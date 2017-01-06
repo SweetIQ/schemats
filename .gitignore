@@ -339,4 +339,6 @@ paket-files/
 *.js
 typings/
 *.d.ts
-test/artifacts
+test/artifacts/*.ts
+test/artifacts/*.js
+test/artifacts/*.js.map
