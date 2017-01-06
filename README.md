@@ -29,14 +29,14 @@ with table [`users`](test/osm_schema.sql#L18) under namespace `osm`. The resulti
 
 ### Generating the type definition for all the tables in a postgres schema
 
+To generate all type definitions for all the tables within the schema 'public': 
+
 ```
 schemats generate -c postgres://postgres@localhost/osm -s public -o osm.ts -n osm
 ```
 
-This will generate all type definitions for all the tables belonging to postgres schema 'public'.
+If neither the table parameter nor the schema parameter is provided, all tables in schema 'public' will be generated, so the command above is equivalent to:
 
-
-If one provides neither table parameter nor schema parameter, all the tables in schema 'public' will be generated as well :
 ```
 schemats generate -c postgres://postgres@localhost/osm -o osm.ts -n osm
 ```
