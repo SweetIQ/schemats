@@ -54,6 +54,9 @@ CREATE TABLE users (
     string character varying,
     money_col money,
     char_col char,
+    time_col time,
+    inet_col inet,
+    jsonb_col jsonb,
     numeric_col numeric(5,2),
     bytea_col bytea,
     bool_array_col boolean[],
@@ -63,7 +66,12 @@ CREATE TABLE users (
     int8_array_col int8[],
     uuid_array_col uuid[],
     text_array_col text[],
-    bytea_array_col bytea[]
+    bytea_array_col bytea[],
+    real_col real,
+    double_col double precision,
+    time_with_tz time with time zone,
+    oid_col oid,
+    interval_col interval
 );
 
 
