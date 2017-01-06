@@ -27,6 +27,19 @@ schemats generate -c postgres://postgres@localhost/osm -t users -o osm.ts -n osm
 The command above will generate typescript interfaces for [`osm`](test/osm_schema.sql) database 
 with table [`users`](test/osm_schema.sql#L18) under namespace `osm`. The resulting file is stored as [`osm.ts`](test/example/osm.ts).
 
+### Generating the type definition for all the tables in a postgres schema
+
+```
+schemats generate -c postgres://postgres@localhost/osm -s public -o osm.ts -n osm
+```
+
+This will generate all type definitions for all the tables belonging to postgres schema 'public'.
+
+
+If one provides neither table parameter nor schema parameter, all the tables in schema 'public' will be generated as well :
+```
+schemats generate -c postgres://postgres@localhost/osm -o osm.ts -n osm
+```
 
 ### Writing code with typed schema
 
