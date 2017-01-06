@@ -45,6 +45,9 @@ export namespace osm {
         export type string_ = string;
         export type money_col = number;
         export type char_col = string;
+        export type time_col = string;
+        export type inet_col = string;
+        export type jsonb_col = Object;
         export type numeric_col = number;
         export type bytea_col = string;
         export type bool_array_col = Array<boolean>;
@@ -55,6 +58,11 @@ export namespace osm {
         export type uuid_array_col = Array<string>;
         export type text_array_col = Array<string>;
         export type bytea_array_col = Array<string>;
+        export type real_col = number;
+        export type double_col = number;
+        export type time_with_tz = string;
+        export type oid_col = number;
+        export type interval_col = string;
 
     }
 
@@ -93,6 +101,9 @@ export namespace osm {
         string: usersFields.string_;
         money_col: usersFields.money_col;
         char_col: usersFields.char_col;
+        time_col: usersFields.time_col;
+        inet_col: usersFields.inet_col;
+        jsonb_col: usersFields.jsonb_col;
         numeric_col: usersFields.numeric_col;
         bytea_col: usersFields.bytea_col;
         bool_array_col: usersFields.bool_array_col;
@@ -103,6 +114,11 @@ export namespace osm {
         uuid_array_col: usersFields.uuid_array_col;
         text_array_col: usersFields.text_array_col;
         bytea_array_col: usersFields.bytea_array_col;
+        real_col: usersFields.real_col;
+        double_col: usersFields.double_col;
+        time_with_tz: usersFields.time_with_tz;
+        oid_col: usersFields.oid_col;
+        interval_col: usersFields.interval_col;
 
     }
 

@@ -45,28 +45,38 @@ export class Database {
         return mapValues(tableDefinition, udtName => {
             switch (udtName) {
                 case 'bpchar':
+                case 'char':
                 case 'varchar':
                 case 'text':
                 case 'uuid':
                 case 'bytea':
+                case 'inet':
+                case 'time':
+                case 'timetz':
+                case 'interval':
                     return 'string'
                 case 'int2':
                 case 'int4':
                 case 'int8':
+                case 'float4':
                 case 'float8':
                 case 'numeric':
                 case 'money':
+                case 'oid':
                     return 'number'
                 case 'bool':
                     return 'boolean'
                 case 'json':
+                case 'jsonb':
                     return 'Object'
                 case 'date':
                 case 'timestamp':
+                case 'timestamptz':
                     return 'Date'
                 case '_int2':
                 case '_int4':
                 case '_int8':
+                case '_float4':
                 case '_float8':
                 case '_numeric':
                 case '_money':
