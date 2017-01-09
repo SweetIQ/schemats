@@ -338,5 +338,7 @@ paket-files/
 
 *.js
 typings/
-
-/test/osm.ts
+*.d.ts
+test/artifacts/*.ts
+test/artifacts/*.js
+test/artifacts/*.js.map

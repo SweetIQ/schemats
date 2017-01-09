@@ -1,2 +1,4 @@
 demo.gif
 demo2.gif
+test/artifacts
+**/*[^.d$].ts

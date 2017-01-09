@@ -48,7 +48,30 @@ CREATE TABLE users (
     diary_entries_count integer DEFAULT 0 NOT NULL,
     image_use_gravatar boolean DEFAULT false NOT NULL,
     image_content_type character varying(255),
-    auth_provider character varying
+    auth_provider character varying,
+    uuid_column uuid,
+    number integer,
+    string character varying,
+    money_col money,
+    char_col char,
+    time_col time,
+    inet_col inet,
+    jsonb_col jsonb,
+    numeric_col numeric(5,2),
+    bytea_col bytea,
+    bool_array_col boolean[],
+    varchar_array_col character varying[],
+    int2_array_col int2[],
+    int4_array_col int4[],
+    int8_array_col int8[],
+    uuid_array_col uuid[],
+    text_array_col text[],
+    bytea_array_col bytea[],
+    real_col real,
+    double_col double precision,
+    time_with_tz time with time zone,
+    oid_col oid,
+    interval_col interval
 );
 
 

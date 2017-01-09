@@ -3,11 +3,29 @@
  * Created by xiamx on 2016-08-10.
  */
 
+import { TableDefinition } from './schema'
+
+function columnNameIsReservedKeyword(columnName: string): boolean {
+    const reservedKeywords = [
+        'string',
+        'number'
+    ]
+    return reservedKeywords.indexOf(columnName) !== -1
+}
+
+function normalizeColumnName(columnName: string): string {
+    if (columnNameIsReservedKeyword(columnName)) {
+        return columnName + '_'
+    } else {
+        return columnName
+    }
+}
+
 export function generateTableInterface(tableName: string, schema: Object) {
     let members = ''
     for (let columnName in schema) {
         if (schema.hasOwnProperty(columnName)) {
-            members += `${columnName}: ${tableName}Fields.${columnName};\n`
+            members += `${columnName}: ${tableName}Fields.${normalizeColumnName(columnName)};\n`
         }
     }
 
@@ -18,22 +36,22 @@ export function generateTableInterface(tableName: string, schema: Object) {
     `
 }
 
-export function generateEnumType(enumObject: Object) {
+export function generateEnumType(enumObject: any) {
     let enumString = ''
     for (let enumName in enumObject) {
         enumString += `export type ${enumName} = `
-        enumString += enumObject[enumName].map( v => `"${v}"`).join(' | ')
+        enumString += enumObject[enumName].map((v: string) => `"${v}"`).join(' | ')
         enumString += `;`
     }
     return enumString
 }
 
-export function generateSchemaTypes(tableName: string, schema: Object) {
+export function generateTableTypes(tableName: string, tableDefinition: TableDefinition) {
     let fields = ''
-    for (let columnName in schema) {
-        if (schema.hasOwnProperty(columnName)) {
-            let type = schema[columnName]
-            fields += `export type ${columnName} = ${type};\n`
+    for (let columnName in tableDefinition) {
+        if (tableDefinition.hasOwnProperty(columnName)) {
+            let type = tableDefinition[columnName]
+            fields += `export type ${normalizeColumnName(columnName)} = ${type};\n`
         }
     }
 
