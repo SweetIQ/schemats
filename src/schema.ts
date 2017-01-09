@@ -16,7 +16,7 @@ export class Database {
 
     public async getEnumTypes(schema?: string) {
         let enums: any = {}
-        let enumSchemaWhereCaluse = schema ? `where enum_schema = '${schema}'` : ''
+        let enumSchemaWhereCaluse = schema ? `where n.nspname = '${schema}'` : ''
         await this.db.each(
             `select n.nspname as schema,  
                  t.typname as name,  

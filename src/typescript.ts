@@ -37,7 +37,7 @@ export function generateTableInterface(tableName: string, schema: Object) {
 }
 
 export function generateEnumType(enumObject: any) {
-    let enumString = '\n'
+    let enumString = ''
     for (let enumName in enumObject) {
         enumString += `export type ${enumName} = `
         enumString += enumObject[enumName].map((v: string) => `'${v}'`).join(' | ')

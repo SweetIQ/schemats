@@ -10,8 +10,6 @@ import {processString} from 'typescript-formatter'
 export async function typescriptOfTable(db: Database, table: string) {
     let interfaces = ''
     let tableTypes = await db.getTableTypes(table)
-    let enumTypes = await db.getEnumTypes()
-    interfaces += generateEnumType(enumTypes)
     interfaces += generateTableTypes(table, tableTypes)
     interfaces += generateTableInterface(table, tableTypes)
     return interfaces
@@ -42,6 +40,7 @@ export async function typescriptOfSchema(db: Database, namespace: string, tables
         tables = await db.getSchemaTables(schema)
     }
 
+    const enumTypes = generateEnumType(await db.getEnumTypes(schema))
     const interfacePromises = tables.map((table) => typescriptOfTable(db, table))
     const interfaces = await Promise.all(interfacePromises)
         .then(tsOfTable => tsOfTable.reduce((init, tsOfTable) => init + tsOfTable, ''))
@@ -57,6 +56,7 @@ export async function typescriptOfSchema(db: Database, namespace: string, tables
              *
              */
             export namespace ${namespace} {
+            ${enumTypes}
             ${interfaces}
             }
         `
