@@ -3,13 +3,15 @@
  * Created by xiamx on 2016-08-10.
  */
 
-import {generateTableTypes, generateTableInterface} from './typescript'
+import {generateEnumType, generateTableTypes, generateTableInterface} from './typescript'
 import {Database} from './schema'
 import {processString} from 'typescript-formatter'
 
 export async function typescriptOfTable(db: Database, table: string) {
     let interfaces = ''
     let tableTypes = await db.getTableTypes(table)
+    let enumTypes = await db.getEnumTypes()
+    interfaces += generateEnumType(enumTypes)
     interfaces += generateTableTypes(table, tableTypes)
     interfaces += generateTableInterface(table, tableTypes)
     return interfaces

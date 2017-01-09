@@ -1,5 +1,6 @@
 import * as PgPromise from 'pg-promise'
 import { mapValues } from 'lodash'
+import { keys } from 'lodash'
 const pgp = PgPromise()
 
 export interface TableDefinition {
@@ -13,8 +14,9 @@ export class Database {
         this.db = pgp(connectionString)
     }
 
-    public async getEnumTypes(schema = 'public') {
+    public async getEnumTypes(schema?: string) {
         let enums: any = {}
+        let enumSchemaWhereCaluse = schema ? `where enum_schema = '${schema}'` : ''
         await this.db.each(
             `select n.nspname as schema,  
                  t.typname as name,  
@@ -22,13 +24,13 @@ export class Database {
              from pg_type t 
              join pg_enum e on t.oid = e.enumtypid  
              join pg_catalog.pg_namespace n ON n.oid = t.typnamespace
-             where enum_schema = '$1'`,
+             ${enumSchemaWhereCaluse};`,
             schema, enumItem => {
                 const {name, value} = enumItem
                 if (!enums[name]) {
                     enums[name] = []
                 }
-                enums[name].append(value)
+                enums[name].push(value)
             }
         )
         return enums
@@ -48,7 +50,9 @@ export class Database {
     }
 
     public async getTableTypes(tableName: string) {
-        return this.mapTableDefinitionToType(await this.getTableDefinition(tableName))
+        let enumTypes = await this.getEnumTypes()
+        let customTypes = [].concat(keys(enumTypes))
+        return this.mapTableDefinitionToType(await this.getTableDefinition(tableName), customTypes)
     }
 
     public async getSchemaTables(schemaName: string): Promise<string[]> {
@@ -62,7 +66,7 @@ export class Database {
         )
     }
 
-    private mapTableDefinitionToType(tableDefinition: TableDefinition): TableDefinition {
+    private mapTableDefinitionToType(tableDefinition: TableDefinition, customTypes: string[]): TableDefinition {
         return mapValues(tableDefinition, udtName => {
             switch (udtName) {
                 case 'bpchar':
@@ -110,7 +114,11 @@ export class Database {
                 case '_bytea':
                     return 'Array<string>'
                 default:
-                    throw new TypeError(`do not know how to convert type [${udtName}]`)
+                    if (customTypes.indexOf(udtName) !== -1) {
+                        return udtName
+                    } else {
+                        throw new TypeError(`do not know how to convert type [${udtName}]`)
+                    }
             }
         })
     }
