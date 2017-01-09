@@ -9,8 +9,8 @@
  *
  */
 export namespace osm {
-    export type user_status_enum = 'deleted' | 'suspended' | 'confirmed' | 'active' | 'pending';
-    export type format_enum = 'text' | 'markdown' | 'html';
+    export type format_enum = 'html' | 'markdown' | 'text';
+    export type user_status_enum = 'active' | 'confirmed' | 'deleted' | 'pending' | 'suspended';
 
 
     export namespace usersFields {
