@@ -9,6 +9,9 @@
  *
  */
 export namespace osm {
+    export type format_enum = 'html' | 'markdown' | 'text';
+    export type user_status_enum = 'active' | 'confirmed' | 'deleted' | 'pending' | 'suspended';
+
 
     export namespace usersFields {
         export type email = string;
@@ -28,11 +31,13 @@ export namespace osm {
         export type new_email = string;
         export type creation_ip = string;
         export type languages = string;
+        export type status = user_status_enum;
         export type terms_agreed = Date;
         export type consider_pd = boolean;
         export type preferred_editor = string;
         export type terms_seen = boolean;
         export type auth_uid = string;
+        export type description_format = format_enum;
         export type image_fingerprint = string;
         export type changesets_count = number;
         export type traces_count = number;
@@ -84,11 +89,13 @@ export namespace osm {
         new_email: usersFields.new_email;
         creation_ip: usersFields.creation_ip;
         languages: usersFields.languages;
+        status: usersFields.status;
         terms_agreed: usersFields.terms_agreed;
         consider_pd: usersFields.consider_pd;
         preferred_editor: usersFields.preferred_editor;
         terms_seen: usersFields.terms_seen;
         auth_uid: usersFields.auth_uid;
+        description_format: usersFields.description_format;
         image_fingerprint: usersFields.image_fingerprint;
         changesets_count: usersFields.changesets_count;
         traces_count: usersFields.traces_count;

@@ -19,15 +19,14 @@ async function compare(goldStandardFile: string, outputFile: string, formattedOu
     const addOrRemovedLines = diffs.filter(d => d.added || d.removed)
 
     if (addOrRemovedLines.length > 0) {
-        console.error('Generated type definition different from the standard')
+        console.error(`Generated type definition different to the standard ${goldStandardFile}`)
         addOrRemovedLines.forEach((d, i) => {
             const t = d.added ? '+' : d.removed ? '-' : 'x'
             console.error(`  [${i}] ${t} ${d.value}`)
         })
-        console.error('Generated type definition different to the standard')
         process.exit(1)
     } else {
-        console.log('Generated type definition identical to the standard')
+        console.log(`Generated type definition identical to the standard ${goldStandardFile}`)
     }
 }
 

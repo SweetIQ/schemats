@@ -3,7 +3,7 @@
  * Created by xiamx on 2016-08-10.
  */
 
-import {generateTableTypes, generateTableInterface} from './typescript'
+import {generateEnumType, generateTableTypes, generateTableInterface} from './typescript'
 import {Database} from './schema'
 import {processString} from 'typescript-formatter'
 
@@ -40,6 +40,7 @@ export async function typescriptOfSchema(db: Database, namespace: string, tables
         tables = await db.getSchemaTables(schema)
     }
 
+    const enumTypes = generateEnumType(await db.getEnumTypes(schema))
     const interfacePromises = tables.map((table) => typescriptOfTable(db, table))
     const interfaces = await Promise.all(interfacePromises)
         .then(tsOfTable => tsOfTable.reduce((init, tsOfTable) => init + tsOfTable, ''))
@@ -55,6 +56,7 @@ export async function typescriptOfSchema(db: Database, namespace: string, tables
              *
              */
             export namespace ${namespace} {
+            ${enumTypes}
             ${interfaces}
             }
         `

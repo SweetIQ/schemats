@@ -9,6 +9,7 @@
     },
     "exclude": [
         "node_modules",
-        "dts"
+        "dts",
+        "test/artifacts"
     ]
 }
