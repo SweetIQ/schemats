@@ -37,23 +37,23 @@ export class Database {
         return enums
     }
 
-    public async getTableDefinition(tableName: string) {
+    public async getTableDefinition(tableName: string, tableSchema: string) {
         let tableDefinition: TableDefinition = {}
         await this.db.each(
             `SELECT column_name, udt_name
             FROM information_schema.columns
-            WHERE table_name = $1`,
-            [tableName],
+            WHERE table_name = $1 and table_schema = $2`,
+            [tableName, tableSchema],
             (schemaItem: {column_name: string, udt_name: string}) => {
                 tableDefinition[schemaItem.column_name] = schemaItem.udt_name
             })
         return tableDefinition
     }
 
-    public async getTableTypes(tableName: string) {
+    public async getTableTypes(tableName: string, tableSchema: string) {
         let enumTypes = await this.getEnumTypes()
         let customTypes = [].concat(keys(enumTypes))
-        return this.mapTableDefinitionToType(await this.getTableDefinition(tableName), customTypes)
+        return this.mapTableDefinitionToType(await this.getTableDefinition(tableName, tableSchema), customTypes)
     }
 
     public async getSchemaTables(schemaName: string): Promise<string[]> {

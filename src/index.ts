@@ -7,9 +7,9 @@ import {generateEnumType, generateTableTypes, generateTableInterface} from './ty
 import {Database} from './schema'
 import {processString} from 'typescript-formatter'
 
-export async function typescriptOfTable(db: Database, table: string) {
+export async function typescriptOfTable(db: Database, table: string, schema: string) {
     let interfaces = ''
-    let tableTypes = await db.getTableTypes(table)
+    let tableTypes = await db.getTableTypes(table, schema)
     interfaces += generateTableTypes(table, tableTypes)
     interfaces += generateTableInterface(table, tableTypes)
     return interfaces
@@ -36,12 +36,16 @@ export function getTime() {
 
 export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], schema: string = 'public',
                                          commandRan: string, time: string): Promise<string> {
+    if (!schema) {
+        schema = 'public'
+    }
+
     if (tables.length === 0) {
         tables = await db.getSchemaTables(schema)
     }
 
     const enumTypes = generateEnumType(await db.getEnumTypes(schema))
-    const interfacePromises = tables.map((table) => typescriptOfTable(db, table))
+    const interfacePromises = tables.map((table) => typescriptOfTable(db, table, schema))
     const interfaces = await Promise.all(interfacePromises)
         .then(tsOfTable => tsOfTable.reduce((init, tsOfTable) => init + tsOfTable, ''))
 
