@@ -6,7 +6,16 @@
 import { loadSchema } from './load_schema'
 import * as fs from 'mz/fs'
 import { typescriptOfSchema, Database, extractCommand } from '../src/index'
-import * as diff from 'diff'
+
+// the types of diff is outdated, does not support diffTrimmedLines
+// workaround for the moment
+const diff = require('diff')
+interface IDiffResult {
+    value: string
+    count?: number
+    added?: boolean
+    removed?: boolean
+}
 
 async function compare(goldStandardFile: string, outputFile: string, formattedOutput: string ) {
     await fs.writeFile(outputFile, formattedOutput)
@@ -14,13 +23,13 @@ async function compare(goldStandardFile: string, outputFile: string, formattedOu
     let gold = await fs.readFile(goldStandardFile, {encoding: 'utf8'})
     let actual = await fs.readFile(outputFile, {encoding: 'utf8'})
 
-    let diffs = diff.diffLines(gold, actual)
+    let diffs = diff.diffTrimmedLines(gold, actual)
 
-    const addOrRemovedLines = diffs.filter(d => d.added || d.removed)
+    const addOrRemovedLines = diffs.filter((d: IDiffResult) => d.added || d.removed)
 
     if (addOrRemovedLines.length > 0) {
         console.error(`Generated type definition different to the standard ${goldStandardFile}`)
-        addOrRemovedLines.forEach((d, i) => {
+        addOrRemovedLines.forEach((d: IDiffResult, i: number) => {
             const t = d.added ? '+' : d.removed ? '-' : 'x'
             console.error(`  [${i}] ${t} ${d.value}`)
         })
