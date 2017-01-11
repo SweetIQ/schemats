@@ -49,7 +49,7 @@ export async function typescriptOfSchema(db: Database, namespace: string, tables
     const interfaces = await Promise.all(interfacePromises)
         .then(tsOfTable => tsOfTable.reduce((init, tsOfTable) => init + tsOfTable, ''))
 
-    let output = `
+    let header = `
             /**
              * AUTO-GENERATED FILE @ ${time} - DO NOT EDIT!
              *
@@ -59,11 +59,22 @@ export async function typescriptOfSchema(db: Database, namespace: string, tables
              * Re-run the command above.
              *
              */
-            export namespace ${namespace} {
-            ${enumTypes}
-            ${interfaces}
-            }
-        `
+
+    `
+
+    let output = header
+
+    if (namespace) {
+        output += `export namespace ${namespace} {`
+    }
+
+    output += `${enumTypes}`
+    output += `${interfaces}`
+
+    if (namespace) {
+        output += `
+    }`
+    }
 
     let formatterOption = {
         replace: false,

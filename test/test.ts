@@ -37,7 +37,7 @@ async function testGeneratingTables(db: Database) {
     let outputFile = (process.env.CIRCLE_ARTIFACTS || './test/artifacts') + '/osm.ts'
     let formattedOutput = await typescriptOfSchema(
         db,
-        'osm',
+        undefined,
         ['users'],
         null,
         extractCommand(
