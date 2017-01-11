@@ -10,6 +10,7 @@
  */
 export namespace maxi {
 
+
     export namespace users1Fields {
         export type email = string;
         export type id = number;

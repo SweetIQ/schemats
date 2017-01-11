@@ -1,5 +1,7 @@
 -- Openstreetmap schema obtained from https://git.openstreetmap.org/rails.git/blob/HEAD:/db/structure.sql
 
+DROP TABLE IF EXISTS users;
+
 DROP TYPE IF EXISTS user_status_enum;
 CREATE TYPE user_status_enum AS ENUM (
     'pending',
@@ -16,7 +18,6 @@ CREATE TYPE format_enum AS ENUM (
     'text'
 );
 
-DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     email character varying(255) NOT NULL,
     id bigint NOT NULL,
@@ -35,13 +36,13 @@ CREATE TABLE users (
     new_email character varying(255),
     creation_ip character varying(255),
     languages character varying(255),
---     status user_status_enum DEFAULT 'pending'::user_status_enum NOT NULL,
+    status user_status_enum DEFAULT 'pending'::user_status_enum NOT NULL,
     terms_agreed timestamp without time zone,
     consider_pd boolean DEFAULT false NOT NULL,
     preferred_editor character varying(255),
     terms_seen boolean DEFAULT false NOT NULL,
     auth_uid character varying(255),
---     description_format format_enum DEFAULT 'markdown'::format_enum NOT NULL,
+    description_format format_enum DEFAULT 'markdown'::format_enum NOT NULL,
     image_fingerprint character varying(255),
     changesets_count integer DEFAULT 0 NOT NULL,
     traces_count integer DEFAULT 0 NOT NULL,
