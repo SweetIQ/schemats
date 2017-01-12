@@ -42,6 +42,9 @@
     "tslint": "^4.2.0",
     "tslint-config-standard": "^2.0.0"
   },
+  "peerDependencies": {
+    "pg-types": "git+ssh://git@github.com/SweetIQ/node-pg-types.git#3aee86ea2ee4f5b1c35252d8a207c55566a270ad"
+  },
   "dependencies": {
     "bluebird": "^3.4.1",
     "diff": "^3.0.1",

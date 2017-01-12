@@ -8,6 +8,9 @@
  * Re-run the command above.
  *
  */
+
+import { Point, Circle } from 'pg-types/lib/textParsers'
+
 export namespace osm {
     export type format_enum = 'html' | 'markdown' | 'text';
     export type user_status_enum = 'active' | 'confirmed' | 'deleted' | 'pending' | 'suspended';
@@ -68,6 +71,8 @@ export namespace osm {
         export type time_with_tz = string;
         export type oid_col = number;
         export type interval_col = string;
+        export type point_col = Point;
+        export type circle_col = Circle;
 
     }
 
@@ -126,6 +131,8 @@ export namespace osm {
         time_with_tz: usersFields.time_with_tz;
         oid_col: usersFields.oid_col;
         interval_col: usersFields.interval_col;
+        point_col: usersFields.point_col;
+        circle_col: usersFields.circle_col;
 
     }
 

@@ -59,6 +59,9 @@ export async function typescriptOfSchema(db: Database, namespace: string, tables
              * Re-run the command above.
              *
              */
+
+            import { Point, Circle } from 'pg-types/lib/textParsers'
+
             export namespace ${namespace} {
             ${enumTypes}
             ${interfaces}

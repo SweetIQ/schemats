@@ -72,7 +72,9 @@ CREATE TABLE users (
     double_col double precision,
     time_with_tz time with time zone,
     oid_col oid,
-    interval_col interval
+    interval_col interval,
+    point_col point,
+    circle_col circle
 );
 
 

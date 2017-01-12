@@ -114,6 +114,10 @@ export class Database {
                 case '_uuid':
                 case '_bytea':
                     return 'Array<string>'
+                case 'point':
+                    return 'Point'
+                case 'circle':
+                    return 'Circle'
                 default:
                     if (customTypes.indexOf(udtName) !== -1) {
                         return udtName

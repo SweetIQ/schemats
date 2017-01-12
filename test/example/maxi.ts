@@ -8,6 +8,9 @@
  * Re-run the command above.
  *
  */
+
+import { Point, Circle } from 'pg-types/lib/textParsers'
+
 export namespace maxi {
 
 
