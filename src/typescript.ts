@@ -21,10 +21,10 @@ function normalizeColumnName(columnName: string): string {
     }
 }
 
-export function generateTableInterface(tableName: string, schema: Object) {
+export function generateTableInterface(tableName: string, tableDefinition: TableDefinition) {
     let members = ''
-    for (let columnName in schema) {
-        if (schema.hasOwnProperty(columnName)) {
+    for (let columnName in tableDefinition) {
+        if (tableDefinition.hasOwnProperty(columnName)) {
             members += `${columnName}: ${tableName}Fields.${normalizeColumnName(columnName)};\n`
         }
     }
@@ -50,8 +50,9 @@ export function generateTableTypes(tableName: string, tableDefinition: TableDefi
     let fields = ''
     for (let columnName in tableDefinition) {
         if (tableDefinition.hasOwnProperty(columnName)) {
-            let type = tableDefinition[columnName]
-            fields += `export type ${normalizeColumnName(columnName)} = ${type};\n`
+            let type = tableDefinition[columnName].tsType
+            let nullable = tableDefinition[columnName].nullable ? '| null' : ''
+            fields += `export type ${normalizeColumnName(columnName)} = ${type}${nullable};\n`
         }
     }
 

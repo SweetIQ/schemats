@@ -3,8 +3,14 @@ import { mapValues } from 'lodash'
 import { keys } from 'lodash'
 const pgp = PgPromise()
 
+export interface ColumnDefinition {
+    udtName: string,
+    nullable: boolean,
+    tsType?: string
+}
+
 export interface TableDefinition {
-    [columnName: string]: string
+    [columnName: string]: ColumnDefinition
 }
 
 export class Database {
@@ -40,19 +46,22 @@ export class Database {
     public async getTableDefinition(tableName: string, tableSchema: string) {
         let tableDefinition: TableDefinition = {}
         await this.db.each(
-            `SELECT column_name, udt_name
+            `SELECT column_name, udt_name, is_nullable
             FROM information_schema.columns
             WHERE table_name = $1 and table_schema = $2`,
             [tableName, tableSchema],
-            (schemaItem: {column_name: string, udt_name: string}) => {
-                tableDefinition[schemaItem.column_name] = schemaItem.udt_name
+            (schemaItem: { column_name: string, udt_name: string, is_nullable: string }) => {
+                tableDefinition[schemaItem.column_name] = {
+                    udtName: schemaItem.udt_name,
+                    nullable: schemaItem.is_nullable === 'YES'
+                }
             })
         return tableDefinition
     }
 
     public async getTableTypes(tableName: string, tableSchema: string) {
         let enumTypes = await this.getEnumTypes()
-        let customTypes = [].concat(keys(enumTypes))
+        let customTypes = keys(enumTypes)
         return this.mapTableDefinitionToType(await this.getTableDefinition(tableName, tableSchema), customTypes)
     }
 
@@ -68,8 +77,8 @@ export class Database {
     }
 
     private mapTableDefinitionToType(tableDefinition: TableDefinition, customTypes: string[]): TableDefinition {
-        return mapValues(tableDefinition, udtName => {
-            switch (udtName) {
+        return mapValues(tableDefinition, column => {
+            switch (column.udtName) {
                 case 'bpchar':
                 case 'char':
                 case 'varchar':
@@ -80,7 +89,8 @@ export class Database {
                 case 'time':
                 case 'timetz':
                 case 'interval':
-                    return 'string'
+                    column.tsType = 'string'
+                    return column
                 case 'int2':
                 case 'int4':
                 case 'int8':
@@ -89,16 +99,20 @@ export class Database {
                 case 'numeric':
                 case 'money':
                 case 'oid':
-                    return 'number'
+                    column.tsType = 'number'
+                    return column
                 case 'bool':
-                    return 'boolean'
+                    column.tsType = 'boolean'
+                    return column
                 case 'json':
                 case 'jsonb':
-                    return 'Object'
+                    column.tsType = 'Object'
+                    return column
                 case 'date':
                 case 'timestamp':
                 case 'timestamptz':
-                    return 'Date'
+                    column.tsType = 'Date'
+                    return column
                 case '_int2':
                 case '_int4':
                 case '_int8':
@@ -106,19 +120,25 @@ export class Database {
                 case '_float8':
                 case '_numeric':
                 case '_money':
-                    return 'Array<number>'
+                    column.tsType = 'Array<number>'
+                    return column
                 case '_bool':
-                    return 'Array<boolean>'
+                    column.tsType = 'Array<boolean>'
+                    return column
                 case '_varchar':
                 case '_text':
                 case '_uuid':
                 case '_bytea':
-                    return 'Array<string>'
+                    column.tsType = 'Array<string>'
+                    return column
                 default:
-                    if (customTypes.indexOf(udtName) !== -1) {
-                        return udtName
+                    if (customTypes.indexOf(column.udtName) !== -1) {
+                        column.tsType = column.udtName
+                        return column
                     } else {
-                        throw new TypeError(`do not know how to convert type [${udtName}]`)
+                        console.log(`Type [${column.udtName} has been mapped to [any] because no specific type has been found.`)
+                        column.tsType = 'any'
+                        return column
                     }
             }
         })
