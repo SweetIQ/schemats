@@ -20,25 +20,25 @@ npm install -g schemats
 ### Generating the type definition from schema
 
 ```
-schemats generate -c postgres://postgres@localhost/osm -t users -o osm.ts -n osm
+schemats generate -c postgres://postgres@localhost/osm -t users -o osm.ts
 ```
 
 
 The command above will generate typescript interfaces for [`osm`](test/osm_schema.sql) database 
-with table [`users`](test/osm_schema.sql#L18) under namespace `osm`. The resulting file is stored as [`osm.ts`](test/example/osm.ts).
+with table [`users`](test/osm_schema.sql#L18). The resulting file is stored as [`osm.ts`](test/example/osm.ts).
 
 ### Generating the type definition for all the tables in a postgres schema
 
 To generate all type definitions for all the tables within the schema 'public': 
 
 ```
-schemats generate -c postgres://postgres@localhost/osm -s public -o osm.ts -n osm
+schemats generate -c postgres://postgres@localhost/osm -s public -o osm.ts
 ```
 
 If neither the table parameter nor the schema parameter is provided, all tables in schema 'public' will be generated, so the command above is equivalent to:
 
 ```
-schemats generate -c postgres://postgres@localhost/osm -o osm.ts -n osm
+schemats generate -c postgres://postgres@localhost/osm -o osm.ts
 ```
 
 ### Writing code with typed schema
@@ -49,7 +49,7 @@ We can import `osm.ts` directly
 
 // imports the _osm_ namespace from ./osm.ts
 
-import {osm} from './osm'
+import * as osm from './osm'
 
 
 // Now query with pg-promise and have a completely typed return value
