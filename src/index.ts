@@ -36,6 +36,10 @@ export function getTime() {
 
 export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], schema: string|null = 'public',
                                          commandRan: string, time: string): Promise<string> {
+    if (namespace) {
+        console.warn('[DEPRECATED] Generation schema with namespace is deprecated.')
+    }
+
     if (!schema) {
         schema = 'public'
     }
