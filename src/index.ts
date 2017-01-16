@@ -34,7 +34,7 @@ export function getTime() {
     return `${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}`
 }
 
-export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], schema: string = 'public',
+export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], schema: string|null = 'public',
                                          commandRan: string, time: string): Promise<string> {
     if (!schema) {
         schema = 'public'
@@ -45,7 +45,7 @@ export async function typescriptOfSchema(db: Database, namespace: string, tables
     }
 
     const enumTypes = generateEnumType(await db.getEnumTypes(schema))
-    const interfacePromises = tables.map((table) => typescriptOfTable(db, table, schema))
+    const interfacePromises = tables.map((table) => typescriptOfTable(db, table, schema!))
     const interfaces = await Promise.all(interfacePromises)
         .then(tsOfTable => tsOfTable.reduce((init, tsOfTable) => init + tsOfTable, ''))
 
