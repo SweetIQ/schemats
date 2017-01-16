@@ -77,10 +77,10 @@ let emailOfUsersCreatedAfter2013: Array<{
 With generated type definition for our database schema, we can write code with autocompletion and static type checks.
 
 <p align="center">
-<img align="center" src="demo.gif" width="100%" alt="demo 1"/>
+<img align="center" src="https://github.com/SweetIQ/schemats/raw/master/demo.gif" width="100%" alt="demo 1"/>
 </p>
 <p align="center">
-<img align="center" src="demo2.gif" width="100%" alt="demo 2"/>
+<img align="center" src="https://github.com/SweetIQ/schemats/raw/master/demo2.gif" width="100%" alt="demo 2"/>
 </p>
 
 ### Using schemats as a library
