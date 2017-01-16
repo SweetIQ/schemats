@@ -1,6 +1,6 @@
 {
   "name": "schemats",
-  "version": "0.7.0",
+  "version": "1.0.0",
   "description": "Generate typescript interface definitions from (postgres) SQL database schema",
   "keywords": [
     "postgres",
@@ -29,6 +29,10 @@
     "url": "https://github.com/sweetiq/schemats/issues"
   },
   "author": "Mengxuan Xia <xiamx2004@gmail.com>",
+  "contributors": [
+    "Arnaud Benhamdine <arnaud.benhamdine@gmail.com>",
+    "zigomir <zigomir@gmail.com>"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@types/bluebird": "^3.0.35",
