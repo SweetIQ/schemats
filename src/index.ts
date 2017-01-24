@@ -34,7 +34,7 @@ export function getTime() {
     return `${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}`
 }
 
-export async function typescriptOfSchema(db: Database, namespace: string, tables: string[], schema: string|null = 'public',
+export async function typescriptOfSchema(db: Database, namespace: string|null, tables: string[], schema: string|null = 'public',
                                          commandRan: string, time: string): Promise<string> {
     if (namespace) {
         console.warn('[DEPRECATED] Generation schema with namespace is deprecated.')
