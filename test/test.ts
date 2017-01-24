@@ -4,7 +4,7 @@
  */
 
 import { loadSchema } from './load_schema'
-import * as fs from 'mz/fs'
+import * as fs from 'fs'
 import { typescriptOfSchema, Database, extractCommand } from '../src/index'
 
 // the types of diff is outdated, does not support diffTrimmedLines
@@ -17,11 +17,11 @@ interface IDiffResult {
     removed?: boolean
 }
 
-async function compare(goldStandardFile: string, outputFile: string, formattedOutput: string ) {
-    await fs.writeFile(outputFile, formattedOutput)
+function compare(goldStandardFile: string, outputFile: string, formattedOutput: string ) {
+    fs.writeFileSync(outputFile, formattedOutput)
 
-    let gold = await fs.readFile(goldStandardFile, {encoding: 'utf8'})
-    let actual = await fs.readFile(outputFile, {encoding: 'utf8'})
+    let gold = fs.readFileSync(goldStandardFile, {encoding: 'utf8'})
+    let actual = fs.readFileSync(outputFile, {encoding: 'utf8'})
 
     let diffs = diff.diffTrimmedLines(gold, actual)
 
@@ -57,7 +57,7 @@ async function testGeneratingTables(db: Database) {
         ),
         '2016-12-07 13:17:46'
     )
-    await compare('./test/example/osm.ts', outputFile, formattedOutput)
+    compare('./test/example/osm.ts', outputFile, formattedOutput)
 }
 
 async function testGeneratingSchema(db: Database) {
@@ -78,7 +78,7 @@ async function testGeneratingSchema(db: Database) {
         ),
         '2016-12-07 13:17:46'
     )
-    await compare('./test/example/maxi.ts', outputFile, formattedOutput)
+    compare('./test/example/maxi.ts', outputFile, formattedOutput)
 }
 
 (async () => {

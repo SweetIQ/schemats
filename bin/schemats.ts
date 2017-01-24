@@ -5,8 +5,7 @@
  */
 
 import * as yargs from 'yargs'
-import * as bluebird from 'bluebird'
-const fsAsync: any = bluebird.promisifyAll(require('fs'))
+import * as fs from 'fs'
 import { typescriptOfSchema, Database, extractCommand, getTime } from '../src/index'
 
 let argv: any = yargs
@@ -54,7 +53,7 @@ let argv: any = yargs
             db, argv.n, argv.t, argv.s,
             extractCommand(process.argv, argv.c), getTime()
         )
-        await fsAsync.writeFileAsync(argv.o, formattedOutput)
+        fs.writeFileSync(argv.o, formattedOutput)
 
     } catch (e) {
         console.error(e)
