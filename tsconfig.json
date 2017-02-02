@@ -5,7 +5,7 @@
         "noImplicitAny": true,
         "declaration": true,
         "newLine": "LF",
-        "sourceMap": false
+        "sourceMap": true
     },
     "exclude": [
         "node_modules",

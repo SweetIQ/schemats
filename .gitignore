@@ -342,3 +342,6 @@ typings/
 test/artifacts/*.ts
 test/artifacts/*.js
 test/artifacts/*.js.map
+coverage/
+*.map
+.DS_Store

@@ -16,7 +16,8 @@
     "dependency-check": "dependency-check . --entry bin/schemats.js --missing --no-dev",
     "test": "npm run lint && npm run build && npm run dependency-check && node test/test",
     "prepublish": "npm run build",
-    "clean": "del-cli node_modules **/*.js"
+    "clean": "del-cli node_modules **/*.js",
+    "coverage": "istanbul cover test/test.js && remap-istanbul -i coverage/coverage.json -o coverage/coverage-remap.json && remap-istanbul -i coverage/coverage.json -o coverage/lcov-report --type html"
   },
   "bin": {
     "schemats": "bin/schemats.js"
@@ -43,6 +44,8 @@
     "@types/yargs": "^6.3.3",
     "del-cli": "^0.2.0",
     "dependency-check": "^2.6.0",
+    "istanbul": "^0.4.5",
+    "remap-istanbul": "^0.8.4",
     "tslint": "^4.2.0",
     "tslint-config-standard": "^2.0.0"
   },
