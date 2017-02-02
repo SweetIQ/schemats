@@ -22,18 +22,6 @@ export function extractCommand(args: string[], dbConfig: string): string {
         .replace(dbConfig.split('@')[0], 'postgres://username:password') // hide real username:password pair
 }
 
-export function getTime() {
-    let padTime = (value: number) => `0${value}`.slice(-2)
-    let time = new Date()
-    const yyyy = time.getFullYear()
-    const MM = padTime(time.getMonth() + 1)
-    const dd = padTime(time.getDate())
-    const hh = padTime(time.getHours())
-    const mm = padTime(time.getMinutes())
-    const ss = padTime(time.getSeconds())
-    return `${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}`
-}
-
 export async function typescriptOfSchema(db: Database, namespace: string|null, tables: string[], schema: string|null = 'public',
                                          commandRan: string, time: string): Promise<string> {
     if (namespace) {

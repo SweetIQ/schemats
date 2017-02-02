@@ -6,7 +6,7 @@
 
 import * as yargs from 'yargs'
 import * as fs from 'fs'
-import { typescriptOfSchema, Database, extractCommand, getTime } from '../src/index'
+import { typescriptOfSchema, Database, extractCommand } from '../src/index'
 
 let argv: any = yargs
     .usage('Usage: $0 <command> [options]')
@@ -35,6 +35,18 @@ let argv: any = yargs
     .help('h')
     .alias('h', 'help')
     .argv;
+
+function getTime() {
+    let padTime = (value: number) => `0${value}`.slice(-2)
+    let time = new Date()
+    const yyyy = time.getFullYear()
+    const MM = padTime(time.getMonth() + 1)
+    const dd = padTime(time.getDate())
+    const hh = padTime(time.getHours())
+    const mm = padTime(time.getMinutes())
+    const ss = padTime(time.getSeconds())
+    return `${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}`
+}
 
 (async () => {
 
