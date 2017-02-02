@@ -43,6 +43,7 @@
     "@types/mz": "^0.0.30",
     "@types/node": "^6.0.45",
     "@types/yargs": "^6.3.3",
+    "coveralls": "^2.11.15",
     "del-cli": "^0.2.0",
     "dependency-check": "^2.6.0",
     "istanbul": "^0.4.5",
