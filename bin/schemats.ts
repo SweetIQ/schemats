@@ -34,7 +34,7 @@ let argv: any = yargs
     .describe('o', 'output file name')
     .help('h')
     .alias('h', 'help')
-    .argv;
+    .argv
 
 function getTime() {
     let padTime = (value: number) => `0${value}`.slice(-2)
