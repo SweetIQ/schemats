@@ -67,6 +67,9 @@ export namespace usersFields {
     export type time_with_tz = string | null;
     export type oid_col = number | null;
     export type interval_col = string | null;
+    export type json_col = Object | null;
+    export type date_col = Date | null;
+    export type unspported_path_type = any | null;
 
 }
 
@@ -125,5 +128,8 @@ export interface users {
     time_with_tz: usersFields.time_with_tz;
     oid_col: usersFields.oid_col;
     interval_col: usersFields.interval_col;
+    json_col: usersFields.json_col;
+    date_col: usersFields.date_col;
+    unspported_path_type: usersFields.unspported_path_type;
 
 }

@@ -72,7 +72,10 @@ CREATE TABLE users (
     double_col double precision,
     time_with_tz time with time zone,
     oid_col oid,
-    interval_col interval
+    interval_col interval,
+    json_col json,
+    date_col date,
+    unspported_path_type path
 );
 
 
