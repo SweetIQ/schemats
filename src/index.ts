@@ -5,7 +5,7 @@
 
 import {generateEnumType, generateTableTypes, generateTableInterface} from './typescript'
 import {Database} from './schema'
-import {processString} from 'typescript-formatter'
+// import {processString} from 'typescript-formatter'
 
 export async function typescriptOfTable(db: Database, table: string, schema: string) {
     let interfaces = ''
@@ -68,17 +68,19 @@ export async function typescriptOfSchema(db: Database, namespace: string|null, t
     }`
     }
 
-    let formatterOption = {
-        replace: false,
-        verify: false,
-        tsconfig: true,
-        tslint: true,
-        editorconfig: true,
-        tsfmt: true
-    }
+    return output
 
-    const processedResult = await processString('schema.ts', output, formatterOption)
-    return processedResult.dest
+    // let formatterOption = {
+    //     replace: false,
+    //     verify: false,
+    //     tsconfig: true,
+    //     tslint: true,
+    //     editorconfig: true,
+    //     tsfmt: false
+    // }
+
+    // const processedResult = await processString('schema.ts', output, formatterOption)
+    // return processedResult.dest
 }
 
 export {Database} from './schema'

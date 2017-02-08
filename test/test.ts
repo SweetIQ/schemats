@@ -60,6 +60,27 @@ async function testGeneratingTables(db: Database) {
     compare('./test/example/osm.ts', outputFile, formattedOutput)
 }
 
+async function testSchema(db: Database) {
+    await loadSchema('test/ab_schema.sql')
+    console.log('loaded ab schema')
+
+    let outputFile = (process.env.CIRCLE_ARTIFACTS || './test/artifacts') + '/ab.ts'
+    let formattedOutput = await typescriptOfSchema(
+        db,
+        null,
+        [],
+        'public',
+        extractCommand(
+            ['node', 'schemats', 'generate', '-c', 
+            'postgres://secretUser:secretPassword@localhost/test', 
+            '-t', 'users', '-o', './test/osm.ts'],
+            'postgres://secretUser:secretPassword@localhost/test'
+        ),
+        '2016-12-07 13:17:46'
+    )
+    compare('./test/example/ab.ts', outputFile, formattedOutput)
+}
+
 async function testGeneratingSchema(db: Database) {
     await loadSchema('test/maxi_schema.sql')
     console.log('loaded maxi schema')
@@ -84,8 +105,9 @@ async function testGeneratingSchema(db: Database) {
 (async () => {
     try {
         let db = new Database(process.env.DATABASE_URL)
-        await testGeneratingTables(db)
-        await testGeneratingSchema(db)
+        // await testGeneratingTables(db)
+        // await testGeneratingSchema(db)
+        await testSchema(db)
         process.exit(0)
     } catch (e) {
         console.error(e)
