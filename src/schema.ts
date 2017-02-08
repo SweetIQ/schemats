@@ -136,7 +136,7 @@ export class Database {
                         column.tsType = column.udtName
                         return column
                     } else {
-                        console.log(`Type [${column.udtName} has been mapped to [any] because no specific type has been found.`)
+                        console.log(`Type [${column.udtName}] has been mapped to [any] because no specific type has been found.`)
                         column.tsType = 'any'
                         return column
                     }
