@@ -23,7 +23,7 @@ function compare(goldStandardFile: string, outputFile: string, formattedOutput: 
     let gold = fs.readFileSync(goldStandardFile, {encoding: 'utf8'})
     let actual = fs.readFileSync(outputFile, {encoding: 'utf8'})
 
-    let diffs = diff.diffTrimmedLines(gold, actual)
+    let diffs = diff.diffLines(gold, actual, {ignoreWhitespace: true, newlineIsToken: true})
 
     const addOrRemovedLines = diffs.filter((d: IDiffResult) => d.added || d.removed)
 
