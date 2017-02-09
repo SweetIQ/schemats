@@ -3,7 +3,7 @@
  * AUTO-GENERATED FILE @ 2016-12-07 13:17:46 - DO NOT EDIT!
  *
  * This file was generated with schemats node package:
- * $ schemats generate -c postgres://username:password@localhost/test -s maxi -o ./test/maxi.ts
+ * $ schemats generate -c postgres://username:password@localhost/test -o ./test/maxi.ts -s maxi
  *
  * Re-run the command above.
  *
