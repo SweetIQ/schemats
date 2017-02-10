@@ -5,7 +5,7 @@
 
 import {generateEnumType, generateTableTypes, generateTableInterface} from './typescript'
 import {Database} from './schema'
-import {processString} from '@xiamx/typescript-formatter'
+import {processString} from 'typescript-formatter'
 
 export async function typescriptOfTable(db: Database, table: string, schema: string) {
     let interfaces = ''
