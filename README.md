@@ -1,11 +1,38 @@
-# schemats
+# Schemats
 
 [![npm](https://img.shields.io/npm/v/schemats.svg)](https://www.npmjs.com/package/schemats)
 [![GitHub tag](https://img.shields.io/github/tag/SweetIQ/schemats.svg)](https://github.com/SweetIQ/schemats)
 [![CircleCI](https://img.shields.io/circleci/project/github/SweetIQ/schemats/master.svg)](https://circleci.com/gh/SweetIQ/schemats)
 [![Coverage Status](https://coveralls.io/repos/github/SweetIQ/schemats/badge.svg?branch=coverage)](https://coveralls.io/github/SweetIQ/schemats?branch=coverage)
 
-Generate typescript interface definitions from (postgres) SQL database schema
+Using Schemats, you can generate TypeScirpt interface definitions from (Postgres) SQL database schema, automatically.
+
+Start with a database schema: 
+
+<table>
+<tr><th colspan="2">Users</th></tr>
+<tr>
+<td>id</td><td>SERIAL</td>
+</tr><tr>
+<td>username</td><td>VARCHAR</td>
+</tr><tr>
+<td>password</td><td>VARCHAR</td>
+</tr><tr>
+<td>last_logon</td><td>TIMESTAMP</td>
+</tr>
+</table>
+
+Automatically have the following TypesScript Interface generated
+
+```typescript
+interface Users {
+    id: number;
+    username: string;
+    password: string;
+    last_logon: Date;
+}
+```
+
 
 For an overview on the motivation and rational behind this project, please take a look at [Statically typed PostgreSQL queries in Typescript
 ](http://cs.mcgill.ca/~mxia3/2016/11/18/Statically-typed-PostgreSQL-queries-and-typescript-schemats/).
