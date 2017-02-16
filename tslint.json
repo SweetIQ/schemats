@@ -2,6 +2,7 @@
     "extends": "tslint-config-standard",
     "rules": {
         "no-trailing-whitespace": false,
-        "max-line-length": [0]
+        "max-line-length": [0],
+        "align": [true, "parameters", "statements"]
     }
 }
