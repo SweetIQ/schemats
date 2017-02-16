@@ -31,8 +31,8 @@ export class Database {
              join pg_enum e on t.oid = e.enumtypid  
              join pg_catalog.pg_namespace n ON n.oid = t.typnamespace
              ${enumSchemaWhereCaluse}
-             order by t.typname asc, e.enumlabel asc;`,
-            schema, enumItem => {
+             order by t.typname asc, e.enumlabel asc;`, [],
+            enumItem => {
                 const {name, value} = enumItem
                 if (!enums[name]) {
                     enums[name] = []
