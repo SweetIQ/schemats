@@ -5,7 +5,7 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/SweetIQ/schemats/master.svg)](https://circleci.com/gh/SweetIQ/schemats)
 [![Coverage Status](https://coveralls.io/repos/github/SweetIQ/schemats/badge.svg?branch=coverage)](https://coveralls.io/github/SweetIQ/schemats?branch=coverage)
 
-Using Schemats, you can generate TypeScirpt interface definitions from (Postgres) SQL database schema, automatically.
+Using Schemats, you can generate TypeScript interface definitions from (Postgres) SQL database schema automatically.
 
 Start with a database schema: 
 
