@@ -3,6 +3,7 @@ import * as assert from 'power-assert'
 import * as fs from 'mz/fs'
 import * as PgPromise from 'pg-promise'
 import { typescriptOfSchema, Database, extractCommand } from '../src/index'
+import * as ts from 'typescript';
 
 const diff = require('diff')
 interface IDiffResult {
@@ -13,6 +14,13 @@ interface IDiffResult {
 }
 
 const pgp = PgPromise()
+
+function compile(fileNames: string[], options: ts.CompilerOptions): boolean {
+    let program = ts.createProgram(fileNames, options)
+    let emitResult = program.emit()
+    let exitCode = emitResult.emitSkipped ? 1 : 0
+    return exitCode === 0
+}
 
 export async function loadSchema(file: string) {
     let db = pgp(process.env.DATABASE_URL)
@@ -79,4 +87,15 @@ describe('schemats interface generation test', () => {
     })
         
     })
+})
+
+describe('end user use case', () => {
+    it('usecase.ts should compile without error', () => {
+        compile(['fixture/usecase.ts'], {
+            noEmitOnError: true,
+            noImplicitAny: true,
+            target: ts.ScriptTarget.ES5,
+            module: ts.ModuleKind.CommonJS
+        })
+    });
 })

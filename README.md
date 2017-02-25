@@ -88,17 +88,8 @@ let usersCreatedAfter2013: Array<osm.users>
 // We can decide to only get selected fields
 
 let emailOfUsersCreatedAfter2013: Array<{
-    email: osm.usersFields.email,
-    creation_time: osm.usersFields.creation_time
-}> = await db.query("SELECT (email, creation_time) FROM users WHERE creation_time >= '2013-01-01'");
-
-// osm.usersFields.name is just a type alias to string
-// and osm.usersFields.creation_time is just a type alias to Date
-// Hence the one below also works
-
-let emailOfUsersCreatedAfter2013: Array<{
-    email: string,
-    creation_time: Date
+    email: osm.users['email'],
+    creation_time: osm.users['creation_time']
 }> = await db.query("SELECT (email, creation_time) FROM users WHERE creation_time >= '2013-01-01'");
 ```
 
