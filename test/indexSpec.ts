@@ -2,7 +2,7 @@
 import * as assert from 'power-assert'
 import * as fs from 'mz/fs'
 import * as PgPromise from 'pg-promise'
-import { typescriptOfSchema, Database, extractCommand } from '../src/index'
+import { typescriptOfSchema, Database, getDatabase, extractCommand } from '../src/index'
 import * as ts from 'typescript';
 
 const diff = require('diff')
@@ -52,7 +52,7 @@ async function compare(goldStandardFile: string, outputFile: string): Promise<bo
 }
 
 describe('schemats interface generation test', () => {
-    let db = new Database(process.env.DATABASE_URL)
+    let db = getDatabase(process.env.DATABASE_URL)
     const testStems = ['osm', 'maxi']
     testStems.forEach((endToEndTestStem: string) => {
     it(`End-to-end test ${endToEndTestStem}`, async () => {

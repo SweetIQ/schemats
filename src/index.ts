@@ -81,4 +81,4 @@ export async function typescriptOfSchema(db: Database, namespace: string|null, t
     return processedResult.dest
 }
 
-export {Database} from './schema'
+export {Database, getDatabase} from './schema'
