@@ -3,7 +3,7 @@
  * AUTO-GENERATED FILE @ 2016-12-07 13:17:46 - DO NOT EDIT!
  *
  * This file was generated with schemats node package:
- * $ schemats generate -c postgres://username:password@localhost/test -o ./test/osmMysql.ts -t users -s test
+ * $ schemats generate -c mysql://username:password@localhost/test -o ./test/osmMysql.ts -t users -s test
  *
  * Re-run the command above.
  *
@@ -11,6 +11,8 @@
 
 export type enum_enum_col = 'enum1' | 'enum2' | 'enum3';
 export type enum_nullable_enum_col = 'enum1' | 'enum2' | 'enum3';
+export type set_set_col = 'set1' | 'set2' | 'set3';
+export type set_nullable_set_col = 'set1' | 'set2' | 'set3';
 
 export namespace usersFields {
     export type char_col = string;
@@ -61,8 +63,8 @@ export namespace usersFields {
     export type nullable_year_col = Date | null;
     export type enum_col = enum_enum_col;
     export type nullable_enum_col = enum_nullable_enum_col | null;
-    export type set_col = string;
-    export type nullable_set_col = string | null;
+    export type set_col = set_set_col;
+    export type nullable_set_col = set_nullable_set_col | null;
 
 }
 

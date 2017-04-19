@@ -4,15 +4,15 @@ import { mapValues, keys, isEqual } from 'lodash'
 import { TableDefinition, Database } from './schemaInterfaces'
 
 interface AsyncConnection extends mysql.IConnection {
-    queryAsync: Function
+    queryAsync(queryString: string, escapedValues?: string[]): Promise<Object[]>
 }
 
 function parseMysqlEnumeration(mysqlEnum: string): string[] {
-    return mysqlEnum.replace(/(^enum\('|'\)$)/gi, '').split(`','`)
+    return mysqlEnum.replace(/(^(enum|set)\('|'\)$)/gi, '').split(`','`)
 }
 
-function getEnumNameFromColumn(columnName: string): string {
-    return `enum_${columnName}`
+function getEnumNameFromColumn(dataType: string, columnName: string): string {
+    return `${dataType}_${columnName}`
 }
 
 export class MysqlDatabase implements Database {
@@ -48,13 +48,13 @@ export class MysqlDatabase implements Database {
             params = []
         }
         const rawEnumRecords = await this.db.queryAsync(
-            `SELECT column_name, column_type
+            `SELECT column_name, column_type, data_type
             FROM information_schema.columns
-            WHERE data_type = 'enum' ${enumSchemaWhereClause}`,
+            WHERE data_type IN ('enum', 'set') ${enumSchemaWhereClause}`,
             params
         )
-        rawEnumRecords.forEach((enumItem: { column_name: string, column_type: string }) => {
-            const enumName = getEnumNameFromColumn(enumItem.column_name)
+        rawEnumRecords.forEach((enumItem: { column_name: string, column_type: string, data_type: string }) => {
+            const enumName = getEnumNameFromColumn(enumItem.data_type, enumItem.column_name)
             const enumValues = parseMysqlEnumeration(enumItem.column_type)
             if (enums[enumName] && !isEqual(enums[enumName], enumValues)) {
                 throw new Error(`Multiple enums with the same name and contradicting types were found: 
@@ -78,7 +78,7 @@ export class MysqlDatabase implements Database {
             const columnName = schemaItem.column_name
             const dataType = schemaItem.data_type
             tableDefinition[columnName] = {
-                udtName: dataType === 'enum' ? getEnumNameFromColumn(columnName) : dataType,
+                udtName: /^(enum|set)$/i.test(dataType) ? getEnumNameFromColumn(dataType, columnName) : dataType,
                 nullable: schemaItem.is_nullable === 'YES'
             }
         })
@@ -92,7 +92,7 @@ export class MysqlDatabase implements Database {
     }
 
     public async getSchemaTables(schemaName: string): Promise<string[]> {
-        const schemaTables =  await this.db.queryAsync(
+        const schemaTables = await this.db.queryAsync(
             `SELECT table_name
             FROM information_schema.columns
             WHERE table_schema = ?
@@ -114,6 +114,7 @@ export class MysqlDatabase implements Database {
                 case 'mediumtext':
                 case 'set':
                 case 'enum':
+                    // keep set and enum defaulted to string if custom type not mapped
                     column.tsType = 'string'
                     return column
                 case 'integer':

@@ -99,7 +99,7 @@ describe('mysql schemats interface generation test', () => {
         const config: any = require(`./fixture/${endToEndTestStem}.json`)
 
         const fixtureDate = '2016-12-07 13:17:46'
-        const fixturePgConnUri = 'postgres://secretUser:secretPassword@localhost/test'
+        const fixturePgConnUri = 'mysql://secretUser:secretPassword@localhost/test'
         let fixtureCommands = ['node', 'schemats', 'generate', '-c',
                 fixturePgConnUri,
                 '-o', `./test/${endToEndTestStem}.ts`]
