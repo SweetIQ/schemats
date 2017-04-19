@@ -3,7 +3,7 @@
  * AUTO-GENERATED FILE @ 2016-12-07 13:17:46 - DO NOT EDIT!
  *
  * This file was generated with schemats node package:
- * $ schemats generate -c mysql://username:password@localhost/test -o ./test/osmMysql.ts -t users -s test
+ * $ schemats generate -c mysql://username:password@localhost/test -o ./test/osmMysql.ts -t users -t user_enums -s test
  *
  * Re-run the command above.
  *
@@ -119,5 +119,21 @@ export interface users {
     nullable_enum_col: usersFields.nullable_enum_col;
     set_col: usersFields.set_col;
     nullable_set_col: usersFields.nullable_set_col;
+
+}
+
+export namespace user_enumsFields {
+    export type enum_col = enum_enum_col;
+    export type nullable_enum_col = enum_nullable_enum_col | null;
+    export type set_col = set_set_col;
+    export type nullable_set_col = set_nullable_set_col | null;
+
+}
+
+export interface user_enums {
+    enum_col: user_enumsFields.enum_col;
+    nullable_enum_col: user_enumsFields.nullable_enum_col;
+    set_col: user_enumsFields.set_col;
+    nullable_set_col: user_enumsFields.nullable_set_col;
 
 }

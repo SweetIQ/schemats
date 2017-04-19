@@ -1,7 +1,6 @@
 /// <reference path="../node_modules/@types/mocha/index.d.ts" />
 import * as assert from 'power-assert'
 import * as fs from 'mz/fs'
-import * as PgPromise from 'pg-promise'
 import { typescriptOfSchema, Database, getDatabase, extractCommand } from '../src/index'
 import * as ts from 'typescript';
 
@@ -12,8 +11,6 @@ interface IDiffResult {
     added?: boolean
     removed?: boolean
 }
-
-const pgp = PgPromise()
 
 function compile(fileNames: string[], options: ts.CompilerOptions): boolean {
     let program = ts.createProgram(fileNames, options)
@@ -124,7 +121,38 @@ describe('mysql schemats interface generation test', () => {
     })
 
     })
+    it('conflict test', async () => {
+        await loadSchema(db, `test/fixture/conflictMysql.sql`)
+        const config: any = require(`./fixture/conflictMysql.json`)
+
+        const fixtureDate = '2016-12-07 13:17:46'
+        const fixturePgConnUri = 'mysql://secretUser:secretPassword@localhost/test'
+        let fixtureCommands = ['node', 'schemats', 'generate', '-c',
+            fixturePgConnUri,
+            '-o', `./test/conflictMysql.ts`]
+        if (config.tables.length > 0) {
+            config.tables.forEach((t: string) => {
+                fixtureCommands.push('-t', t)
+            })
+        }
+        if (config.schema) {
+            fixtureCommands.push('-s', config.schema)
+        }
+        try {
+            await typescriptOfSchema(
+                db,
+                config.namespace,
+                config.tables,
+                config.schema,
+                extractCommand(fixtureCommands, fixturePgConnUri),
+                fixtureDate
+            )
+        } catch (e) {
+            assert.equal(e.message, 'Multiple enums with the same name and contradicting types were found: location_type: ["city","province","country"] and ["city","state","country"]')
+        }
+    })
 })
+
 
 describe('end user use case', () => {
     it('usecase.ts should compile without error', () => {

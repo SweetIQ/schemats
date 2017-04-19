@@ -57,8 +57,9 @@ export class MysqlDatabase implements Database {
             const enumName = getEnumNameFromColumn(enumItem.data_type, enumItem.column_name)
             const enumValues = parseMysqlEnumeration(enumItem.column_type)
             if (enums[enumName] && !isEqual(enums[enumName], enumValues)) {
-                throw new Error(`Multiple enums with the same name and contradicting types were found: 
-                        ${enumItem.column_name}: ${JSON.stringify(enums[enumName])} and ${JSON.stringify(enumValues)})`)
+                const errorMsg = `Multiple enums with the same name and contradicting types were found: ` +
+                    `${enumItem.column_name}: ${JSON.stringify(enums[enumName])} and ${JSON.stringify(enumValues)}`
+                throw new Error(errorMsg)
             }
             enums[enumName] = enumValues
         })
