@@ -19,8 +19,8 @@ export class MysqlDatabase implements Database {
     private db: AsyncConnection
 
     constructor(connectionString: string) {
-        const cxn = this.db = mysql.createConnection(connectionString) as AsyncConnection
-        this.db.queryAsync = function(queryString: string, escapedValues: Array<string>): Promise<Object[]> {
+        const cxn = this.db = mysql.createConnection(`${connectionString}?multipleStatements=true`) as AsyncConnection
+        this.db.queryAsync = function(queryString: string, escapedValues?: Array<string>): Promise<Object[]> {
             return new Promise((resolve, reject) => {
                 cxn.query(queryString, escapedValues, (error: Error, results: Array<Object>) => {
                     if (error) {
@@ -30,6 +30,10 @@ export class MysqlDatabase implements Database {
                 })
             })
         }
+    }
+
+    public query(queryString: string) {
+        return this.db.queryAsync(queryString)
     }
 
     public async getEnumTypes(schema?: string) {

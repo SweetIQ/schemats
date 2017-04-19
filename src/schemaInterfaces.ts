@@ -9,6 +9,7 @@ export interface TableDefinition {
 }
 
 export interface Database {
+    query(queryString: string): Promise<Object[]>
     getEnumTypes(schema?: string): any
     getTableDefinition(tableName: string, tableSchema: string): Promise<TableDefinition>
     getTableTypes(tableName: string, tableSchema: string): Promise<TableDefinition>

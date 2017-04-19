@@ -13,6 +13,10 @@ export class PostgresDatabase implements Database {
         this.db = pgp(connectionString)
     }
 
+    public query(queryString: string) {
+        return this.db.query(queryString)
+    }
+
     public async getEnumTypes(schema?: string) {
         let enums: any = {}
         let enumSchemaWhereClause = schema ? pgp.as.format(`where n.nspname = $1`, schema) : ''

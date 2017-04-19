@@ -22,8 +22,7 @@ function compile(fileNames: string[], options: ts.CompilerOptions): boolean {
     return exitCode === 0
 }
 
-export async function loadSchema(file: string) {
-    let db = pgp(process.env.DATABASE_URL)
+export async function loadSchema(db: Database, file: string) {
     let query = await fs.readFile(file, {
         encoding: 'utf8'
     })
@@ -51,12 +50,12 @@ async function compare(goldStandardFile: string, outputFile: string): Promise<bo
     }
 }
 
-describe('schemats interface generation test', () => {
+describe('postgres schemats interface generation test', () => {
     let db = getDatabase(process.env.DATABASE_URL)
     const testStems = ['osm', 'maxi']
     testStems.forEach((endToEndTestStem: string) => {
     it(`End-to-end test ${endToEndTestStem}`, async () => {
-        await loadSchema(`test/fixture/${endToEndTestStem}.sql`)
+        await loadSchema(db, `test/fixture/${endToEndTestStem}.sql`)
         const outputFile = `${(process.env.CIRCLE_ARTIFACTS || './test/artifacts')}/${endToEndTestStem}.ts`
         const expectedFile = `./test/expected/${endToEndTestStem}.ts`;
         const config: any = require(`./fixture/${endToEndTestStem}.json`)
@@ -86,6 +85,44 @@ describe('schemats interface generation test', () => {
         return assert(await compare(expectedFile, outputFile))
     })
         
+    })
+})
+
+describe('mysql schemats interface generation test', () => {
+    let db = getDatabase(process.env.MYSQL_URL)
+    const testStems = ['osmMysql']
+    testStems.forEach((endToEndTestStem: string) => {
+    it(`End-to-end test ${endToEndTestStem}`, async () => {
+        await loadSchema(db, `test/fixture/${endToEndTestStem}.sql`)
+        const outputFile = `${(process.env.CIRCLE_ARTIFACTS || './test/artifacts')}/${endToEndTestStem}.ts`
+        const expectedFile = `./test/expected/${endToEndTestStem}.ts`;
+        const config: any = require(`./fixture/${endToEndTestStem}.json`)
+
+        const fixtureDate = '2016-12-07 13:17:46'
+        const fixturePgConnUri = 'postgres://secretUser:secretPassword@localhost/test'
+        let fixtureCommands = ['node', 'schemats', 'generate', '-c',
+                fixturePgConnUri,
+                '-o', `./test/${endToEndTestStem}.ts`]
+        if (config.tables.length > 0) {
+            config.tables.forEach((t: string) => {
+                fixtureCommands.push('-t', t)
+            })
+        }
+        if (config.schema) {
+            fixtureCommands.push('-s', config.schema)
+        }
+        let formattedOutput = await typescriptOfSchema(
+            db,
+            config.namespace,
+            config.tables,
+            config.schema,
+            extractCommand(fixtureCommands, fixturePgConnUri),
+            fixtureDate
+            )
+        await fs.writeFile(outputFile, formattedOutput)
+        return assert(await compare(expectedFile, outputFile))
+    })
+
     })
 })
 
