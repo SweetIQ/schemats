@@ -5,7 +5,7 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/SweetIQ/schemats/master.svg)](https://circleci.com/gh/SweetIQ/schemats)
 [![Coverage Status](https://coveralls.io/repos/github/SweetIQ/schemats/badge.svg?branch=coverage)](https://coveralls.io/github/SweetIQ/schemats?branch=coverage)
 
-Using Schemats, you can generate TypeScript interface definitions from (Postgres) SQL database schema automatically.
+Using Schemats, you can generate TypeScript interface definitions from (Postgres, MySQL) SQL database schema automatically.
 
 Start with a database schema: 
 
@@ -49,24 +49,29 @@ npm install -g schemats
 
 ```
 schemats generate -c postgres://postgres@localhost/osm -t users -o osm.ts
+schemats generate -c mysql://mysql@localhost/osm -t users -s osm -o osm.ts
 ```
 
 
-The command above will generate typescript interfaces for [`osm`](test/osm_schema.sql) database 
+The above commands will generate typescript interfaces for [`osm`](test/osm_schema.sql) database 
 with table [`users`](test/osm_schema.sql#L18). The resulting file is stored as [`osm.ts`](test/example/osm.ts).
 
 ### Generating the type definition for all the tables in a postgres schema
 
 To generate all type definitions for all the tables within the schema 'public': 
 
+*Note: MySQL does not have a default public schema, but should it have a schema named public, this will still work.*
+
 ```
 schemats generate -c postgres://postgres@localhost/osm -s public -o osm.ts
+schemats generate -c mysql://mysql@localhost/osm -s public -o osm.ts
 ```
 
 If neither the table parameter nor the schema parameter is provided, all tables in schema 'public' will be generated, so the command above is equivalent to:
 
 ```
 schemats generate -c postgres://postgres@localhost/osm -o osm.ts
+schemats generate -c mysql://mysql@localhost/osm -o osm.ts
 ```
 
 ### Writing code with typed schema
@@ -154,7 +159,7 @@ Steps to contribute:
 
 - Make your awesome changes
 - Run `npm run lint`
-- Optionally, run `DATABASE_URL="postgres://youruser@localhost/anyemptytestdatabase" npm test`
+- Optionally, run `POSTGRES_URL="postgres://youruser@localhost/anyemptytestdatabase" MYSQL_URL="mysql://youruser@localhost/anyemptytestdatabase" npm test`
 - Submit pull request
 
 Our project runs `npm test` automatically on pull requests via CircleCI.

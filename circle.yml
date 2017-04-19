@@ -3,7 +3,7 @@ machine:
     version: 6.4.0
   environment:
     # See note about config.database.yml below.
-    DATABASE_URL: postgres://postgres@127.0.0.1:5432/circle_test
+    POSTGRES_URL: postgres://postgres@127.0.0.1:5432/circle_test
     MYSQL_URL: mysql://ubuntu@127.0.0.1/test
 
 test:

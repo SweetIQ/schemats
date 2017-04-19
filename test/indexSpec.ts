@@ -48,7 +48,7 @@ async function compare(goldStandardFile: string, outputFile: string): Promise<bo
 }
 
 describe('postgres schemats interface generation test', () => {
-    let db = getDatabase(process.env.DATABASE_URL)
+    let db = getDatabase(process.env.POSTGRES_URL)
     const testStems = ['osm', 'maxi']
     testStems.forEach((endToEndTestStem: string) => {
     it(`End-to-end test ${endToEndTestStem}`, async () => {
