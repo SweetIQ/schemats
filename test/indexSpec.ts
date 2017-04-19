@@ -86,7 +86,7 @@ describe('postgres schemats interface generation test', () => {
 })
 
 describe('mysql schemats interface generation test', () => {
-    let db = getDatabase(process.env.MYSQL_URL)
+    let db = getDatabase(`${process.env.MYSQL_URL}?multipleStatements=true`)
     const testStems = ['osmMysql']
     testStems.forEach((endToEndTestStem: string) => {
     it(`End-to-end test ${endToEndTestStem}`, async () => {

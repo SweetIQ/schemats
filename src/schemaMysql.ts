@@ -19,7 +19,7 @@ export class MysqlDatabase implements Database {
     private db: AsyncConnection
 
     constructor(connectionString: string) {
-        const cxn = this.db = mysql.createConnection(`${connectionString}?multipleStatements=true`) as AsyncConnection
+        const cxn = this.db = mysql.createConnection(connectionString) as AsyncConnection
         this.db.queryAsync = function(queryString: string, escapedValues?: Array<string>): Promise<Object[]> {
             return new Promise((resolve, reject) => {
                 cxn.query(queryString, escapedValues, (error: Error, results: Array<Object>) => {
