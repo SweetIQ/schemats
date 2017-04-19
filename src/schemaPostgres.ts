@@ -15,7 +15,7 @@ export class PostgresDatabase implements Database {
 
     public async getEnumTypes(schema?: string) {
         let enums: any = {}
-        let enumSchemaWhereCaluse = schema ? pgp.as.format(`where n.nspname = $1`, schema) : ''
+        let enumSchemaWhereClause = schema ? pgp.as.format(`where n.nspname = $1`, schema) : ''
         await this.db.each(
             `select n.nspname as schema,  
                  t.typname as name,  
@@ -23,7 +23,7 @@ export class PostgresDatabase implements Database {
              from pg_type t 
              join pg_enum e on t.oid = e.enumtypid  
              join pg_catalog.pg_namespace n ON n.oid = t.typnamespace
-             ${enumSchemaWhereCaluse}
+             ${enumSchemaWhereClause}
              order by t.typname asc, e.enumlabel asc;`, [],
             enumItem => {
                 const {name, value} = enumItem
