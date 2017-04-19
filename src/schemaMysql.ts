@@ -52,14 +52,14 @@ export class MysqlDatabase implements Database {
     }
 
     public async getSchemaTables(schemaName: string): Promise<string[]> {
-        return await this.db.queryAsync(
+        const schemaTables =  await this.db.queryAsync(
             `SELECT table_name
             FROM information_schema.columns
             WHERE table_schema = ?
             GROUP BY table_name`,
             [schemaName]
         )
-            .map((schemaItem: { table_name: string }) => schemaItem.table_name)
+        return schemaTables.map((schemaItem: { table_name: string }) => schemaItem.table_name)
     }
 
     private mapTableDefinitionToType(tableDefinition: TableDefinition): TableDefinition {
@@ -71,6 +71,7 @@ export class MysqlDatabase implements Database {
                 case 'varbinary':
                 case 'blob':
                 case 'text':
+                case 'mediumtext':
                 case 'enum':
                 case 'set':
                     column.tsType = 'string'
@@ -80,6 +81,7 @@ export class MysqlDatabase implements Database {
                 case 'smallint':
                 case 'mediumint':
                 case 'bigint':
+                case 'double':
                 case 'decimal':
                 case 'numeric':
                 case 'float':
