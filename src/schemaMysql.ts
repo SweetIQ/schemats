@@ -71,12 +71,11 @@ export class MysqlDatabase implements Database {
             [tableName, tableSchema]
         )
         tableColumns.map((schemaItem: { column_name: string, data_type: string, is_nullable: string }) => {
-            tableDefinition[schemaItem.column_name] = {
-                udtName: schemaItem.data_type,
+            const columnName = schemaItem.column_name
+            const dataType = schemaItem.data_type
+            tableDefinition[columnName] = {
+                udtName: dataType === 'enum' ? getEnumNameFromColumn(columnName) : dataType,
                 nullable: schemaItem.is_nullable === 'YES'
-            }
-            if (tableDefinition[schemaItem.column_name].udtName === 'enum') {
-                tableDefinition[schemaItem.column_name].udtName = getEnumNameFromColumn(schemaItem.column_name)
             }
         })
         return tableDefinition
