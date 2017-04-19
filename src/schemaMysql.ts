@@ -1,5 +1,5 @@
 import * as mysql from 'mysql'
-import { mapValues, keys } from 'lodash'
+import { mapValues, keys, isEqual } from 'lodash'
 
 import { TableDefinition, Database } from './schemaInterfaces'
 
@@ -52,7 +52,7 @@ export class MysqlDatabase implements Database {
         rawEnumRecords.forEach((enumItem: { column_name: string, column_type: string }) => {
             const enumName = getEnumNameFromColumn(enumItem.column_name)
             const enumValues = parseMysqlEnumeration(enumItem.column_type)
-            if (enums[enumName] && JSON.stringify(enums[enumName]) !== JSON.stringify(enumValues)) {
+            if (enums[enumName] && !isEqual(enums[enumName], enumValues)) {
                 throw new Error(`Multiple enums with the same name and contradicting types were found: 
                         ${enumItem.column_name}: ${JSON.stringify(enums[enumName])} and ${JSON.stringify(enumValues)})`)
             }
