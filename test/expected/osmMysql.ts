@@ -26,7 +26,7 @@ export namespace usersFields {
     export type longtext_col = string;
     export type nullable_longtext_col = string | null;
     export type time_col = string;
-    export type nullable_time_col = Date | null;
+    export type nullable_time_col = string | null;
     export type geometry_col = string;
     export type nullable_geometry_col = string | null;
     export type integer_col = number;
@@ -47,8 +47,8 @@ export namespace usersFields {
     export type nullable_numeric_col = number | null;
     export type float_col = number;
     export type nullable_float_col = number | null;
-    export type year_col = Date;
-    export type nullable_year_col = Date | null;
+    export type year_col = number;
+    export type nullable_year_col = number | null;
     export type tinyint_col = boolean;
     export type nullable_tinyint_col = boolean | null;
     export type json_col = Object;
@@ -58,7 +58,6 @@ export namespace usersFields {
     export type datetime_col = Date;
     export type nullable_datetime_col = Date | null;
     export type timestamp_col = Date;
-    export type nullable_timestamp_col = Date | null;
     export type tinyblob_col = Buffer;
     export type nullable_tinyblob_col = Buffer | null;
     export type mediumblob_col = Buffer;
@@ -124,7 +123,6 @@ export interface users {
     datetime_col: usersFields.datetime_col;
     nullable_datetime_col: usersFields.nullable_datetime_col;
     timestamp_col: usersFields.timestamp_col;
-    nullable_timestamp_col: usersFields.nullable_timestamp_col;
     tinyblob_col: usersFields.tinyblob_col;
     nullable_tinyblob_col: usersFields.nullable_tinyblob_col;
     mediumblob_col: usersFields.mediumblob_col;

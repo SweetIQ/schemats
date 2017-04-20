@@ -13,7 +13,7 @@ CREATE TABLE users (
     longtext_col longtext NOT NULL,
     nullable_longtext_col longtext,
     time_col time NOT NULL,
-    nullable_time_col date,
+    nullable_time_col time,
     geometry_col geometry NOT NULL,
     nullable_geometry_col geometry,
 
@@ -35,8 +35,8 @@ CREATE TABLE users (
     nullable_numeric_col numeric,
     float_col float NOT NULL,
     nullable_float_col float,
-    year_col date NOT NULL,
-    nullable_year_col date,
+    year_col year NOT NULL,
+    nullable_year_col year,
 
     tinyint_col tinyint NOT NULL,
     nullable_tinyint_col tinyint,
@@ -46,10 +46,9 @@ CREATE TABLE users (
 
     date_col date NOT NULL,
     nullable_date_col date,
-    datetime_col date NOT NULL,
-    nullable_datetime_col date,
-    timestamp_col date NOT NULL,
-    nullable_timestamp_col date,
+    datetime_col datetime NOT NULL,
+    nullable_datetime_col datetime,
+    timestamp_col timestamp NOT NULL,
 
     tinyblob_col tinyblob NOT NULL,
     nullable_tinyblob_col tinyblob,
