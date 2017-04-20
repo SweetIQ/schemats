@@ -33,7 +33,8 @@
   "author": "Mengxuan Xia <xiamx2004@gmail.com>",
   "contributors": [
     "Arnaud Benhamdine <arnaud.benhamdine@gmail.com>",
-    "zigomir <zigomir@gmail.com>"
+    "zigomir <zigomir@gmail.com>",
+    "Mark Crisp <macr1324@gmail.com>"
   ],
   "license": "MIT",
   "devDependencies": {
