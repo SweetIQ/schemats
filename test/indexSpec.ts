@@ -48,6 +48,10 @@ async function compare(goldStandardFile: string, outputFile: string): Promise<bo
 }
 
 describe('postgres schemats interface generation test', () => {
+    if (!process.env.POSTGRES_URL) {
+        console.log('postgres url not provided, skipping tests')
+        return;
+    }
     let db = getDatabase(process.env.POSTGRES_URL)
     const testStems = ['osm', 'maxi']
     testStems.forEach((endToEndTestStem: string) => {
@@ -86,6 +90,10 @@ describe('postgres schemats interface generation test', () => {
 })
 
 describe('mysql schemats interface generation test', () => {
+    if (!process.env.MYSQL_URL) {
+        console.log('mysql url not provided, skipping tests')
+        return;
+    }
     let db = getDatabase(`${process.env.MYSQL_URL}?multipleStatements=true`)
     const testStems = ['osmMysql']
     testStems.forEach((endToEndTestStem: string) => {

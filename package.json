@@ -18,7 +18,8 @@
     "prepublish": "npm run build",
     "clean": "del-cli node_modules **/*.js",
     "coverage": "npm run lint && npm run build && npm run dependency-check && istanbul cover node_modules/mocha/bin/_mocha -- -R spec -s 500 -t 10000 && remap-istanbul -i coverage/coverage.json -o coverage/coverage-remap.json && remap-istanbul -i coverage/coverage.json -o coverage/lcov-report --type html",
-    "coverage:ci": "npm run coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "coverage:ci": "npm run coverage && npm run coveralls && rm -rf ./coverage",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js || echo failed to submit code coverage"
   },
   "bin": {
     "schemats": "bin/schemats.js"
