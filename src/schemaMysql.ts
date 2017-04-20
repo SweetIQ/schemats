@@ -103,16 +103,18 @@ export class MysqlDatabase implements Database {
         return schemaTables.map((schemaItem: { table_name: string }) => schemaItem.table_name)
     }
 
+    // uses the type mappings from https://github.com/mysqljs/ where sensible
     private mapTableDefinitionToType(tableDefinition: TableDefinition, customTypes: string[]): TableDefinition {
         return mapValues(tableDefinition, column => {
             switch (column.udtName) {
                 case 'char':
                 case 'varchar':
-                case 'binary':
-                case 'varbinary':
-                case 'blob':
                 case 'text':
+                case 'tinytext':
                 case 'mediumtext':
+                case 'longtext':
+                case 'time':
+                case 'geometry':
                 case 'set':
                 case 'enum':
                     // keep set and enum defaulted to string if custom type not mapped
@@ -127,7 +129,7 @@ export class MysqlDatabase implements Database {
                 case 'decimal':
                 case 'numeric':
                 case 'float':
-                case 'bit':
+                case 'year':
                     column.tsType = 'number'
                     return column
                 case 'tinyint':
@@ -139,9 +141,16 @@ export class MysqlDatabase implements Database {
                 case 'date':
                 case 'datetime':
                 case 'timestamp':
-                case 'time':
-                case 'year':
                     column.tsType = 'Date'
+                    return column
+                case 'tinyblob':
+                case 'mediumblob':
+                case 'longblob':
+                case 'blob':
+                case 'binary':
+                case 'varbinary':
+                case 'bit':
+                    column.tsType = 'Buffer'
                     return column
                 default:
                     if (customTypes.indexOf(column.udtName) !== -1) {
