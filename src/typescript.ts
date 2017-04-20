@@ -3,7 +3,7 @@
  * Created by xiamx on 2016-08-10.
  */
 
-import { TableDefinition } from './schema'
+import { TableDefinition } from './schemaInterfaces'
 
 function columnNameIsReservedKeyword(columnName: string): boolean {
     const reservedKeywords = [

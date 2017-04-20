@@ -6,7 +6,7 @@
 
 import * as yargs from 'yargs'
 import * as fs from 'fs'
-import { typescriptOfSchema, Database, extractCommand } from '../src/index'
+import { typescriptOfSchema, getDatabase, extractCommand } from '../src/index'
 
 let argv: any = yargs
     .usage('Usage: $0 <command> [options]')
@@ -51,7 +51,7 @@ function getTime() {
 (async () => {
 
     try {
-        let db = new Database(argv.c)
+        let db = getDatabase(argv.c)
 
         if (!Array.isArray(argv.t)) {
             if (!argv.t) {

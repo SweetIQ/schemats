@@ -19,7 +19,7 @@ export function extractCommand(args: string[], dbConfig: string): string {
     return args
         .slice(2)
         .join(' ')
-        .replace(dbConfig.split('@')[0], 'postgres://username:password') // hide real username:password pair
+        .replace(/:\/\/.*@/,'://username:password@') // hide real username:password pair
 }
 
 export async function typescriptOfSchema(db: Database, namespace: string|null, tables: string[], schema: string|null = 'public',
@@ -81,4 +81,4 @@ export async function typescriptOfSchema(db: Database, namespace: string|null, t
     return processedResult.dest
 }
 
-export {Database} from './schema'
+export {Database, getDatabase} from './schema'
