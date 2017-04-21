@@ -8,8 +8,19 @@ import * as yargs from 'yargs'
 import * as fs from 'fs'
 import { typescriptOfSchema, getDatabase, extractCommand } from '../src/index'
 
-let argv: any = yargs
+interface SchematsConfig {
+    conn: string,
+    table: string[] | string,
+    schema: string,
+    namespace: string,
+    output: string
+}
+
+let argv: SchematsConfig = yargs
     .usage('Usage: $0 <command> [options]')
+    .global('config')
+    .config()
+    .default('config', 'schemats.json')
     .command('generate', 'generate type definition')
     .demand(1)
     // tslint:disable-next-line 
@@ -51,21 +62,21 @@ function getTime() {
 (async () => {
 
     try {
-        let db = getDatabase(argv.c)
+        let db = getDatabase(argv.conn)
 
-        if (!Array.isArray(argv.t)) {
-            if (!argv.t) {
-                argv.t = []
+        if (!Array.isArray(argv.table)) {
+            if (!argv.table) {
+                argv.table = []
             } else {
-                argv.t = [argv.t]
+                argv.table = [argv.table]
             }
         }
 
         let formattedOutput = await typescriptOfSchema(
-            db, argv.n, argv.t, argv.s,
-            extractCommand(process.argv, argv.c), getTime()
+            db, argv.namespace, argv.table, argv.schema,
+            extractCommand(process.argv, argv.conn), getTime()
         )
-        fs.writeFileSync(argv.o, formattedOutput)
+        fs.writeFileSync(argv.output, formattedOutput)
 
     } catch (e) {
         console.error(e)
