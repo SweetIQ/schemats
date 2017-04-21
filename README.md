@@ -74,6 +74,21 @@ schemats generate -c postgres://postgres@localhost/osm -o osm.ts
 schemats generate -c mysql://mysql@localhost/osm -o osm.ts
 ```
 
+### Using schemats.json config file 
+
+Schemats supports reading configuration from a json config file (defaults to `schemats.json`). Instead of passing configuration via commandline parameter like done above, it is also possible to supply the configuration through a config file. The config file supports the same parameters as the commandline arguments.
+
+For example, if a `schemats.json` exists in the current working directory with the following content:
+
+```json
+{
+    "conn": "postgres://postgres@localhost/osm",
+    "table": ["users"]
+}
+```
+
+Running `schemats generate` here is equivalent to running `schemats generate -c postgres://postgres@localhost/osm -t users -o osm.ts`. 
+
 ### Writing code with typed schema
 
 We can import `osm.ts` directly
