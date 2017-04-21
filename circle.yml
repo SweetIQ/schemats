@@ -9,8 +9,8 @@ machine:
 test:
   override:
     - npm run coverage:ci
-    post:
-        - mv ./actual $CIRCLE_ARTIFACTS
+  post:
+    - mv ./actual $CIRCLE_ARTIFACTS
 database:
   override:
     - mysql -u ubuntu -e "create database test"
