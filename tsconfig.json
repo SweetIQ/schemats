@@ -10,7 +10,7 @@
     "exclude": [
         "node_modules",
         "dts",
-        "test/artifacts",
+        "test/actual",
         "test/expected",
         "test/fixture"
     ]

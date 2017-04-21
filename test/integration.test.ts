@@ -16,7 +16,7 @@ describe('schemat generation integration testing', () => {
 
         it('Basic generation', async () => {
             const inputSQLFile = 'test/fixture/postgres/osm.sql'
-            const outputFile = `${(process.env.CIRCLE_ARTIFACTS || './test/artifacts')}/postgres/osm.ts`
+            const outputFile = './test/actual/postgres/osm.ts'
             const expectedFile = './test/expected/postgres/osm.ts';
             const config: any = './fixture/postgres/osm.json'
             await writeTsFile(inputSQLFile, config, outputFile, db)
@@ -24,7 +24,7 @@ describe('schemat generation integration testing', () => {
         })
         it('Generation using namespace (deprecated)', async () => {
             const inputSQLFile = 'test/fixture/postgres/maxi.sql'
-            const outputFile = `${(process.env.CIRCLE_ARTIFACTS || './test/artifacts')}/postgres/maxi.ts`
+            const outputFile = './test/actual/postgres/maxi.ts'
             const expectedFile = './test/expected/postgres/maxi.ts';
             const config: any = './fixture/postgres/maxi.json'
             await writeTsFile(inputSQLFile, config, outputFile, db)
@@ -43,7 +43,7 @@ describe('schemat generation integration testing', () => {
         })
         it ('Basic generation', async () => {
             const inputSQLFile = 'test/fixture/mysql/osm.sql'
-            const outputFile = `${(process.env.CIRCLE_ARTIFACTS || './test/artifacts')}/mysql/osm.ts`
+            const outputFile = './test/actual/mysql/osm.ts'
             const expectedFile = './test/expected/mysql/osm.ts';
             const config: any = './fixture/mysql/osm.json'
             await writeTsFile(inputSQLFile, config, outputFile, db)
@@ -51,7 +51,7 @@ describe('schemat generation integration testing', () => {
         })
         it('Enum conflict in columns', async () => {
             const inputSQLFile = 'test/fixture/mysql/conflict.sql'
-            const outputFile = `${(process.env.CIRCLE_ARTIFACTS || './test/artifacts')}/mysql/conflict.ts`
+            const outputFile = './test/actual/mysql/conflict.ts'
             const config: any = './fixture/mysql/conflict.json'
             try {
                 await writeTsFile(inputSQLFile, config, outputFile, db)

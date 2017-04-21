@@ -339,9 +339,7 @@ paket-files/
 *.js
 typings/
 *.d.ts
-test/artifacts/*.ts
-test/artifacts/*.js
-test/artifacts/*.js.map
+test/actual/*
 coverage/
 *.map
 .DS_Store
