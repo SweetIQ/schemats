@@ -67,7 +67,7 @@ export async function writeTsFile(inputSQLFile: string, inputConfigFile: string,
         config.namespace,
         config.tables,
         config.schema,
-        extractCommand(fixtureCommands, fixturePgConnUri),
+        extractCommand(fixtureCommands),
         fixtureDate
     )
     await fs.writeFile(outputFile, formattedOutput)

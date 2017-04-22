@@ -15,7 +15,7 @@ export async function typescriptOfTable(db: Database, table: string, schema: str
     return interfaces
 }
 
-export function extractCommand(args: string[], dbConfig: string): string {
+export function extractCommand(args: string[]): string {
     return args
         .slice(2)
         .join(' ')
