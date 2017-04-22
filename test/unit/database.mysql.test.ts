@@ -493,7 +493,7 @@ describe('MysqlDatabase', () => {
             })
         })
         describe('maps to custom', () => {
-            it('bit', () => {
+            it('CustomType', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'CustomType',
@@ -504,7 +504,7 @@ describe('MysqlDatabase', () => {
             })
         })
         describe('maps to any', () => {
-            it('bit', () => {
+            it('UnknownType', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'UnknownType',
