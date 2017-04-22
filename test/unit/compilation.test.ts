@@ -1,4 +1,4 @@
-import * as ts from 'typescript';
+import * as ts from 'typescript'
 import { compile } from '../testUtility'
 
 describe('end user use case', () => {
@@ -9,5 +9,5 @@ describe('end user use case', () => {
             target: ts.ScriptTarget.ES5,
             module: ts.ModuleKind.CommonJS
         })
-    });
+    })
 })

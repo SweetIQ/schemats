@@ -1,4 +1,3 @@
-/// <reference path="../../node_modules/@types/mocha/index.d.ts" />
 import * as assert from 'power-assert'
 import { Database, getDatabase } from '../../src/index'
 import { writeTsFile, compare, loadSchema } from '../testUtility'
@@ -17,7 +16,7 @@ describe('schemat generation integration testing', () => {
         it('Basic generation', async () => {
             const inputSQLFile = 'test/fixture/postgres/osm.sql'
             const outputFile = './test/actual/postgres/osm.ts'
-            const expectedFile = './test/expected/postgres/osm.ts';
+            const expectedFile = './test/expected/postgres/osm.ts'
             const config: any = './fixture/postgres/osm.json'
             await writeTsFile(inputSQLFile, config, outputFile, db)
             return assert(await compare(expectedFile, outputFile))
@@ -25,7 +24,7 @@ describe('schemat generation integration testing', () => {
         it('Generation using namespace (deprecated)', async () => {
             const inputSQLFile = 'test/fixture/postgres/maxi.sql'
             const outputFile = './test/actual/postgres/maxi.ts'
-            const expectedFile = './test/expected/postgres/maxi.ts';
+            const expectedFile = './test/expected/postgres/maxi.ts'
             const config: any = './fixture/postgres/maxi.json'
             await writeTsFile(inputSQLFile, config, outputFile, db)
             return assert(await compare(expectedFile, outputFile))
@@ -44,7 +43,7 @@ describe('schemat generation integration testing', () => {
         it ('Basic generation', async () => {
             const inputSQLFile = 'test/fixture/mysql/osm.sql'
             const outputFile = './test/actual/mysql/osm.ts'
-            const expectedFile = './test/expected/mysql/osm.ts';
+            const expectedFile = './test/expected/mysql/osm.ts'
             const config: any = './fixture/mysql/osm.json'
             await writeTsFile(inputSQLFile, config, outputFile, db)
             return assert(await compare(expectedFile, outputFile))

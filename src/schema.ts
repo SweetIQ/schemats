@@ -4,7 +4,8 @@ import { MysqlDatabase } from './schemaMysql'
 
 enum SQLVersion {
     POSTGRES = 1,
-    MYSQL = 2
+    MYSQL = 2,
+    UNKNOWN = 3
 }
 
 function getSQLVersion(connection: string): SQLVersion {
@@ -13,7 +14,7 @@ function getSQLVersion(connection: string): SQLVersion {
     } else if (/^mysql:\/\//i.test(connection)) {
         return SQLVersion.MYSQL
     } else {
-        throw new Error(`SQL version unsupported in connection: ${connection}`)
+        return SQLVersion.UNKNOWN
     }
 }
 
