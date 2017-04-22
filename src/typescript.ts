@@ -23,11 +23,9 @@ function normalizeColumnName(columnName: string): string {
 
 export function generateTableInterface(tableName: string, tableDefinition: TableDefinition) {
     let members = ''
-    for (let columnName in tableDefinition) {
-        if (tableDefinition.hasOwnProperty(columnName)) {
-            members += `${columnName}: ${tableName}Fields.${normalizeColumnName(columnName)};\n`
-        }
-    }
+    Object.keys(tableDefinition).forEach((columnName) => {
+        members += `${columnName}: ${tableName}Fields.${normalizeColumnName(columnName)};\n`
+    })
 
     return `
         export interface ${tableName} {
@@ -48,13 +46,11 @@ export function generateEnumType(enumObject: any) {
 
 export function generateTableTypes(tableName: string, tableDefinition: TableDefinition) {
     let fields = ''
-    for (let columnName in tableDefinition) {
-        if (tableDefinition.hasOwnProperty(columnName)) {
-            let type = tableDefinition[columnName].tsType
-            let nullable = tableDefinition[columnName].nullable ? '| null' : ''
-            fields += `export type ${normalizeColumnName(columnName)} = ${type}${nullable};\n`
-        }
-    }
+    Object.keys(tableDefinition).forEach((columnName) => {
+        let type = tableDefinition[columnName].tsType
+        let nullable = tableDefinition[columnName].nullable ? '| null' : ''
+        fields += `export type ${normalizeColumnName(columnName)} = ${type}${nullable};\n`
+    })
 
     return `
         export namespace ${tableName}Fields {
