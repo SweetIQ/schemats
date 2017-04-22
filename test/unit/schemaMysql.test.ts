@@ -151,7 +151,7 @@ describe('MysqlDatabase', () => {
             tableTypesSandbox.restore()
         })
         it('gets custom types from enums', async () => {
-            MysqlDBReflection.prototype.getEnumTypes.returns(Promise.resolve({enum1: {}, enum2: {}}))
+            MysqlDBReflection.prototype.getEnumTypes.returns(Promise.resolve({enum1: [], enum2: []}))
             MysqlDBReflection.prototype.getTableDefinition.returns(Promise.resolve({}))
             await db.getTableTypes('tableName', 'tableSchema')
             assert.deepEqual(MysqlDBReflection.mapTableDefinitionToType.getCall(0).args[1], ['enum1', 'enum2'])
