@@ -1,8 +1,4 @@
 -- Openstreetmap schema obtained from https://git.openstreetmap.org/rails.git/blob/HEAD:/db/structure.sql
-
-DROP TABLE IF EXISTS users;
-
-DROP TYPE IF EXISTS user_status_enum;
 CREATE TYPE user_status_enum AS ENUM (
     'pending',
     'active',
@@ -11,7 +7,6 @@ CREATE TYPE user_status_enum AS ENUM (
     'deleted'
 );
 
-DROP TYPE IF EXISTS format_enum;
 CREATE TYPE format_enum AS ENUM (
     'html',
     'markdown',
@@ -77,5 +72,3 @@ CREATE TABLE users (
     date_col date,
     unspported_path_type path
 );
-
-

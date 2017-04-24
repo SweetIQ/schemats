@@ -74,7 +74,7 @@ function getTime() {
 
         let formattedOutput = await typescriptOfSchema(
             db, argv.namespace, argv.table, argv.schema,
-            extractCommand(process.argv, argv.conn), getTime()
+            extractCommand(process.argv), getTime()
         )
         fs.writeFileSync(argv.output, formattedOutput)
 

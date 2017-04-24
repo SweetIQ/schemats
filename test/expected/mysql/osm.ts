@@ -3,7 +3,7 @@
  * AUTO-GENERATED FILE @ 2016-12-07 13:17:46 - DO NOT EDIT!
  *
  * This file was generated with schemats node package:
- * $ schemats generate -c mysql://username:password@localhost/test -o ./test/osmMysql.ts -t users -t user_enums -s test
+ * $ schemats generate -c sql://username:password@localhost/test -o ./test/actual/mysql/osm.ts -t users -t user_enums -s test
  *
  * Re-run the command above.
  *
