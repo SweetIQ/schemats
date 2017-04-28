@@ -73,6 +73,6 @@
     "tslint-config-standard": "^1.3.0",
     "typescript": "^2.1.5",
     "typescript-formatter": "4.1.1",
-    "yargs": "^6.5.0"
+    "yargs": "^7.1.0"
   }
 }

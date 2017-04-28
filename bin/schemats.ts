@@ -19,8 +19,8 @@ interface SchematsConfig {
 let argv: SchematsConfig = yargs
     .usage('Usage: $0 <command> [options]')
     .global('config')
-    .config()
     .default('config', 'schemats.json')
+    .config()
     .command('generate', 'generate type definition')
     .demand(1)
     // tslint:disable-next-line 
@@ -35,7 +35,6 @@ let argv: SchematsConfig = yargs
     .alias('s', 'schema')
     .nargs('s', 1)
     .describe('s', 'schema name')
-    .demand('n')
     .alias('n', 'namespace')
     .nargs('n', 1)
     .describe('n', 'namespace for interfaces')
