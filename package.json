@@ -17,7 +17,7 @@
     "test": "npm run lint && npm run build && npm run dependency-check && mocha",
     "prepublish": "npm run build",
     "clean": "del-cli node_modules **/*.js",
-    "coverage": "npm run lint && npm run build && npm run dependency-check && istanbul cover _mocha && remap-istanbul -i coverage/coverage.json -o coverage/coverage-remap.json && remap-istanbul -i coverage/coverage.json -o coverage/lcov-report --type html",
+    "coverage": "npm run lint && npm run build && npm run dependency-check && nyc mocha",
     "coverage:ci": "npm run coverage && npm run coveralls && rm -rf ./coverage",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js || echo failed to submit code coverage"
   },
@@ -55,10 +55,13 @@
     "dependency-check": "^2.6.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
+    "nyc": "^10.3.2",
     "power-assert": "^1.4.2",
     "proxyquire": "^1.7.11",
     "remap-istanbul": "^0.8.4",
     "sinon": "^2.1.0",
+    "source-map-support": "^0.4.15",
+    "ts-node": "^3.0.4",
     "tslint": "^4.2.0",
     "tslint-config-standard": "^2.0.0"
   },
@@ -74,5 +77,17 @@
     "typescript": "^2.1.5",
     "typescript-formatter": "4.1.1",
     "yargs": "^7.1.0"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
   }
 }
