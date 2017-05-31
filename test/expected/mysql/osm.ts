@@ -51,8 +51,6 @@ export namespace usersFields {
     export type nullable_year_col = number | null;
     export type tinyint_col = boolean;
     export type nullable_tinyint_col = boolean | null;
-    export type json_col = Object;
-    export type nullable_json_col = Object | null;
     export type date_col = Date;
     export type nullable_date_col = Date | null;
     export type datetime_col = Date;
@@ -116,8 +114,6 @@ export interface users {
     nullable_year_col: usersFields.nullable_year_col;
     tinyint_col: usersFields.tinyint_col;
     nullable_tinyint_col: usersFields.nullable_tinyint_col;
-    json_col: usersFields.json_col;
-    nullable_json_col: usersFields.nullable_json_col;
     date_col: usersFields.date_col;
     nullable_date_col: usersFields.nullable_date_col;
     datetime_col: usersFields.datetime_col;
