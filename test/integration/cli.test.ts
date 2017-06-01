@@ -27,6 +27,7 @@ describe('schemats cli tool integration testing', () => {
             let {status} = spawnSync('node', [
                 'bin/schemats', 'generate',
                 '-c', process.env.MYSQL_URL,
+                '-s', 'test',
                 '-o', '/tmp/schemats_cli_postgres.ts'
             ])
             assert.equal(0, status)

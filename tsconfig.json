@@ -1,7 +1,8 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "target": "es6",
+        "target": "es5",
+        "lib": ["es2015"],
         "noImplicitAny": true,
         "declaration": true,
         "newLine": "LF",

@@ -38,9 +38,6 @@ CREATE TABLE users (
     tinyint_col tinyint NOT NULL,
     nullable_tinyint_col tinyint,
 
-    json_col json NOT NULL,
-    nullable_json_col json,
-
     date_col date NOT NULL,
     nullable_date_col date,
     datetime_col datetime NOT NULL,
