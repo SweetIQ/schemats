@@ -73,3 +73,10 @@ CREATE TABLE user_enums (
     set_col set('set1', 'set2', 'set3') DEFAULT 'set1' NOT NULL,
     nullable_set_col set('set1', 'set2', 'set3')
 );
+
+DROP TABLE IF EXISTS package;
+
+CREATE TABLE package (
+    number integer NOT NULL,
+    string varchar(20) NOT NULL
+);

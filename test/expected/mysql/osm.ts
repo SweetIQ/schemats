@@ -4,7 +4,7 @@
  * AUTO-GENERATED FILE @ 2016-12-07 13:17:46 - DO NOT EDIT!
  *
  * This file was generated with schemats node package:
- * $ schemats generate -c sql://username:password@localhost/test -o ./test/actual/mysql/osm.ts -t users -t user_enums -s test
+ * $ schemats generate -c sql://username:password@localhost/test -o ./test/actual/mysql/osm.ts -t users -t user_enums -t package -s test
  *
  * Re-run the command above.
  *
@@ -154,5 +154,17 @@ export interface user_enums {
     nullable_enum_col: user_enumsFields.nullable_enum_col;
     set_col: user_enumsFields.set_col;
     nullable_set_col: user_enumsFields.nullable_set_col;
+
+}
+
+export namespace packageFields {
+    export type number_ = number;
+    export type string_ = string;
+
+}
+
+export interface package_ {
+    number: packageFields.number_;
+    string: packageFields.string_;
 
 }
