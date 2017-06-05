@@ -12,6 +12,15 @@ describe('Typescript', () => {
                 '        }\n' +
                 '    ')
         })
+        it('table name is reserved', () => {
+            const tableInterface = Typescript.generateTableInterface('package', {})
+            assert.equal(tableInterface,
+                '\n' +
+                '        export interface package_ {\n' +
+                '        \n' +
+                '        }\n' +
+                '    ')
+        })
         it('table with columns', () => {
             const tableInterface = Typescript.generateTableInterface('tableName', {
                 col1: {udtName: 'name1', nullable: false},
@@ -29,13 +38,15 @@ describe('Typescript', () => {
         it('table with reserved columns', () => {
             const tableInterface = Typescript.generateTableInterface('tableName', {
                 string: {udtName: 'name1', nullable: false},
-                number: {udtName: 'name2', nullable: false}
+                number: {udtName: 'name2', nullable: false},
+                package: {udtName: 'name3', nullable: false}
             })
             assert.equal(tableInterface,
                 '\n' +
                 '        export interface tableName {\n' +
                 '        string: tableNameFields.string_;\n' +
                 'number: tableNameFields.number_;\n' +
+                'package: tableNameFields.package_;\n' +
                 '\n' +
                 '        }\n' +
                 '    ')

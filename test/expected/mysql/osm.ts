@@ -1,4 +1,5 @@
 
+/* tslint:disable */
 /**
  * AUTO-GENERATED FILE @ 2016-12-07 13:17:46 - DO NOT EDIT!
  *

@@ -42,6 +42,7 @@ export async function typescriptOfSchema(db: Database, namespace: string|null, t
         .then(tsOfTable => tsOfTable.reduce((init, tsOfTable) => init + tsOfTable, ''))
 
     let header = `
+            /* tslint:disable */
             /**
              * AUTO-GENERATED FILE @ ${time} - DO NOT EDIT!
              *
