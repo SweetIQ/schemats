@@ -89,6 +89,7 @@ describe('index', () => {
             assert.deepEqual(tsReflection.generateTableTypes.getCall(0).args[0], 'tablename')
             assert.equal(tsOfSchema,
                 '\n' +
+                '/* tslint:disable */\n' +
                 '/**\n' +
                 ' * AUTO-GENERATED FILE @ 2017-04-01 - DO NOT EDIT!\n' +
                 ' *\n' +
@@ -119,6 +120,7 @@ describe('index', () => {
             assert.deepEqual(tsReflection.generateTableTypes.getCall(0).args[0], 'tablename')
             assert.equal(tsOfSchema,
                 '\n' +
+                '/* tslint:disable */\n' +
                 '/**\n' +
                 ' * AUTO-GENERATED FILE @ 2017-04-01 - DO NOT EDIT!\n' +
                 ' *\n' +
@@ -147,6 +149,7 @@ describe('index', () => {
             assert.deepEqual(tsReflection.generateTableTypes.getCall(0).args[0], 'differentTablename')
             assert.equal(tsOfSchema,
                 '\n' +
+                '/* tslint:disable */\n' +
                 '/**\n' +
                 ' * AUTO-GENERATED FILE @ 2017-04-01 - DO NOT EDIT!\n' +
                 ' *\n' +

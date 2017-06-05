@@ -1,5 +1,5 @@
 {
     "namespace": null,
-    "tables": ["users", "user_enums"],
+    "tables": ["users", "user_enums", "package"],
     "schema": ["test"]
 }

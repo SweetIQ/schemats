@@ -5,30 +5,31 @@
 
 import { TableDefinition } from './schemaInterfaces'
 
-function columnNameIsReservedKeyword(columnName: string): boolean {
+function nameIsReservedKeyword(name: string): boolean {
     const reservedKeywords = [
         'string',
-        'number'
+        'number',
+        'package'
     ]
-    return reservedKeywords.indexOf(columnName) !== -1
+    return reservedKeywords.indexOf(name) !== -1
 }
 
-function normalizeColumnName(columnName: string): string {
-    if (columnNameIsReservedKeyword(columnName)) {
-        return columnName + '_'
+function normalizeName(name: string): string {
+    if (nameIsReservedKeyword(name)) {
+        return name + '_'
     } else {
-        return columnName
+        return name
     }
 }
 
 export function generateTableInterface(tableName: string, tableDefinition: TableDefinition) {
     let members = ''
     Object.keys(tableDefinition).forEach((columnName) => {
-        members += `${columnName}: ${tableName}Fields.${normalizeColumnName(columnName)};\n`
+        members += `${columnName}: ${tableName}Fields.${normalizeName(columnName)};\n`
     })
 
     return `
-        export interface ${tableName} {
+        export interface ${normalizeName(tableName)} {
         ${members}
         }
     `
@@ -49,7 +50,7 @@ export function generateTableTypes(tableName: string, tableDefinition: TableDefi
     Object.keys(tableDefinition).forEach((columnName) => {
         let type = tableDefinition[columnName].tsType
         let nullable = tableDefinition[columnName].nullable ? '| null' : ''
-        fields += `export type ${normalizeColumnName(columnName)} = ${type}${nullable};\n`
+        fields += `export type ${normalizeName(columnName)} = ${type}${nullable};\n`
     })
 
     return `
