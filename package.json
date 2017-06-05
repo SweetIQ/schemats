@@ -75,7 +75,7 @@
     "tslint": "^5.4.2",
     "tslint-config-standard": "^5.0.2",
     "typescript": "^2.3.4",
-    "typescript-formatter": "^5.2.0",
+    "typescript-formatter": "4.1.1",
     "yargs": "^8.0.1"
   },
   "nyc": {
