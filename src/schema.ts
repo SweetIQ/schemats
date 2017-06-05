@@ -8,7 +8,7 @@ enum SQLVersion {
     UNKNOWN = 3
 }
 
-function getSQLVersion(connection: string): SQLVersion {
+function getSQLVersion (connection: string): SQLVersion {
     if (/^postgres(ql)?:\/\//i.test(connection)) {
         return SQLVersion.POSTGRES
     } else if (/^mysql:\/\//i.test(connection)) {
@@ -18,7 +18,7 @@ function getSQLVersion(connection: string): SQLVersion {
     }
 }
 
-export function getDatabase(connection: string): Database {
+export function getDatabase (connection: string): Database {
     switch (getSQLVersion(connection)) {
         case SQLVersion.MYSQL:
             return new MysqlDatabase(connection)

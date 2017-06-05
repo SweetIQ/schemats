@@ -21,8 +21,8 @@ describe('MysqlDatabase', () => {
         sandbox.restore()
     })
     describe('query', () => {
-        it('query calls query async', () => {
-            db.query('SELECT * FROM test_table')
+        it('query calls query async', async () => {
+            await db.query('SELECT * FROM test_table')
             assert.deepEqual(MysqlDBReflection.prototype.queryAsync.getCall(0).args,
                 ['SELECT * FROM test_table'])
         })
@@ -36,7 +36,7 @@ describe('MysqlDatabase', () => {
         })
         it('query has error', async () => {
             (mysql.createConnection as any).returns({
-                query: function query(queryString: string, params: Array<any>, cb: Function) {
+                query: function query (queryString: string, params: Array<any>, cb: Function) {
                     cb('ERROR')
                 }
             })
@@ -49,7 +49,7 @@ describe('MysqlDatabase', () => {
         })
         it('query returns with results', async () => {
             (mysql.createConnection as any).returns({
-                query: function query(queryString: string, params: Array<any>, cb: Function) {
+                query: function query (queryString: string, params: Array<any>, cb: Function) {
                     cb(null, [])
                 }
             })
