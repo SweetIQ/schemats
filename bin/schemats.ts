@@ -46,7 +46,7 @@ let argv: SchematsConfig = yargs
     .alias('h', 'help')
     .argv
 
-function getTime() {
+function getTime () {
     let padTime = (value: number) => `0${value}`.slice(-2)
     let time = new Date()
     const yyyy = time.getFullYear()
@@ -84,4 +84,7 @@ function getTime() {
 
 })().then(() => {
     process.exit()
+}).catch((e) => {
+    console.warn(e)
+    process.exit(1)
 })

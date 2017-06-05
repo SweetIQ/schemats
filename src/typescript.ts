@@ -5,7 +5,7 @@
 
 import { TableDefinition } from './schemaInterfaces'
 
-function nameIsReservedKeyword(name: string): boolean {
+function nameIsReservedKeyword (name: string): boolean {
     const reservedKeywords = [
         'string',
         'number',
@@ -14,7 +14,7 @@ function nameIsReservedKeyword(name: string): boolean {
     return reservedKeywords.indexOf(name) !== -1
 }
 
-function normalizeName(name: string): string {
+function normalizeName (name: string): string {
     if (nameIsReservedKeyword(name)) {
         return name + '_'
     } else {
@@ -22,7 +22,7 @@ function normalizeName(name: string): string {
     }
 }
 
-export function generateTableInterface(tableName: string, tableDefinition: TableDefinition) {
+export function generateTableInterface (tableName: string, tableDefinition: TableDefinition) {
     let members = ''
     Object.keys(tableDefinition).forEach((columnName) => {
         members += `${columnName}: ${tableName}Fields.${normalizeName(columnName)};\n`
@@ -35,7 +35,7 @@ export function generateTableInterface(tableName: string, tableDefinition: Table
     `
 }
 
-export function generateEnumType(enumObject: any) {
+export function generateEnumType (enumObject: any) {
     let enumString = ''
     for (let enumName in enumObject) {
         enumString += `export type ${enumName} = `
@@ -45,7 +45,7 @@ export function generateEnumType(enumObject: any) {
     return enumString
 }
 
-export function generateTableTypes(tableName: string, tableDefinition: TableDefinition) {
+export function generateTableTypes (tableName: string, tableDefinition: TableDefinition) {
     let fields = ''
     Object.keys(tableDefinition).forEach((columnName) => {
         let type = tableDefinition[columnName].tsType

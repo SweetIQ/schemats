@@ -9,11 +9,11 @@ const pgp = PgPromise()
 export class PostgresDatabase implements Database {
     private db: PgPromise.IDatabase<{}>
 
-    constructor(connectionString: string) {
+    constructor (connectionString: string) {
         this.db = pgp(connectionString)
     }
 
-    private static mapTableDefinitionToType(tableDefinition: TableDefinition, customTypes: string[]): TableDefinition {
+    private static mapTableDefinitionToType (tableDefinition: TableDefinition, customTypes: string[]): TableDefinition {
         return mapValues(tableDefinition, column => {
             switch (column.udtName) {
                 case 'bpchar':
@@ -81,11 +81,11 @@ export class PostgresDatabase implements Database {
         })
     }
 
-    public query(queryString: string) {
+    public query (queryString: string) {
         return this.db.query(queryString)
     }
 
-    public async getEnumTypes(schema?: string) {
+    public async getEnumTypes (schema?: string) {
         let enums: any = {}
         let enumSchemaWhereClause = schema ? pgp.as.format(`where n.nspname = $1`, schema) : ''
         await this.db.each(
@@ -106,7 +106,7 @@ export class PostgresDatabase implements Database {
         return enums
     }
 
-    public async getTableDefinition(tableName: string, tableSchema: string) {
+    public async getTableDefinition (tableName: string, tableSchema: string) {
         let tableDefinition: TableDefinition = {}
         await this.db.each(
             'SELECT column_name, udt_name, is_nullable ' +
@@ -122,13 +122,13 @@ export class PostgresDatabase implements Database {
         return tableDefinition
     }
 
-    public async getTableTypes(tableName: string, tableSchema: string) {
+    public async getTableTypes (tableName: string, tableSchema: string) {
         let enumTypes = await this.getEnumTypes()
         let customTypes = keys(enumTypes)
         return PostgresDatabase.mapTableDefinitionToType(await this.getTableDefinition(tableName, tableSchema), customTypes)
     }
 
-    public async getSchemaTables(schemaName: string): Promise<string[]> {
+    public async getSchemaTables (schemaName: string): Promise<string[]> {
         return await this.db.map(
             'SELECT table_name ' +
             'FROM information_schema.columns ' +

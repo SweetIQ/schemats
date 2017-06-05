@@ -11,7 +11,7 @@
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "scripts": {
-    "lint": "tslint 'src/**/*.ts' 'test/**/*.test.ts' 'bin/**/*.ts' --exclude=**/*.d.ts",
+    "lint": "tslint --project tsconfig.json --type-check 'src/**/*.ts' 'test/**/*.test.ts' 'bin/**/*.ts' --exclude '**/*.d.ts'",
     "build": "tsc",
     "dependency-check": "dependency-check . --entry bin/schemats.js --missing --no-dev",
     "test": "npm run lint && npm run build && npm run dependency-check && mocha",
@@ -62,8 +62,8 @@
     "sinon": "^2.1.0",
     "source-map-support": "^0.4.15",
     "ts-node": "^3.0.4",
-    "tslint": "^4.2.0",
-    "tslint-config-standard": "^2.0.0"
+    "tslint": "^5.4.2",
+    "tslint-config-standard": "^5.0.2"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
@@ -72,8 +72,6 @@
     "mysql": "^2.13.0",
     "mz": "^2.6.0",
     "pg-promise": "^5.9.0",
-    "tslint": "^5.4.2",
-    "tslint-config-standard": "^5.0.2",
     "typescript": "^2.3.4",
     "typescript-formatter": "4.1.1",
     "yargs": "^8.0.1"

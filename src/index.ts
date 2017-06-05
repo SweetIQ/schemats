@@ -7,7 +7,7 @@ import {generateEnumType, generateTableTypes, generateTableInterface} from './ty
 import {Database} from './schema'
 import {processString} from 'typescript-formatter'
 
-export async function typescriptOfTable(db: Database, table: string, schema: string) {
+export async function typescriptOfTable (db: Database, table: string, schema: string) {
     let interfaces = ''
     let tableTypes = await db.getTableTypes(table, schema)
     interfaces += generateTableTypes(table, tableTypes)
@@ -15,15 +15,19 @@ export async function typescriptOfTable(db: Database, table: string, schema: str
     return interfaces
 }
 
-export function extractCommand(args: string[]): string {
+export function extractCommand (args: string[]): string {
     return args
         .slice(2)
         .join(' ')
         .replace(/:\/\/.*@/,'://username:password@') // hide real username:password pair
 }
 
-export async function typescriptOfSchema(db: Database, namespace: string|null, tables: string[], schema: string|null = 'public',
-                                         commandRan: string, time: string): Promise<string> {
+export async function typescriptOfSchema (db: Database,
+                                          namespace: string|null,
+                                          tables: string[],
+                                          schema: string|null = 'public',
+                                          commandRan: string,
+                                          time: string): Promise<string> {
     if (namespace) {
         console.warn('[DEPRECATED] Generation schema with namespace is deprecated.')
     }

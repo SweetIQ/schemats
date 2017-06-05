@@ -5,7 +5,7 @@ import { writeTsFile, compare, loadSchema } from '../testUtility'
 describe('schemat generation integration testing', () => {
     describe('postgres', () => {
         let db: Database
-        before(async function() {
+        before(async function () {
             if (!process.env.POSTGRES_URL) {
                 return this.skip()
             }
@@ -33,7 +33,7 @@ describe('schemat generation integration testing', () => {
 
     describe('mysql', () => {
         let db: Database
-        before(async function() {
+        before(async function () {
             if (!process.env.MYSQL_URL) {
                 return this.skip()
             }
