@@ -164,17 +164,3 @@ removal in the future.
 Version 1.0 [supports](https://github.com/SweetIQ/schemats/issues/19)
  [strict null-checking](https://github.com/Microsoft/TypeScript/pull/7140)
 and reflects the _NOT NULL_ constraint defined in PostgreSQL schema.
-
-
-### Contributing
-
-:+1::tada: First off, thanks for taking the time to contribute! :tada::+1:
-
-Steps to contribute:
-
-- Make your awesome changes
-- Run `npm run lint`
-- Optionally, run `POSTGRES_URL="postgres://youruser@localhost/anyemptytestdatabase" MYSQL_URL="mysql://youruser@localhost/anyemptytestdatabase" npm test`
-- Submit pull request
-
-Our project runs `npm test` automatically on pull requests via CircleCI.
