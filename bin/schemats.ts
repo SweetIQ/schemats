@@ -21,6 +21,7 @@ let argv: SchematsConfig = yargs
     .global('config')
     .default('config', 'schemats.json')
     .config()
+    .env('SCHEMATS')
     .command('generate', 'generate type definition')
     .demand(1)
     // tslint:disable-next-line 
