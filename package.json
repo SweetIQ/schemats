@@ -70,8 +70,8 @@
     "lodash": "^4.17.4",
     "mysql": "^2.13.0",
     "mz": "^2.6.0",
-    "pg-promise": "^5.9.0",
-    "typescript": "^2.3.4",
+    "pg-promise": "^6.2.3",
+    "typescript": "^2.4.1",
     "typescript-formatter": "4.1.1",
     "yargs": "^8.0.1"
   },
