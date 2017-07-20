@@ -4,7 +4,7 @@ import * as Typescript from '../../src/typescript'
 describe('Typescript', () => {
     describe('generateTableInterface', () => {
         it('empty table definition object', () => {
-            const tableInterface = Typescript.generateTableInterface('tableName', {})
+            const tableInterface = Typescript.generateTableInterface('tableName', {}, {})
             assert.equal(tableInterface,
                 '\n' +
                 '        export interface tableName {\n' +
@@ -13,7 +13,7 @@ describe('Typescript', () => {
                 '    ')
         })
         it('table name is reserved', () => {
-            const tableInterface = Typescript.generateTableInterface('package', {})
+            const tableInterface = Typescript.generateTableInterface('package', {}, {})
             assert.equal(tableInterface,
                 '\n' +
                 '        export interface package_ {\n' +
@@ -25,7 +25,7 @@ describe('Typescript', () => {
             const tableInterface = Typescript.generateTableInterface('tableName', {
                 col1: {udtName: 'name1', nullable: false},
                 col2: {udtName: 'name2', nullable: false}
-            })
+            }, {})
             assert.equal(tableInterface,
                 '\n' +
                 '        export interface tableName {\n' +
@@ -40,7 +40,7 @@ describe('Typescript', () => {
                 string: {udtName: 'name1', nullable: false},
                 number: {udtName: 'name2', nullable: false},
                 package: {udtName: 'name3', nullable: false}
-            })
+            }, {})
             assert.equal(tableInterface,
                 '\n' +
                 '        export interface tableName {\n' +
@@ -54,14 +54,14 @@ describe('Typescript', () => {
     })
     describe('generateEnumType', () => {
         it('empty object', () => {
-            const enumType = Typescript.generateEnumType({})
+            const enumType = Typescript.generateEnumType({}, {})
             assert.equal(enumType,'')
         })
         it('with enumerations', () => {
             const enumType = Typescript.generateEnumType({
                 enum1: ['val1','val2','val3','val4'],
                 enum2: ['val5','val6','val7','val8']
-            })
+            }, {})
             assert.equal(enumType,
                 'export type enum1 = \'val1\' | \'val2\' | \'val3\' | \'val4\';\n' +
                 'export type enum2 = \'val5\' | \'val6\' | \'val7\' | \'val8\';\n')
@@ -69,14 +69,14 @@ describe('Typescript', () => {
     })
     describe('generateEnumType', () => {
         it('empty object', () => {
-            const enumType = Typescript.generateEnumType({})
+            const enumType = Typescript.generateEnumType({}, {})
             assert.equal(enumType,'')
         })
         it('with enumerations', () => {
             const enumType = Typescript.generateEnumType({
                 enum1: ['val1','val2','val3','val4'],
                 enum2: ['val5','val6','val7','val8']
-            })
+            }, {})
             assert.equal(enumType,
                 'export type enum1 = \'val1\' | \'val2\' | \'val3\' | \'val4\';\n' +
                 'export type enum2 = \'val5\' | \'val6\' | \'val7\' | \'val8\';\n')
@@ -84,7 +84,7 @@ describe('Typescript', () => {
     })
     describe('generateTableTypes', () => {
         it('empty table definition object', () => {
-            const tableTypes = Typescript.generateTableTypes('tableName',{})
+            const tableTypes = Typescript.generateTableTypes('tableName',{}, {})
             assert.equal(tableTypes,
                 '\n' +
                 '        export namespace tableNameFields {' +
@@ -97,7 +97,7 @@ describe('Typescript', () => {
             const tableTypes = Typescript.generateTableTypes('tableName', {
                 col1: {udtName: 'name1', nullable: false, tsType: 'string'},
                 col2: {udtName: 'name2', nullable: false, tsType: 'number'}
-            })
+            }, {})
             assert.equal(tableTypes,
                 '\n' +
                 '        export namespace tableNameFields {' +
@@ -111,7 +111,7 @@ describe('Typescript', () => {
             const tableTypes = Typescript.generateTableTypes('tableName', {
                 col1: {udtName: 'name1', nullable: true, tsType: 'string'},
                 col2: {udtName: 'name2', nullable: true, tsType: 'number'}
-            })
+            }, {})
             assert.equal(tableTypes,
                 '\n' +
                 '        export namespace tableNameFields {' +

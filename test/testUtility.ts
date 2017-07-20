@@ -1,5 +1,6 @@
 import * as fs from 'mz/fs'
 import { typescriptOfSchema, Database, extractCommand } from '../src/index'
+import Options from '../src/options'
 import * as ts from 'typescript';
 
 const diff = require('diff')
@@ -45,7 +46,7 @@ export async function loadSchema(db: Database, file: string) {
     return await db.query(query)
 }
 
-export async function writeTsFile(inputSQLFile: string, inputConfigFile: string,  outputFile: string, db: Database) {
+export async function writeTsFile(inputSQLFile: string, inputConfigFile: string,  outputFile: string, db: Database, options: Options = {}) {
     await loadSchema(db, inputSQLFile)
     const config: any = require(inputConfigFile)
 
@@ -67,6 +68,7 @@ export async function writeTsFile(inputSQLFile: string, inputConfigFile: string,
         config.namespace,
         config.tables,
         config.schema,
+        options,
         extractCommand(fixtureCommands),
         fixtureDate
     )

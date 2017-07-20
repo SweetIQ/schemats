@@ -13,7 +13,8 @@ interface SchematsConfig {
     table: string[] | string,
     schema: string,
     namespace: string,
-    output: string
+    output: string,
+    camelCase: boolean,
 }
 
 let argv: SchematsConfig = yargs
@@ -39,6 +40,8 @@ let argv: SchematsConfig = yargs
     .alias('n', 'namespace')
     .nargs('n', 1)
     .describe('n', 'namespace for interfaces')
+    .alias('C', 'camelCase')
+    .describe('C', 'Camel-case columns')
     .demand('o')
     .nargs('o', 1)
     .alias('o', 'output')
@@ -73,8 +76,9 @@ function getTime () {
         }
 
         let formattedOutput = await typescriptOfSchema(
-            db, argv.namespace, argv.table, argv.schema,
-            extractCommand(process.argv), getTime()
+            db, argv.namespace, argv.table, argv.schema, {
+                camelCase: argv.camelCase
+            }, extractCommand(process.argv), getTime()
         )
         fs.writeFileSync(argv.output, formattedOutput)
 

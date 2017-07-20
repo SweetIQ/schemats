@@ -1,4 +1,4 @@
-import {spawnSync} from 'child_process'
+import { spawnSync } from 'child_process'
 import * as assert from 'power-assert'
 
 describe('schemats cli tool integration testing', () => {
