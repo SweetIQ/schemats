@@ -18,8 +18,7 @@
     "prepublish": "npm run build",
     "clean": "del-cli node_modules **/*.js",
     "coverage": "npm run lint && npm run build && npm run dependency-check && nyc mocha",
-    "coverage:ci": "npm run coverage && npm run coveralls && rm -rf ./coverage",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js || echo failed to submit code coverage"
+    "coverage:ci": "npm run lint && npm run build && npm run dependency-check && nyc report --reporter=text-lcov | coveralls"
   },
   "bin": {
     "schemats": "bin/schemats.js"
