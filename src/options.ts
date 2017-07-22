@@ -6,7 +6,7 @@ export type OptionValues = {
 
 export default class Options {
     private _options: OptionValues
-    constructor (options: OptionValues) {
+    constructor (options: OptionValues = {}) {
         this._options = options
     }
 

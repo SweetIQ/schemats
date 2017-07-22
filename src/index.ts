@@ -8,7 +8,10 @@ import { Database } from './schema'
 import Options from './options'
 import { processString } from 'typescript-formatter'
 
-export async function typescriptOfTable (db: Database, table: string, schema: string, options: Options) {
+export async function typescriptOfTable (db: Database, 
+                                         table: string,
+                                         schema: string,
+                                         options = new Options()) {
     let interfaces = ''
     let tableTypes = await db.getTableTypes(table, schema, options)
     interfaces += generateTableTypes(table, tableTypes, options)
@@ -27,7 +30,7 @@ export async function typescriptOfSchema (db: Database,
                                           namespace: string|null,
                                           tables: string[],
                                           schema: string|null = 'public',
-                                          options: Options,
+                                          options = new Options(),
                                           commandRan: string,
                                           time: string): Promise<string> {
     if (namespace) {
