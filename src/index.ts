@@ -3,15 +3,16 @@
  * Created by xiamx on 2016-08-10.
  */
 
-import {generateEnumType, generateTableTypes, generateTableInterface} from './typescript'
-import {Database} from './schema'
-import {processString} from 'typescript-formatter'
+import { generateEnumType, generateTableTypes, generateTableInterface } from './typescript'
+import { Database } from './schema'
+import Options from './options'
+import { processString } from 'typescript-formatter'
 
-export async function typescriptOfTable (db: Database, table: string, schema: string) {
+export async function typescriptOfTable (db: Database, table: string, schema: string, options: Options) {
     let interfaces = ''
-    let tableTypes = await db.getTableTypes(table, schema)
-    interfaces += generateTableTypes(table, tableTypes)
-    interfaces += generateTableInterface(table, tableTypes)
+    let tableTypes = await db.getTableTypes(table, schema, options)
+    interfaces += generateTableTypes(table, tableTypes, options)
+    interfaces += generateTableInterface(table, tableTypes, options)
     return interfaces
 }
 
@@ -26,6 +27,7 @@ export async function typescriptOfSchema (db: Database,
                                           namespace: string|null,
                                           tables: string[],
                                           schema: string|null = 'public',
+                                          options: Options,
                                           commandRan: string,
                                           time: string): Promise<string> {
     if (namespace) {
@@ -40,8 +42,8 @@ export async function typescriptOfSchema (db: Database,
         tables = await db.getSchemaTables(schema)
     }
 
-    const enumTypes = generateEnumType(await db.getEnumTypes(schema))
-    const interfacePromises = tables.map((table) => typescriptOfTable(db, table, schema!))
+    const enumTypes = generateEnumType(await db.getEnumTypes(schema), options)
+    const interfacePromises = tables.map((table) => typescriptOfTable(db, table, schema!, options))
     const interfaces = await Promise.all(interfacePromises)
         .then(tsOfTable => tsOfTable.reduce((init, tsOfTable) => init + tsOfTable, ''))
 

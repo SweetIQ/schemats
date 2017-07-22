@@ -3,6 +3,9 @@ import * as sinon from 'sinon'
 import * as mysql from 'mysql'
 import { MysqlDatabase } from '../../src/schemaMysql'
 import { TableDefinition } from '../../src/schemaInterfaces'
+import Options from '../../src/options'
+
+const options = new Options({})
 
 const MysqlDBReflection = MysqlDatabase as any
 
@@ -153,7 +156,7 @@ describe('MysqlDatabase', () => {
         it('gets custom types from enums', async () => {
             MysqlDBReflection.prototype.getEnumTypes.returns(Promise.resolve({enum1: [], enum2: []}))
             MysqlDBReflection.prototype.getTableDefinition.returns(Promise.resolve({}))
-            await db.getTableTypes('tableName', 'tableSchema')
+            await db.getTableTypes('tableName', 'tableSchema', options)
             assert.deepEqual(MysqlDBReflection.mapTableDefinitionToType.getCall(0).args[1], ['enum1', 'enum2'])
         })
         it('gets table definitions', async () => {
@@ -162,7 +165,7 @@ describe('MysqlDatabase', () => {
                 udtName: 'name',
                 nullable: false
             }}))
-            await db.getTableTypes('tableName', 'tableSchema')
+            await db.getTableTypes('tableName', 'tableSchema', options)
             assert.deepEqual(MysqlDBReflection.prototype.getTableDefinition.getCall(0).args, ['tableName', 'tableSchema'])
             assert.deepEqual(MysqlDBReflection.mapTableDefinitionToType.getCall(0).args[0], { table: {
                 udtName: 'name',
@@ -200,7 +203,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'string')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'string')
             })
             it('varchar', () => {
                 const td: TableDefinition = {
@@ -209,7 +212,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'string')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'string')
             })
             it('text', () => {
                 const td: TableDefinition = {
@@ -218,7 +221,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'string')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'string')
             })
             it('tinytext', () => {
                 const td: TableDefinition = {
@@ -227,7 +230,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'string')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'string')
             })
             it('mediumtext', () => {
                 const td: TableDefinition = {
@@ -236,7 +239,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'string')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'string')
             })
             it('longtext', () => {
                 const td: TableDefinition = {
@@ -245,7 +248,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'string')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'string')
             })
             it('time', () => {
                 const td: TableDefinition = {
@@ -254,7 +257,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'string')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'string')
             })
             it('geometry', () => {
                 const td: TableDefinition = {
@@ -263,7 +266,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'string')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'string')
             })
             it('set', () => {
                 const td: TableDefinition = {
@@ -272,7 +275,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'string')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'string')
             })
             it('enum', () => {
                 const td: TableDefinition = {
@@ -281,7 +284,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'string')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'string')
             })
         })
         describe('maps to number', () => {
@@ -292,7 +295,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'number')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'number')
             })
             it('int', () => {
                 const td: TableDefinition = {
@@ -301,7 +304,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'number')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'number')
             })
             it('smallint', () => {
                 const td: TableDefinition = {
@@ -310,7 +313,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'number')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'number')
             })
             it('mediumint', () => {
                 const td: TableDefinition = {
@@ -319,7 +322,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'number')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'number')
             })
             it('bigint', () => {
                 const td: TableDefinition = {
@@ -328,7 +331,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'number')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'number')
             })
             it('double', () => {
                 const td: TableDefinition = {
@@ -337,7 +340,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'number')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'number')
             })
             it('decimal', () => {
                 const td: TableDefinition = {
@@ -346,7 +349,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'number')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'number')
             })
             it('numeric', () => {
                 const td: TableDefinition = {
@@ -355,7 +358,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'number')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'number')
             })
             it('float', () => {
                 const td: TableDefinition = {
@@ -364,7 +367,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'number')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'number')
             })
             it('year', () => {
                 const td: TableDefinition = {
@@ -373,7 +376,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'number')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'number')
             })
         })
         describe('maps to boolean', () => {
@@ -384,7 +387,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'boolean')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'boolean')
             })
         })
         describe('maps to Object', () => {
@@ -395,7 +398,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'Object')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Object')
             })
         })
         describe('maps to Date', () => {
@@ -406,7 +409,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'Date')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Date')
             })
             it('datetime', () => {
                 const td: TableDefinition = {
@@ -415,7 +418,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'Date')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Date')
             })
             it('timestamp', () => {
                 const td: TableDefinition = {
@@ -424,7 +427,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'Date')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Date')
             })
         })
         describe('maps to Buffer', () => {
@@ -435,7 +438,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'Buffer')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Buffer')
             })
             it('mediumblob', () => {
                 const td: TableDefinition = {
@@ -444,7 +447,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'Buffer')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Buffer')
             })
             it('longblob', () => {
                 const td: TableDefinition = {
@@ -453,7 +456,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'Buffer')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Buffer')
             })
             it('blob', () => {
                 const td: TableDefinition = {
@@ -462,7 +465,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'Buffer')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Buffer')
             })
             it('binary', () => {
                 const td: TableDefinition = {
@@ -471,7 +474,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'Buffer')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Buffer')
             })
             it('varbinary', () => {
                 const td: TableDefinition = {
@@ -480,7 +483,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'Buffer')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Buffer')
             })
             it('bit', () => {
                 const td: TableDefinition = {
@@ -489,7 +492,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[]).column.tsType, 'Buffer')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Buffer')
             })
         })
         describe('maps to custom', () => {
@@ -500,7 +503,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,['CustomType']).column.tsType, 'CustomType')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,['CustomType'],options).column.tsType, 'CustomType')
             })
         })
         describe('maps to any', () => {
@@ -511,7 +514,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,['CustomType']).column.tsType, 'any')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,['CustomType'],options).column.tsType, 'any')
             })
         })
     })

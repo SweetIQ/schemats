@@ -1,5 +1,6 @@
 import * as fs from 'mz/fs'
 import { typescriptOfSchema, Database, extractCommand } from '../src/index'
+import Options from '../src/options'
 import * as ts from 'typescript';
 
 const diff = require('diff')
@@ -54,6 +55,7 @@ export async function writeTsFile(inputSQLFile: string, inputConfigFile: string,
     let fixtureCommands = ['node', 'schemats', 'generate', '-c',
         fixturePgConnUri,
         '-o', outputFile]
+    if (config.camelCase) fixtureCommands.push('-C')
     if (config.tables.length > 0) {
         config.tables.forEach((t: string) => {
             fixtureCommands.push('-t', t)
@@ -67,6 +69,7 @@ export async function writeTsFile(inputSQLFile: string, inputConfigFile: string,
         config.namespace,
         config.tables,
         config.schema,
+        new Options({ camelCase: config.camelCase }),
         extractCommand(fixtureCommands),
         fixtureDate
     )
