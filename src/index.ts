@@ -10,7 +10,7 @@ import { processString } from 'typescript-formatter'
 
 export async function typescriptOfTable (db: Database, table: string, schema: string, options: Options) {
     let interfaces = ''
-    let tableTypes = await db.getTableTypes(table, schema)
+    let tableTypes = await db.getTableTypes(table, schema, options)
     interfaces += generateTableTypes(table, tableTypes, options)
     interfaces += generateTableInterface(table, tableTypes, options)
     return interfaces

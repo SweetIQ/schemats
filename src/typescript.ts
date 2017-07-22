@@ -25,14 +25,10 @@ function normalizeName (name: string, options: Options): string {
     }
 }
 
-const doCamelCase = (options: Options) => (str: string): string => {
-    return options.camelCase ? _.camelCase(str) : str
-}
-
 export function generateTableInterface (tableNameRaw: string, tableDefinition: TableDefinition, options: Options) {
-    const tableName = doCamelCase(options)(tableNameRaw)
+    const tableName = options.transformTypeName(tableNameRaw)
     let members = ''
-    Object.keys(tableDefinition).map(doCamelCase(options)).forEach((columnName) => {
+    Object.keys(tableDefinition).map(c => options.transformColumnName(c)).forEach((columnName) => {
         members += `${columnName}: ${tableName}Fields.${normalizeName(columnName, options)};\n`
     })
 
@@ -46,21 +42,21 @@ export function generateTableInterface (tableNameRaw: string, tableDefinition: T
 export function generateEnumType (enumObject: any, options: Options) {
     let enumString = ''
     for (let enumNameRaw in enumObject) {
-        const enumName = doCamelCase(options)(enumNameRaw)
+        const enumName = options.transformTypeName(enumNameRaw)
         enumString += `export type ${enumName} = `
-        enumString += enumObject[enumName].map((v: string) => `'${v}'`).join(' | ')
+        enumString += enumObject[enumNameRaw].map((v: string) => `'${v}'`).join(' | ')
         enumString += ';\n'
     }
     return enumString
 }
 
 export function generateTableTypes (tableNameRaw: string, tableDefinition: TableDefinition, options: Options) {
-    const tableName = doCamelCase(options)(tableNameRaw)
+    const tableName = options.transformTypeName(tableNameRaw)
     let fields = ''
     Object.keys(tableDefinition).forEach((columnNameRaw) => {
         let type = tableDefinition[columnNameRaw].tsType
         let nullable = tableDefinition[columnNameRaw].nullable ? '| null' : ''
-        const columnName = doCamelCase(options)(columnNameRaw)
+        const columnName = options.transformColumnName(columnNameRaw)
         fields += `export type ${normalizeName(columnName, options)} = ${type}${nullable};\n`
     })
 

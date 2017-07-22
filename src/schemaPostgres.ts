@@ -1,6 +1,7 @@
 import * as PgPromise from 'pg-promise'
 import { mapValues } from 'lodash'
 import { keys } from 'lodash'
+import Options from './options'
 
 import { TableDefinition, Database } from './schemaInterfaces'
 
@@ -13,7 +14,7 @@ export class PostgresDatabase implements Database {
         this.db = pgp(connectionString)
     }
 
-    private static mapTableDefinitionToType (tableDefinition: TableDefinition, customTypes: string[]): TableDefinition {
+    private static mapTableDefinitionToType (tableDefinition: TableDefinition, customTypes: string[], options: Options): TableDefinition {
         return mapValues(tableDefinition, column => {
             switch (column.udtName) {
                 case 'bpchar':
@@ -70,7 +71,7 @@ export class PostgresDatabase implements Database {
                     return column
                 default:
                     if (customTypes.indexOf(column.udtName) !== -1) {
-                        column.tsType = column.udtName
+                        column.tsType = options.transformTypeName(column.udtName)
                         return column
                     } else {
                         console.log(`Type [${column.udtName} has been mapped to [any] because no specific type has been found.`)
@@ -122,10 +123,10 @@ export class PostgresDatabase implements Database {
         return tableDefinition
     }
 
-    public async getTableTypes (tableName: string, tableSchema: string) {
+    public async getTableTypes (tableName: string, tableSchema: string, options: Options) {
         let enumTypes = await this.getEnumTypes()
         let customTypes = keys(enumTypes)
-        return PostgresDatabase.mapTableDefinitionToType(await this.getTableDefinition(tableName, tableSchema), customTypes)
+        return PostgresDatabase.mapTableDefinitionToType(await this.getTableDefinition(tableName, tableSchema), customTypes, options)
     }
 
     public async getSchemaTables (schemaName: string): Promise<string[]> {

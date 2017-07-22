@@ -1,0 +1,6 @@
+{
+    "namespace": null,
+    "tables": ["users"],
+    "schema": null,
+    "camelCase": true
+}

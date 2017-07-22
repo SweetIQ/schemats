@@ -1,7 +1,8 @@
 import * as mysql from 'mysql'
-import { mapValues, keys, isEqual } from 'lodash'
+import { mapValues, keys, isEqual, camelCase } from 'lodash'
 
 import { TableDefinition, Database } from './schemaInterfaces'
+import Options from './options'
 
 export class MysqlDatabase implements Database {
     private db: mysql.IConnection
@@ -11,7 +12,8 @@ export class MysqlDatabase implements Database {
     }
 
     // uses the type mappings from https://github.com/mysqljs/ where sensible
-    private static mapTableDefinitionToType (tableDefinition: TableDefinition, customTypes: string[]): TableDefinition {
+    private static mapTableDefinitionToType (tableDefinition: TableDefinition, customTypes: string[], options: Options): TableDefinition {
+        if (!options) throw new Error()
         return mapValues(tableDefinition, column => {
             switch (column.udtName) {
                 case 'char':
@@ -61,7 +63,7 @@ export class MysqlDatabase implements Database {
                     return column
                 default:
                     if (customTypes.indexOf(column.udtName) !== -1) {
-                        column.tsType = column.udtName
+                        column.tsType = options.transformTypeName(column.udtName)
                         return column
                     } else {
                         console.log(`Type [${column.udtName}] has been mapped to [any] because no specific type has been found.`)
@@ -134,10 +136,10 @@ export class MysqlDatabase implements Database {
         return tableDefinition
     }
 
-    public async getTableTypes (tableName: string, tableSchema: string) {
+    public async getTableTypes (tableName: string, tableSchema: string, options: Options) {
         const enumTypes: any = await this.getEnumTypes(tableSchema)
         let customTypes = keys(enumTypes)
-        return MysqlDatabase.mapTableDefinitionToType(await this.getTableDefinition(tableName, tableSchema), customTypes)
+        return MysqlDatabase.mapTableDefinitionToType(await this.getTableDefinition(tableName, tableSchema), customTypes, options)
     }
 
     public async getSchemaTables (schemaName: string): Promise<string[]> {

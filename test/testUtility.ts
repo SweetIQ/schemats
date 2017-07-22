@@ -46,7 +46,7 @@ export async function loadSchema(db: Database, file: string) {
     return await db.query(query)
 }
 
-export async function writeTsFile(inputSQLFile: string, inputConfigFile: string,  outputFile: string, db: Database, options: Options = {}) {
+export async function writeTsFile(inputSQLFile: string, inputConfigFile: string,  outputFile: string, db: Database) {
     await loadSchema(db, inputSQLFile)
     const config: any = require(inputConfigFile)
 
@@ -55,6 +55,7 @@ export async function writeTsFile(inputSQLFile: string, inputConfigFile: string,
     let fixtureCommands = ['node', 'schemats', 'generate', '-c',
         fixturePgConnUri,
         '-o', outputFile]
+    if (config.camelCase) fixtureCommands.push('-C')
     if (config.tables.length > 0) {
         config.tables.forEach((t: string) => {
             fixtureCommands.push('-t', t)
@@ -68,7 +69,7 @@ export async function writeTsFile(inputSQLFile: string, inputConfigFile: string,
         config.namespace,
         config.tables,
         config.schema,
-        options,
+        new Options({ camelCase: config.camelCase }),
         extractCommand(fixtureCommands),
         fixtureDate
     )

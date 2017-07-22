@@ -7,6 +7,7 @@
 import * as yargs from 'yargs'
 import * as fs from 'fs'
 import { typescriptOfSchema, getDatabase, extractCommand } from '../src/index'
+import Options from '../src/options'
 
 interface SchematsConfig {
     conn: string,
@@ -76,9 +77,9 @@ function getTime () {
         }
 
         let formattedOutput = await typescriptOfSchema(
-            db, argv.namespace, argv.table, argv.schema, {
+            db, argv.namespace, argv.table, argv.schema, new Options({
                 camelCase: argv.camelCase
-            }, extractCommand(process.argv), getTime()
+            }), extractCommand(process.argv), getTime()
         )
         fs.writeFileSync(argv.output, formattedOutput)
 
