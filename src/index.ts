@@ -38,7 +38,7 @@ function buildHeader (db: Database, tables: string[], schema: string|null, optio
          * AUTO-GENERATED FILE @ ${getTime()} - DO NOT EDIT!
          *
          * This file was generated with schemats node package:
-         * $ schemats ${commands.join(' ')}
+         * $ ${commands.join(' ')}
          *
          * Re-run the command above.
          *
