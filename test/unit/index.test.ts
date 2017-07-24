@@ -10,6 +10,7 @@ const options = new Options({})
 describe('index', () => {
     const typedTableSandbox = sinon.sandbox.create()
     const db = {
+        getDefaultSchema: typedTableSandbox.stub(),
         getTableTypes: typedTableSandbox.stub(),
         query: typedTableSandbox.stub(),
         getEnumTypes: typedTableSandbox.stub(),
@@ -119,7 +120,6 @@ describe('index', () => {
             const tsOfSchema = await Index.typescriptOfSchema(db, ['differentTablename'], null, options, 'testCommand', '2017-04-01')
 
             assert(!dbReflection.getSchemaTables.called)
-            assert.deepEqual(dbReflection.getEnumTypes.getCall(0).args[0], 'public')
             assert.deepEqual(tsReflection.generateEnumType.getCall(0).args[0], 'enumTypes')
             assert.deepEqual(tsReflection.generateTableTypes.getCall(0).args[0], 'differentTablename')
             assert.equal(tsOfSchema,

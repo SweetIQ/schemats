@@ -1,4 +1,3 @@
 {
-    "tables": ["location","location_history"],
-    "schema": ["test"]
+    "tables": ["location","location_history"]
 }

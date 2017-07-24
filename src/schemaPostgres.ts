@@ -140,7 +140,7 @@ export class PostgresDatabase implements Database {
         )
     }
 
-    getDefaultSchema(): string {
+    getDefaultSchema (): string {
         return 'public'
     }
 }

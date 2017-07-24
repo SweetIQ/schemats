@@ -49,7 +49,7 @@ npm install -g schemats
 
 ```
 schemats generate -c postgres://postgres@localhost/osm -t users -o osm.ts
-schemats generate -c mysql://mysql@localhost/osm -t users -s osm -o osm.ts
+schemats generate -c mysql://mysql@localhost/osm -t users -o osm.ts
 ```
 
 
