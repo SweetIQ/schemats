@@ -28,12 +28,12 @@ export function extractCommand (args: string[]): string {
 
 export async function typescriptOfSchema (db: Database,
                                           tables: string[],
-                                          schema: string|null = 'public',
+                                          schema: string|null,
                                           options = new Options(),
                                           commandRan: string,
                                           time: string): Promise<string> {
     if (!schema) {
-        schema = 'public'
+        schema = db.getDefaultSchema()
     }
 
     if (tables.length === 0) {

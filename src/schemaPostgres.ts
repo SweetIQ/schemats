@@ -139,4 +139,8 @@ export class PostgresDatabase implements Database {
             schemaItem => schemaItem.table_name
         )
     }
+
+    getDefaultSchema (): string {
+        return 'public'
+    }
 }

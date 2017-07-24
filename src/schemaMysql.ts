@@ -1,14 +1,18 @@
 import * as mysql from 'mysql'
 import { mapValues, keys, isEqual, camelCase } from 'lodash'
-
+import { parse as urlParse } from 'url'
 import { TableDefinition, Database } from './schemaInterfaces'
 import Options from './options'
 
 export class MysqlDatabase implements Database {
     private db: mysql.IConnection
+    private defaultSchema: string
 
     constructor (connectionString: string) {
         this.db = mysql.createConnection(connectionString)
+        let url = urlParse(connectionString, true)
+        let database = url.pathname.substr(1)
+        this.defaultSchema = database
     }
 
     // uses the type mappings from https://github.com/mysqljs/ where sensible
@@ -162,5 +166,9 @@ export class MysqlDatabase implements Database {
                 return resolve(results)
             })
         })
+    }
+
+    public getDefaultSchema (): string {
+        return this.defaultSchema
     }
 }

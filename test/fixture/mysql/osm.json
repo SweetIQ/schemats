@@ -1,4 +1,3 @@
 {
-    "tables": ["users", "user_enums", "package"],
-    "schema": ["test"]
+    "tables": ["users", "user_enums", "package"]
 }
