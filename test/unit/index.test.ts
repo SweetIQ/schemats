@@ -82,43 +82,12 @@ describe('index', () => {
         })
     })
     describe('typescriptOfSchema', () => {
-        it('has namespace', async () => {
-            dbReflection.getSchemaTables.returns(Promise.resolve(['tablename']))
-            dbReflection.getEnumTypes.returns(Promise.resolve('enumTypes'))
-            tsReflection.generateTableTypes.returns('generatedTableTypes\n')
-            tsReflection.generateEnumType.returns('generatedEnumTypes\n')
-            const tsOfSchema = await Index.typescriptOfSchema(db, 'namespace', [], null, options, 'testCommand', '2017-04-01')
-
-            assert.deepEqual(dbReflection.getSchemaTables.getCall(0).args[0], 'public')
-            assert.deepEqual(dbReflection.getEnumTypes.getCall(0).args[0], 'public')
-            assert.deepEqual(tsReflection.generateEnumType.getCall(0).args[0], 'enumTypes')
-            assert.deepEqual(tsReflection.generateTableTypes.getCall(0).args[0], 'tablename')
-            assert.equal(tsOfSchema,
-                '\n' +
-                '/* tslint:disable */\n' +
-                '/**\n' +
-                ' * AUTO-GENERATED FILE @ 2017-04-01 - DO NOT EDIT!\n' +
-                ' *\n' +
-                ' * This file was generated with schemats node package:\n' +
-                ' * $ schemats testCommand\n' +
-                ' *\n' +
-                ' * Re-run the command above.\n' +
-                ' *\n' +
-                ' */' +
-                '\n' +
-                '\n' +
-                'export namespace namespace {\n' +
-                '    generatedEnumTypes\n' +
-                '    generatedTableTypes\n' +
-                '    undefined\n' +
-                '}\n')
-        })
         it('has schema', async () => {
             dbReflection.getSchemaTables.returns(Promise.resolve(['tablename']))
             dbReflection.getEnumTypes.returns(Promise.resolve('enumTypes'))
             tsReflection.generateTableTypes.returns('generatedTableTypes\n')
             tsReflection.generateEnumType.returns('generatedEnumTypes\n')
-            const tsOfSchema = await Index.typescriptOfSchema(db, null, [], 'schemaName', options, 'testCommand', '2017-04-01')
+            const tsOfSchema = await Index.typescriptOfSchema(db, [], 'schemaName', options, 'testCommand', '2017-04-01')
 
             assert.deepEqual(dbReflection.getSchemaTables.getCall(0).args[0], 'schemaName')
             assert.deepEqual(dbReflection.getEnumTypes.getCall(0).args[0], 'schemaName')
@@ -147,7 +116,7 @@ describe('index', () => {
             dbReflection.getEnumTypes.returns(Promise.resolve('enumTypes'))
             tsReflection.generateTableTypes.returns('generatedTableTypes\n')
             tsReflection.generateEnumType.returns('generatedEnumTypes\n')
-            const tsOfSchema = await Index.typescriptOfSchema(db, null, ['differentTablename'], null, options, 'testCommand', '2017-04-01')
+            const tsOfSchema = await Index.typescriptOfSchema(db, ['differentTablename'], null, options, 'testCommand', '2017-04-01')
 
             assert(!dbReflection.getSchemaTables.called)
             assert.deepEqual(dbReflection.getEnumTypes.getCall(0).args[0], 'public')
