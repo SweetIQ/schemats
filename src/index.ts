@@ -5,7 +5,7 @@
 
 import { generateEnumType, generateTableTypes, generateTableInterface } from './typescript'
 import { Database } from './schema'
-import Options, {OptionValues} from './options'
+import Options, { OptionValues } from './options'
 import { processString } from 'typescript-formatter'
 
 function getTime () {

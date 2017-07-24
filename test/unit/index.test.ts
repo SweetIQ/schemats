@@ -3,7 +3,7 @@ import * as sinon from 'sinon'
 import * as Index from '../../src/index'
 import * as Typescript from '../../src/typescript'
 import { Database } from '../../src/schema'
-import Options, {OptionValues} from '../../src/options'
+import Options, { OptionValues } from '../../src/options'
 
 const options: OptionValues = {}
 
