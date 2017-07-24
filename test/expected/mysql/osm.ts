@@ -1,15 +1,3 @@
-
-/* tslint:disable */
-/**
- * AUTO-GENERATED FILE @ 2016-12-07 13:17:46 - DO NOT EDIT!
- *
- * This file was generated with schemats node package:
- * $ schemats generate -c sql://username:password@localhost/test -o ./test/actual/mysql/osm.ts -t users -t user_enums -t package
- *
- * Re-run the command above.
- *
- */
-
 export type enum_enum_col = 'enum1' | 'enum2' | 'enum3';
 export type enum_nullable_enum_col = 'enum1' | 'enum2' | 'enum3';
 export type set_set_col = 'set1' | 'set2' | 'set3';

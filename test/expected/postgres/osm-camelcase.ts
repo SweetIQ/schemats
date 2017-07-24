@@ -1,15 +1,3 @@
-
-/* tslint:disable */
-/**
- * AUTO-GENERATED FILE @ 2016-12-07 13:17:46 - DO NOT EDIT!
- *
- * This file was generated with schemats node package:
- * $ schemats generate -c sql://username:password@localhost/test -o ./test/actual/postgres/osm-camelcase.ts -C -t users
- *
- * Re-run the command above.
- *
- */
-
 export type FormatEnum = 'html' | 'markdown' | 'text';
 export type UserStatusEnum = 'active' | 'confirmed' | 'deleted' | 'pending' | 'suspended';
 

@@ -1,3 +1,4 @@
 {
-    "tables": ["users", "user_enums", "package"]
+    "tables": ["users", "user_enums", "package"],
+    "writeHeader": false
 }
