@@ -32,10 +32,6 @@ export async function typescriptOfSchema (db: Database,
                                           options = new Options(),
                                           commandRan: string,
                                           time: string): Promise<string> {
-    if (!schema) {
-        schema = 'public'
-    }
-
     if (tables.length === 0) {
         tables = await db.getSchemaTables(schema)
     }
