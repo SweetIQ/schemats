@@ -1,5 +1,5 @@
 import * as fs from 'mz/fs'
-import { typescriptOfSchema, Database, extractCommand } from '../src/index'
+import { typescriptOfSchema, Database } from '../src/index'
 import Options from '../src/options'
 import * as ts from 'typescript';
 
@@ -68,9 +68,7 @@ export async function writeTsFile(inputSQLFile: string, inputConfigFile: string,
         db,
         config.tables,
         config.schema,
-        new Options({ camelCase: config.camelCase }),
-        extractCommand(fixtureCommands),
-        fixtureDate
+        { camelCase: config.camelCase }
     )
     await fs.writeFile(outputFile, formattedOutput)
 }

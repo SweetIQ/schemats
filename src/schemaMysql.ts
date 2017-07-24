@@ -8,7 +8,7 @@ export class MysqlDatabase implements Database {
     private db: mysql.IConnection
     private defaultSchema: string
 
-    constructor (connectionString: string) {
+    constructor (public connectionString: string) {
         this.db = mysql.createConnection(connectionString)
         let url = urlParse(connectionString, true)
         let database = url.pathname.substr(1)

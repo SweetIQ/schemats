@@ -10,7 +10,7 @@ const pgp = PgPromise()
 export class PostgresDatabase implements Database {
     private db: PgPromise.IDatabase<{}>
 
-    constructor (connectionString: string) {
+    constructor (public connectionString: string) {
         this.db = pgp(connectionString)
     }
 

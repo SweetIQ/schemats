@@ -5,8 +5,47 @@
 
 import { generateEnumType, generateTableTypes, generateTableInterface } from './typescript'
 import { Database } from './schema'
-import Options from './options'
+import Options, {OptionValues} from './options'
 import { processString } from 'typescript-formatter'
+
+function getTime () {
+    let padTime = (value: number) => `0${value}`.slice(-2)
+    let time = new Date()
+    const yyyy = time.getFullYear()
+    const MM = padTime(time.getMonth() + 1)
+    const dd = padTime(time.getDate())
+    const hh = padTime(time.getHours())
+    const mm = padTime(time.getMinutes())
+    const ss = padTime(time.getSeconds())
+    return `${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}`
+}
+
+function buildHeader (db: Database, tables: string[], schema: string|null, options: OptionValues): string {
+    let commands = ['schemats', 'generate', '-c', db.connectionString.replace(/:\/\/.*@/,'://username:password@')]
+    if (options.camelCase) commands.push('-C')
+    if (tables.length > 0) {
+        tables.forEach((t: string) => {
+            commands.push('-t', t)
+        })
+    }
+    if (schema) {
+        commands.push('-s', schema)
+    }
+
+    return `
+        /* tslint:disable */
+        /**
+         * AUTO-GENERATED FILE @ ${getTime()} - DO NOT EDIT!
+         *
+         * This file was generated with schemats node package:
+         * $ schemats ${commands.join(' ')}
+         *
+         * Re-run the command above.
+         *
+         */
+
+    `
+}
 
 export async function typescriptOfTable (db: Database, 
                                          table: string,
@@ -19,19 +58,10 @@ export async function typescriptOfTable (db: Database,
     return interfaces
 }
 
-export function extractCommand (args: string[]): string {
-    return args
-        .slice(2)
-        .join(' ')
-        .replace(/:\/\/.*@/,'://username:password@') // hide real username:password pair
-}
-
 export async function typescriptOfSchema (db: Database,
                                           tables: string[],
                                           schema: string|null,
-                                          options = new Options(),
-                                          commandRan: string,
-                                          time: string): Promise<string> {
+                                          options: OptionValues): Promise<string> {
     if (!schema) {
         schema = db.getDefaultSchema()
     }
@@ -40,26 +70,12 @@ export async function typescriptOfSchema (db: Database,
         tables = await db.getSchemaTables(schema)
     }
 
-    const enumTypes = generateEnumType(await db.getEnumTypes(schema), options)
-    const interfacePromises = tables.map((table) => typescriptOfTable(db, table, schema!, options))
+    const enumTypes = generateEnumType(await db.getEnumTypes(schema), new Options(options))
+    const interfacePromises = tables.map((table) => typescriptOfTable(db, table, schema, new Options(options)))
     const interfaces = await Promise.all(interfacePromises)
-        .then(tsOfTable => tsOfTable.reduce((init, tsOfTable) => init + tsOfTable, ''))
+        .then(tsOfTable => tsOfTable.join(''))
 
-    let header = `
-            /* tslint:disable */
-            /**
-             * AUTO-GENERATED FILE @ ${time} - DO NOT EDIT!
-             *
-             * This file was generated with schemats node package:
-             * $ schemats ${commandRan}
-             *
-             * Re-run the command above.
-             *
-             */
-
-    `
-
-    let output = header
+    let output = buildHeader(db, tables, schema, options)
 
     output += `${enumTypes}`
     output += `${interfaces}`
