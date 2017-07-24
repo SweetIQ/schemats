@@ -12,6 +12,7 @@ export interface TableDefinition {
 
 export interface Database {
     query (queryString: string): Promise<Object[]>
+    getDefaultSchema (): string
     getEnumTypes (schema?: string): any
     getTableDefinition (tableName: string, tableSchema: string): Promise<TableDefinition>
     getTableTypes (tableName: string, tableSchema: string, options: Options): Promise<TableDefinition>
