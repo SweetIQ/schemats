@@ -27,16 +27,11 @@ export function extractCommand (args: string[]): string {
 }
 
 export async function typescriptOfSchema (db: Database,
-                                          namespace: string|null,
                                           tables: string[],
                                           schema: string|null = 'public',
                                           options = new Options(),
                                           commandRan: string,
                                           time: string): Promise<string> {
-    if (namespace) {
-        console.warn('[DEPRECATED] Generation schema with namespace is deprecated.')
-    }
-
     if (!schema) {
         schema = 'public'
     }
@@ -66,17 +61,8 @@ export async function typescriptOfSchema (db: Database,
 
     let output = header
 
-    if (namespace) {
-        output += `export namespace ${namespace} {`
-    }
-
     output += `${enumTypes}`
     output += `${interfaces}`
-
-    if (namespace) {
-        output += `
-    }`
-    }
 
     let formatterOption = {
         replace: false,

@@ -13,7 +13,6 @@ interface SchematsConfig {
     conn: string,
     table: string[] | string,
     schema: string,
-    namespace: string,
     output: string,
     camelCase: boolean,
 }
@@ -27,7 +26,7 @@ let argv: SchematsConfig = yargs
     .command('generate', 'generate type definition')
     .demand(1)
     // tslint:disable-next-line 
-    .example('$0 generate -c postgres://username:password@localhost/db -t table1 -t table2 -s schema -n namespace -o interface_output.ts', 'generate typescript interfaces from schema')
+    .example('$0 generate -c postgres://username:password@localhost/db -t table1 -t table2 -s schema -o interface_output.ts', 'generate typescript interfaces from schema')
     .demand('c')
     .alias('c', 'conn')
     .nargs('c', 1)
@@ -38,9 +37,6 @@ let argv: SchematsConfig = yargs
     .alias('s', 'schema')
     .nargs('s', 1)
     .describe('s', 'schema name')
-    .alias('n', 'namespace')
-    .nargs('n', 1)
-    .describe('n', 'namespace for interfaces')
     .alias('C', 'camelCase')
     .describe('C', 'Camel-case columns')
     .demand('o')
@@ -77,7 +73,7 @@ function getTime () {
         }
 
         let formattedOutput = await typescriptOfSchema(
-            db, argv.namespace, argv.table, argv.schema, new Options({
+            db, argv.table, argv.schema, new Options({
                 camelCase: argv.camelCase
             }), extractCommand(process.argv), getTime()
         )

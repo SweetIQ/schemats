@@ -66,7 +66,6 @@ export async function writeTsFile(inputSQLFile: string, inputConfigFile: string,
     }
     let formattedOutput = await typescriptOfSchema(
         db,
-        config.namespace,
         config.tables,
         config.schema,
         new Options({ camelCase: config.camelCase }),

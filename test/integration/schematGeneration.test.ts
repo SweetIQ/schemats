@@ -29,14 +29,6 @@ describe('schemat generation integration testing', () => {
             await writeTsFile(inputSQLFile, config, outputFile, db)
             return assert(await compare(expectedFile, outputFile))
         })
-        it('Generation using namespace (deprecated)', async () => {
-            const inputSQLFile = 'test/fixture/postgres/maxi.sql'
-            const outputFile = './test/actual/postgres/maxi.ts'
-            const expectedFile = './test/expected/postgres/maxi.ts'
-            const config: any = './fixture/postgres/maxi.json'
-            await writeTsFile(inputSQLFile, config, outputFile, db)
-            return assert(await compare(expectedFile, outputFile))
-        })
     })
 
     describe('mysql', () => {

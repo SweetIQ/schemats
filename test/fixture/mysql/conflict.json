@@ -1,5 +1,4 @@
 {
-    "namespace": null,
     "tables": ["location","location_history"],
     "schema": ["test"]
 }
