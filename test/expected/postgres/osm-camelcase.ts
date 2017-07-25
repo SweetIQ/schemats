@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 export type FormatEnum = 'html' | 'markdown' | 'text';
 export type UserStatusEnum = 'active' | 'confirmed' | 'deleted' | 'pending' | 'suspended';
 

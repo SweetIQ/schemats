@@ -75,8 +75,11 @@ export async function typescriptOfSchema (db: Database,
     const interfaces = await Promise.all(interfacePromises)
         .then(tsOfTable => tsOfTable.join(''))
 
-    let output = buildHeader(db, tables, schema, options)
+    let output = '/* tslint:disable */\n\n'
 
+    if (options.writeHeader) {
+        output += buildHeader(db, tables, schema, options)
+    }
     output += `${enumTypes}`
     output += `${interfaces}`
 

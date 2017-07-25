@@ -45,7 +45,7 @@ let argv: SchematsConfig = yargs
     .describe('o', 'output file name')
     .help('h')
     .alias('h', 'help')
-    .argv
+    .argv;
 
 (async () => {
 
