@@ -87,21 +87,21 @@ export class PostgresDatabase implements Database {
     }
 
     public async getEnumTypes (schema?: string) {
+        type T = {name: string, value: any}
         let enums: any = {}
         let enumSchemaWhereClause = schema ? pgp.as.format(`where n.nspname = $1`, schema) : ''
-        await this.db.each(
+        await this.db.each<T>(
              'select n.nspname as schema, t.typname as name, e.enumlabel as value ' +
              'from pg_type t ' +
              'join pg_enum e on t.oid = e.enumtypid ' +
              'join pg_catalog.pg_namespace n ON n.oid = t.typnamespace ' +
              `${enumSchemaWhereClause} ` +
              'order by t.typname asc, e.enumlabel asc;', [],
-            enumItem => {
-                const {name, value} = enumItem
-                if (!enums[name]) {
-                    enums[name] = []
+            (item: T) => {
+                if (!enums[item.name]) {
+                    enums[item.name] = []
                 }
-                enums[name].push(value)
+                enums[item.name].push(item.value)
             }
         )
         return enums
@@ -109,12 +109,13 @@ export class PostgresDatabase implements Database {
 
     public async getTableDefinition (tableName: string, tableSchema: string) {
         let tableDefinition: TableDefinition = {}
-        await this.db.each(
+        type T = { column_name: string, udt_name: string, is_nullable: string }
+        await this.db.each<T>(
             'SELECT column_name, udt_name, is_nullable ' +
             'FROM information_schema.columns ' +
             'WHERE table_name = $1 and table_schema = $2',
             [tableName, tableSchema],
-            (schemaItem: { column_name: string, udt_name: string, is_nullable: string }) => {
+            (schemaItem: T) => {
                 tableDefinition[schemaItem.column_name] = {
                     udtName: schemaItem.udt_name,
                     nullable: schemaItem.is_nullable === 'YES'
@@ -130,13 +131,13 @@ export class PostgresDatabase implements Database {
     }
 
     public async getSchemaTables (schemaName: string): Promise<string[]> {
-        return await this.db.map(
+        return await this.db.map<string>(
             'SELECT table_name ' +
             'FROM information_schema.columns ' +
             'WHERE table_schema = $1 ' +
             'GROUP BY table_name',
             [schemaName],
-            schemaItem => schemaItem.table_name
+            (schemaItem: {table_name: string}) => schemaItem.table_name
         )
     }
 
