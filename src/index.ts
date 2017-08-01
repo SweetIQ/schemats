@@ -97,3 +97,4 @@ export async function typescriptOfSchema (db: Database,
 }
 
 export {Database, getDatabase} from './schema'
+export {Options, OptionValues}
