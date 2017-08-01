@@ -1,5 +1,5 @@
 import * as fs from 'mz/fs'
-import { typescriptOfSchema, Database, extractCommand } from '../src/index'
+import { typescriptOfSchema, Database } from '../src/index'
 import Options from '../src/options'
 import * as ts from 'typescript';
 
@@ -49,28 +49,11 @@ export async function loadSchema(db: Database, file: string) {
 export async function writeTsFile(inputSQLFile: string, inputConfigFile: string,  outputFile: string, db: Database) {
     await loadSchema(db, inputSQLFile)
     const config: any = require(inputConfigFile)
-
-    const fixtureDate = '2016-12-07 13:17:46'
-    const fixturePgConnUri = 'sql://secretUser:secretPassword@localhost/test'
-    let fixtureCommands = ['node', 'schemats', 'generate', '-c',
-        fixturePgConnUri,
-        '-o', outputFile]
-    if (config.camelCase) fixtureCommands.push('-C')
-    if (config.tables.length > 0) {
-        config.tables.forEach((t: string) => {
-            fixtureCommands.push('-t', t)
-        })
-    }
-    if (config.schema) {
-        fixtureCommands.push('-s', config.schema)
-    }
     let formattedOutput = await typescriptOfSchema(
         db,
         config.tables,
         config.schema,
-        new Options({ camelCase: config.camelCase }),
-        extractCommand(fixtureCommands),
-        fixtureDate
+        { camelCase: config.camelCase, writeHeader: config.writeHeader }
     )
     await fs.writeFile(outputFile, formattedOutput)
 }

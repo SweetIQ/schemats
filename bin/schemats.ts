@@ -6,7 +6,7 @@
 
 import * as yargs from 'yargs'
 import * as fs from 'fs'
-import { typescriptOfSchema, getDatabase, extractCommand } from '../src/index'
+import { typescriptOfSchema, getDatabase } from '../src/index'
 import Options from '../src/options'
 
 interface SchematsConfig {
@@ -45,19 +45,7 @@ let argv: SchematsConfig = yargs
     .describe('o', 'output file name')
     .help('h')
     .alias('h', 'help')
-    .argv
-
-function getTime () {
-    let padTime = (value: number) => `0${value}`.slice(-2)
-    let time = new Date()
-    const yyyy = time.getFullYear()
-    const MM = padTime(time.getMonth() + 1)
-    const dd = padTime(time.getDate())
-    const hh = padTime(time.getHours())
-    const mm = padTime(time.getMinutes())
-    const ss = padTime(time.getSeconds())
-    return `${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}`
-}
+    .argv;
 
 (async () => {
 
@@ -73,10 +61,7 @@ function getTime () {
         }
 
         let formattedOutput = await typescriptOfSchema(
-            db, argv.table, argv.schema, new Options({
-                camelCase: argv.camelCase
-            }), extractCommand(process.argv), getTime()
-        )
+            db, argv.table, argv.schema, { camelCase: argv.camelCase })
         fs.writeFileSync(argv.output, formattedOutput)
 
     } catch (e) {
@@ -86,7 +71,7 @@ function getTime () {
 
 })().then(() => {
     process.exit()
-}).catch((e) => {
+}).catch((e: any) => {
     console.warn(e)
     process.exit(1)
 })

@@ -8,11 +8,15 @@ export class MysqlDatabase implements Database {
     private db: mysql.IConnection
     private defaultSchema: string
 
-    constructor (connectionString: string) {
+    constructor (public connectionString: string) {
         this.db = mysql.createConnection(connectionString)
         let url = urlParse(connectionString, true)
-        let database = url.pathname.substr(1)
-        this.defaultSchema = database
+        if (url && url.pathname) {
+            let database = url.pathname.substr(1)
+            this.defaultSchema = database
+        } else {
+            this.defaultSchema = 'public'
+        }
     }
 
     // uses the type mappings from https://github.com/mysqljs/ where sensible

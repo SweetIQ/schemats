@@ -3,9 +3,9 @@ import * as sinon from 'sinon'
 import * as Index from '../../src/index'
 import * as Typescript from '../../src/typescript'
 import { Database } from '../../src/schema'
-import Options from '../../src/options'
+import Options, { OptionValues } from '../../src/options'
 
-const options = new Options({})
+const options: OptionValues = {}
 
 describe('index', () => {
     const typedTableSandbox = sinon.sandbox.create()
@@ -15,7 +15,8 @@ describe('index', () => {
         query: typedTableSandbox.stub(),
         getEnumTypes: typedTableSandbox.stub(),
         getTableDefinition: typedTableSandbox.stub(),
-        getSchemaTables: typedTableSandbox.stub()
+        getSchemaTables: typedTableSandbox.stub(),
+        connectionString: 'sql://'
     } as Database
     const tsReflection = Typescript as any
     const dbReflection = db as any
@@ -33,53 +34,29 @@ describe('index', () => {
     describe('typescriptOfTable', () => {
         it('calls functions with correct params', async () => {
             dbReflection.getTableTypes.returns(Promise.resolve('tableTypes'))
-            await Index.typescriptOfTable(db, 'tableName', 'schemaName', options)
+            await Index.typescriptOfTable(db, 'tableName', 'schemaName', new Options(options))
             assert.deepEqual(dbReflection.getTableTypes.getCall(0).args, [
                 'tableName',
                 'schemaName',
-                options
+                new Options(options)
             ])
             assert.deepEqual(tsReflection.generateTableTypes.getCall(0).args, [
                 'tableName',
                 'tableTypes',
-                options
+                new Options(options)
             ])
             assert.deepEqual(tsReflection.generateTableInterface.getCall(0).args, [
                 'tableName',
                 'tableTypes',
-                options
+                new Options(options)
             ])
         })
         it('merges string results', async () => {
             dbReflection.getTableTypes.returns(Promise.resolve('tableTypes'))
             tsReflection.generateTableTypes.returns('generatedTableTypes\n')
             tsReflection.generateTableInterface.returns('generatedTableInterfaces\n')
-            const typescriptString = await Index.typescriptOfTable(db, 'tableName', 'schemaName', options)
+            const typescriptString = await Index.typescriptOfTable(db, 'tableName', 'schemaName', new Options(options))
             assert.equal(typescriptString, 'generatedTableTypes\ngeneratedTableInterfaces\n')
-        })
-    })
-    describe('extractCommand', () => {
-        it('postgres connection', () => {
-            const command = Index.extractCommand([
-                'node',
-                'schemats',
-                'generate',
-                '-c',
-                'postgres://pgUser:pgPassword@localhost/pgtest',
-                '-o', 'osm.ts'
-            ])
-            assert.equal(command, 'generate -c postgres://username:password@localhost/pgtest -o osm.ts')
-        })
-        it('mysql connection', () => {
-            const command = Index.extractCommand([
-                'node',
-                'schemats',
-                'generate',
-                '-c',
-                'mysql://myUser:myPassword@localhost/mytest',
-                '-o', 'osm.ts'
-            ])
-            assert.equal(command, 'generate -c mysql://username:password@localhost/mytest -o osm.ts')
         })
     })
     describe('typescriptOfSchema', () => {
@@ -88,57 +65,23 @@ describe('index', () => {
             dbReflection.getEnumTypes.returns(Promise.resolve('enumTypes'))
             tsReflection.generateTableTypes.returns('generatedTableTypes\n')
             tsReflection.generateEnumType.returns('generatedEnumTypes\n')
-            const tsOfSchema = await Index.typescriptOfSchema(db, [], 'schemaName', options, 'testCommand', '2017-04-01')
+            const tsOfSchema = await Index.typescriptOfSchema(db, [], 'schemaName', options)
 
             assert.deepEqual(dbReflection.getSchemaTables.getCall(0).args[0], 'schemaName')
             assert.deepEqual(dbReflection.getEnumTypes.getCall(0).args[0], 'schemaName')
             assert.deepEqual(tsReflection.generateEnumType.getCall(0).args[0], 'enumTypes')
             assert.deepEqual(tsReflection.generateTableTypes.getCall(0).args[0], 'tablename')
-            assert.equal(tsOfSchema,
-                '\n' +
-                '/* tslint:disable */\n' +
-                '/**\n' +
-                ' * AUTO-GENERATED FILE @ 2017-04-01 - DO NOT EDIT!\n' +
-                ' *\n' +
-                ' * This file was generated with schemats node package:\n' +
-                ' * $ schemats testCommand\n' +
-                ' *\n' +
-                ' * Re-run the command above.\n' +
-                ' *\n' +
-                ' */' +
-                '\n' +
-                '\n' +
-                'generatedEnumTypes\n' +
-                'generatedTableTypes\n' +
-                'undefined\n')
         })
         it('has tables provided', async () => {
             dbReflection.getSchemaTables.returns(Promise.resolve(['tablename']))
             dbReflection.getEnumTypes.returns(Promise.resolve('enumTypes'))
             tsReflection.generateTableTypes.returns('generatedTableTypes\n')
             tsReflection.generateEnumType.returns('generatedEnumTypes\n')
-            const tsOfSchema = await Index.typescriptOfSchema(db, ['differentTablename'], null, options, 'testCommand', '2017-04-01')
+            const tsOfSchema = await Index.typescriptOfSchema(db, ['differentTablename'], null, options)
 
             assert(!dbReflection.getSchemaTables.called)
             assert.deepEqual(tsReflection.generateEnumType.getCall(0).args[0], 'enumTypes')
             assert.deepEqual(tsReflection.generateTableTypes.getCall(0).args[0], 'differentTablename')
-            assert.equal(tsOfSchema,
-                '\n' +
-                '/* tslint:disable */\n' +
-                '/**\n' +
-                ' * AUTO-GENERATED FILE @ 2017-04-01 - DO NOT EDIT!\n' +
-                ' *\n' +
-                ' * This file was generated with schemats node package:\n' +
-                ' * $ schemats testCommand\n' +
-                ' *\n' +
-                ' * Re-run the command above.\n' +
-                ' *\n' +
-                ' */' +
-                '\n' +
-                '\n' +
-                'generatedEnumTypes\n' +
-                'generatedTableTypes\n' +
-                'undefined\n')
         })
     })
 })

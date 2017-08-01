@@ -1,14 +1,4 @@
-
 /* tslint:disable */
-/**
- * AUTO-GENERATED FILE @ 2016-12-07 13:17:46 - DO NOT EDIT!
- *
- * This file was generated with schemats node package:
- * $ schemats generate -c sql://username:password@localhost/test -o ./test/actual/postgres/osm.ts -t users
- *
- * Re-run the command above.
- *
- */
 
 export type format_enum = 'html' | 'markdown' | 'text';
 export type user_status_enum = 'active' | 'confirmed' | 'deleted' | 'pending' | 'suspended';
