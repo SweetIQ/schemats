@@ -70,14 +70,15 @@ export async function typescriptOfSchema (db: Database,
         tables = await db.getSchemaTables(schema)
     }
 
-    const enumTypes = generateEnumType(await db.getEnumTypes(schema), new Options(options))
-    const interfacePromises = tables.map((table) => typescriptOfTable(db, table, schema as string, new Options(options)))
+    const optionsObject = new Options(options)
+
+    const enumTypes = generateEnumType(await db.getEnumTypes(schema), optionsObject)
+    const interfacePromises = tables.map((table) => typescriptOfTable(db, table, schema as string, optionsObject))
     const interfaces = await Promise.all(interfacePromises)
         .then(tsOfTable => tsOfTable.join(''))
 
     let output = '/* tslint:disable */\n\n'
-
-    if (options.writeHeader) {
+    if (optionsObject.options.writeHeader) {
         output += buildHeader(db, tables, schema, options)
     }
     output += `${enumTypes}`
