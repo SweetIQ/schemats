@@ -79,8 +79,8 @@ export async function typescriptOfSchema (db: Database,
     if (optionsObject.options.writeHeader) {
         output += buildHeader(db, tables, schema, options)
     }
-    output += `${enumTypes}`
-    output += `${interfaces}`
+    output += enumTypes
+    output += interfaces
 
     let formatterOption = {
         replace: false,
