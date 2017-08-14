@@ -50,8 +50,6 @@ let argv: SchematsConfig = yargs
 (async () => {
 
     try {
-        let db = getDatabase(argv.conn)
-
         if (!Array.isArray(argv.table)) {
             if (!argv.table) {
                 argv.table = []
@@ -61,7 +59,7 @@ let argv: SchematsConfig = yargs
         }
 
         let formattedOutput = await typescriptOfSchema(
-            db, argv.table, argv.schema, { camelCase: argv.camelCase })
+            argv.conn, argv.table, argv.schema, { camelCase: argv.camelCase })
         fs.writeFileSync(argv.output, formattedOutput)
 
     } catch (e) {

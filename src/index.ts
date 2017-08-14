@@ -4,7 +4,7 @@
  */
 
 import { generateEnumType, generateTableTypes, generateTableInterface } from './typescript'
-import { Database } from './schema'
+import { getDatabase, Database } from './schema'
 import Options, { OptionValues } from './options'
 import { processString } from 'typescript-formatter'
 const pkgVersion = require('../package.json').version
@@ -45,10 +45,14 @@ function buildHeader (db: Database, tables: string[], schema: string|null, optio
     `
 }
 
-export async function typescriptOfTable (db: Database, 
+export async function typescriptOfTable (db: Database|string, 
                                          table: string,
                                          schema: string,
                                          options = new Options()) {
+    if (typeof db === 'string') {
+        db = getDatabase(db)
+    }
+
     let interfaces = ''
     let tableTypes = await db.getTableTypes(table, schema, options)
     interfaces += generateTableTypes(table, tableTypes, options)
@@ -56,10 +60,14 @@ export async function typescriptOfTable (db: Database,
     return interfaces
 }
 
-export async function typescriptOfSchema (db: Database,
-                                          tables: string[],
-                                          schema: string|null,
-                                          options: OptionValues): Promise<string> {
+export async function typescriptOfSchema (db: Database|string,
+                                          tables: string[] = [],
+                                          schema: string|null = null,
+                                          options: OptionValues = {}): Promise<string> {
+    if (typeof db === 'string') {
+        db = getDatabase(db)
+    }
+
     if (!schema) {
         schema = db.getDefaultSchema()
     }
