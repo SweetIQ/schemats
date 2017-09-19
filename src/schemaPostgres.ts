@@ -27,6 +27,7 @@ export class PostgresDatabase implements Database {
                 case 'time':
                 case 'timetz':
                 case 'interval':
+                case 'name':
                     column.tsType = 'string'
                     return column
                 case 'int2':
