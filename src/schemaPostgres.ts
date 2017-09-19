@@ -69,6 +69,13 @@ export class PostgresDatabase implements Database {
                 case '_bytea':
                     column.tsType = 'Array<string>'
                     return column
+                case '_json':
+                case '_jsonb':
+                    column.tsType = 'Array<Object>'
+                    return column
+                case '_timestamptz':
+                    column.tsType = 'Array<Date>'
+                    return column
                 default:
                     if (customTypes.indexOf(column.udtName) !== -1) {
                         column.tsType = options.transformTypeName(column.udtName)
