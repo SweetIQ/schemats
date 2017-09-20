@@ -126,9 +126,9 @@ export interface Users {
     jsonCol: UsersFields.jsonCol;
     dateCol: UsersFields.dateCol;
     unspportedPathType: UsersFields.unspportedPathType;
-    nameType_col: UsersFields.nameTypeCol;
-    json_array_col: UsersFields.jsonArrayCol;
-    jsonb_array_col: UsersFields.jsonbArrayCol;
-    timestamptz_array_col: UsersFields.timestamptzArrayCol;
+    nameTypeCol: UsersFields.nameTypeCol;
+    jsonArrayCol: UsersFields.jsonArrayCol;
+    jsonbArrayCol: UsersFields.jsonbArrayCol;
+    timestamptzArrayCol: UsersFields.timestamptzArrayCol;
 
 }
