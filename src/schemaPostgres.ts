@@ -27,6 +27,7 @@ export class PostgresDatabase implements Database {
                 case 'time':
                 case 'timetz':
                 case 'interval':
+                case 'name':
                     column.tsType = 'string'
                     return column
                 case 'int2':
@@ -68,6 +69,13 @@ export class PostgresDatabase implements Database {
                 case '_uuid':
                 case '_bytea':
                     column.tsType = 'Array<string>'
+                    return column
+                case '_json':
+                case '_jsonb':
+                    column.tsType = 'Array<Object>'
+                    return column
+                case '_timestamptz':
+                    column.tsType = 'Array<Date>'
                     return column
                 default:
                     if (customTypes.indexOf(column.udtName) !== -1) {

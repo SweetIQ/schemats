@@ -61,6 +61,10 @@ export namespace UsersFields {
     export type jsonCol = Object | null;
     export type dateCol = Date | null;
     export type unspportedPathType = any | null;
+    export type nameTypeCol = string | null;
+    export type jsonArrayCol = Array<Object> | null;
+    export type jsonbArrayCol = Array<Object> | null;
+    export type timestamptzArrayCol = Array<Date> | null;
 
 }
 
@@ -122,5 +126,9 @@ export interface Users {
     jsonCol: UsersFields.jsonCol;
     dateCol: UsersFields.dateCol;
     unspportedPathType: UsersFields.unspportedPathType;
+    nameTypeCol: UsersFields.nameTypeCol;
+    jsonArrayCol: UsersFields.jsonArrayCol;
+    jsonbArrayCol: UsersFields.jsonbArrayCol;
+    timestamptzArrayCol: UsersFields.timestamptzArrayCol;
 
 }

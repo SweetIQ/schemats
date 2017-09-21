@@ -238,6 +238,15 @@ describe('PostgresDatabase', () => {
                 }
                 assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'string')
             })
+            it('name', () => {
+                const td: TableDefinition = {
+                    column: {
+                        udtName: 'name',
+                        nullable: false
+                    }
+                }
+                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'string')
+            })
         })
         describe('maps to number', () => {
             it('int2', () => {
@@ -487,6 +496,40 @@ describe('PostgresDatabase', () => {
                 assert.equal(PostgresDBReflection.mapTableDefinitionToType(td, ['CustomType'], options).column.tsType, 'Array<string>')
             })
         })
+        
+        describe('maps to Array<Object>', () => {
+            it('_json', () => {
+                const td: TableDefinition = {
+                    column: {
+                        udtName: '_json',
+                        nullable: false
+                    }
+                }
+                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Array<Object>')
+            })
+            it('_jsonb', () => {
+                const td: TableDefinition = {
+                    column: {
+                        udtName: '_jsonb',
+                        nullable: false
+                    }
+                }
+                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Array<Object>')
+            })
+        })
+        
+        describe('maps to Array<Date>', () => {
+            it('_timestamptz', () => {
+                const td: TableDefinition = {
+                    column: {
+                        udtName: '_timestamptz',
+                        nullable: false
+                    }
+                }
+                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Array<Date>')
+            })
+        })
+        
         describe('maps to custom', () => {
             it('CustomType', () => {
                 const td: TableDefinition = {
