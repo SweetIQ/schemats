@@ -21,6 +21,7 @@ export class PostgresDatabase implements Database {
                 case 'char':
                 case 'varchar':
                 case 'text':
+                case 'citext':
                 case 'uuid':
                 case 'bytea':
                 case 'inet':
