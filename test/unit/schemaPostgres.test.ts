@@ -184,6 +184,15 @@ describe('PostgresDatabase', () => {
                 }
                 assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'string')
             })
+            it('citext', () => {
+                const td: TableDefinition = {
+                    column: {
+                        udtName: 'citext',
+                        nullable: false
+                    }
+                }
+                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'string')
+            })            
             it('uuid', () => {
                 const td: TableDefinition = {
                     column: {
@@ -477,6 +486,15 @@ describe('PostgresDatabase', () => {
                 }
                 assert.equal(PostgresDBReflection.mapTableDefinitionToType(td, ['CustomType'], options).column.tsType, 'Array<string>')
             })
+            it('_citext', () => {
+                const td: TableDefinition = {
+                    column: {
+                        udtName: '_citext',
+                        nullable: false
+                    }
+                }
+                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td, ['CustomType'], options).column.tsType, 'Array<string>')
+            })            
             it('_uuid', () => {
                 const td: TableDefinition = {
                     column: {

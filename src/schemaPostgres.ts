@@ -21,6 +21,7 @@ export class PostgresDatabase implements Database {
                 case 'char':
                 case 'varchar':
                 case 'text':
+                case 'citext':
                 case 'uuid':
                 case 'bytea':
                 case 'inet':
@@ -66,6 +67,7 @@ export class PostgresDatabase implements Database {
                     return column
                 case '_varchar':
                 case '_text':
+                case '_citext':                    
                 case '_uuid':
                 case '_bytea':
                     column.tsType = 'Array<string>'
