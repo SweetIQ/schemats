@@ -45,6 +45,20 @@ function buildHeader (db: Database, tables: string[], schema: string|null, optio
     `
 }
 
+function helperTypes () {
+    return `
+type HasTypeKey<T> = {
+    [K in keyof T]: {
+        type: any
+    }
+}
+
+type SimpleSchema<T extends HasTypeKey<T>> = {
+    [K in keyof T] : T[K]['type']
+}
+`
+}
+
 export async function typescriptOfTable (db: Database|string, 
                                          table: string,
                                          schema: string,
@@ -87,6 +101,7 @@ export async function typescriptOfSchema (db: Database|string,
     if (optionsObject.options.writeHeader) {
         output += buildHeader(db, tables, schema, options)
     }
+    output += helperTypes()
     output += enumTypes
     output += interfaces
 
