@@ -33,7 +33,7 @@ export function generateTableInterface (tableNameRaw: string, tableDefinition: T
     })
 
     return `
-        export interface ${normalizeName(tableName, options)} {
+        interface ${normalizeName(tableName, options)}Meta {
         ${members}
         }
     `
@@ -77,5 +77,21 @@ export function generateTableTypes (tableNameRaw: string, tableDefinition: Table
         export namespace ${tableName}Fields {
         ${fields}
         }
+    `
+}
+
+export function generateExports (tableNameRaw: string, tableDefinition: TableDefinition, options: Options) {
+    const tableName = options.transformTypeName(tableNameRaw)
+
+    if (options.isVerbose()) {
+        // If in verbose mode, simply rename <table>Meta to <table>
+        return `
+            export type ${tableName} = ${tableName}Meta
+        `
+    }
+
+    // If not in verbose mode, transform the meta interfaces to simple interfaces
+    return `
+        export type ${tableName} = SimpleSchema<${tableName}Meta>
     `
 }
