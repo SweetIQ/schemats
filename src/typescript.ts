@@ -54,10 +54,23 @@ export function generateTableTypes (tableNameRaw: string, tableDefinition: Table
     const tableName = options.transformTypeName(tableNameRaw)
     let fields = ''
     Object.keys(tableDefinition).forEach((columnNameRaw) => {
-        let type = tableDefinition[columnNameRaw].tsType
-        let nullable = tableDefinition[columnNameRaw].nullable ? '| null' : ''
         const columnName = options.transformColumnName(columnNameRaw)
-        fields += `export type ${normalizeName(columnName, options)} = ${type}${nullable};\n`
+        fields += `export type ${normalizeName(columnName, options)} = {`
+
+        const { tsType, nullable, primaryKey, unique } = tableDefinition[columnNameRaw]
+
+        // Mapped TS type
+        fields += `type: ${tsType}`
+        fields += nullable ? '| null' : ''
+        fields += `,`
+
+        // Primary key constraint
+        fields += primaryKey !== undefined ? `primaryKey: ${primaryKey},` : ''
+
+        // Unique constraint
+        fields += unique !== undefined ? `unique: ${unique},` : ''
+
+        fields += '};\n'
     })
 
     return `
