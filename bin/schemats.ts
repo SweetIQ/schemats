@@ -16,6 +16,7 @@ interface SchematsConfig {
     output: string,
     camelCase: boolean,
     noHeader: boolean,
+    verbose: boolean
 }
 
 let argv: SchematsConfig = yargs
@@ -41,6 +42,7 @@ let argv: SchematsConfig = yargs
     .alias('C', 'camelCase')
     .describe('C', 'Camel-case columns')
     .describe('noHeader', 'Do not write header')
+    .describe('verbose', 'Export meta interfaces with constraint information')
     .demand('o')
     .nargs('o', 1)
     .alias('o', 'output')
@@ -61,7 +63,7 @@ let argv: SchematsConfig = yargs
         }
 
         let formattedOutput = await typescriptOfSchema(
-            argv.conn, argv.table, argv.schema, { camelCase: argv.camelCase, writeHeader: !argv.noHeader })
+            argv.conn, argv.table, argv.schema, { camelCase: argv.camelCase, writeHeader: !argv.noHeader, verbose: argv.verbose })
         fs.writeFileSync(argv.output, formattedOutput)
 
     } catch (e) {
