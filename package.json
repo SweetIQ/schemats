@@ -70,8 +70,8 @@
     "mysql": "^2.13.0",
     "mz": "^2.6.0",
     "pg-promise": "^6.3.6",
-    "typescript": "^2.4.2",
-    "typescript-formatter": "4.1.1",
+    "typescript": "^2.7.1",
+    "typescript-formatter": "^7.0.1",
     "yargs": "^8.0.1"
   },
   "nyc": {

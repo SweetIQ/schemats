@@ -6,7 +6,7 @@
 import { generateEnumType, generateTableTypes, generateTableInterface } from './typescript'
 import { getDatabase, Database } from './schema'
 import Options, { OptionValues } from './options'
-import { processString } from 'typescript-formatter'
+import { processString, Options as ITFOptions } from 'typescript-formatter'
 const pkgVersion = require('../package.json').version
 
 function getTime () {
@@ -90,13 +90,18 @@ export async function typescriptOfSchema (db: Database|string,
     output += enumTypes
     output += interfaces
 
-    let formatterOption = {
+    const formatterOption: ITFOptions = {
         replace: false,
         verify: false,
         tsconfig: true,
         tslint: true,
         editorconfig: true,
-        tsfmt: true
+        tsfmt: true,
+        vscode: false,
+        tsconfigFile: null,
+        tslintFile: null,
+        vscodeFile: null,
+        tsfmtFile: null
     }
 
     const processedResult = await processString('schema.ts', output, formatterOption)
