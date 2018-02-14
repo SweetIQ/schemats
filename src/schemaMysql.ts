@@ -1,5 +1,5 @@
 import * as mysql from 'mysql'
-import { mapValues, keys, isEqual, camelCase } from 'lodash'
+import { mapValues, keys, isEqual } from 'lodash'
 import { parse as urlParse } from 'url'
 import { TableDefinition, Database } from './schemaInterfaces'
 import Options from './options'
