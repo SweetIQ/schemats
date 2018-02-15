@@ -1,0 +1,5 @@
+{
+    "tables": ["users"],
+    "schema": null,
+    "writeHeader": false
+}

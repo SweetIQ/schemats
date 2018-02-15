@@ -1,0 +1,4 @@
+{
+    "tables": ["location","location_history"],
+    "writeHeader": false
+}

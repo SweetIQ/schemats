@@ -5,16 +5,29 @@
  */
 
 import * as yargs from 'yargs'
-import * as bluebird from 'bluebird'
-const fsAsync: any = bluebird.promisifyAll(require('fs'))
-import { typescriptOfSchema, Database, extractCommand, getTime } from '../src/index'
+import * as fs from 'fs'
+import { typescriptOfSchema, getDatabase } from '../src/index'
+import Options from '../src/options'
 
-let argv: any = yargs
+interface SchematsConfig {
+    conn: string,
+    table: string[] | string,
+    schema: string,
+    output: string,
+    camelCase: boolean,
+    noHeader: boolean,
+}
+
+let argv: SchematsConfig = yargs
     .usage('Usage: $0 <command> [options]')
+    .global('config')
+    .default('config', 'schemats.json')
+    .config()
+    .env('SCHEMATS')
     .command('generate', 'generate type definition')
     .demand(1)
-    // tslint:disable-next-line 
-    .example('$0 generate -c postgres://username:password@localhost/db -t table1 -t table2 -s schema -n namespace -o interface_output.ts', 'generate typescript interfaces from schema')
+    // tslint:disable-next-line
+    .example('$0 generate -c postgres://username:password@localhost/db -t table1 -t table2 -s schema -o interface_output.ts', 'generate typescript interfaces from schema')
     .demand('c')
     .alias('c', 'conn')
     .nargs('c', 1)
@@ -25,10 +38,9 @@ let argv: any = yargs
     .alias('s', 'schema')
     .nargs('s', 1)
     .describe('s', 'schema name')
-    .demand('n')
-    .alias('n', 'namespace')
-    .nargs('n', 1)
-    .describe('n', 'namespace for interfaces')
+    .alias('C', 'camelCase')
+    .describe('C', 'Camel-case columns')
+    .describe('noHeader', 'Do not write header')
     .demand('o')
     .nargs('o', 1)
     .alias('o', 'output')
@@ -40,21 +52,17 @@ let argv: any = yargs
 (async () => {
 
     try {
-        let db = new Database(argv.c)
-
-        if (!Array.isArray(argv.t)) {
-            if (!argv.t) {
-                argv.t = []
+        if (!Array.isArray(argv.table)) {
+            if (!argv.table) {
+                argv.table = []
             } else {
-                argv.t = [argv.t]
+                argv.table = [argv.table]
             }
         }
 
         let formattedOutput = await typescriptOfSchema(
-            db, argv.n, argv.t, argv.s,
-            extractCommand(process.argv, argv.c), getTime()
-        )
-        await fsAsync.writeFileAsync(argv.o, formattedOutput)
+            argv.conn, argv.table, argv.schema, { camelCase: argv.camelCase, writeHeader: !argv.noHeader })
+        fs.writeFileSync(argv.output, formattedOutput)
 
     } catch (e) {
         console.error(e)
@@ -63,4 +71,7 @@ let argv: any = yargs
 
 })().then(() => {
     process.exit()
+}).catch((e: any) => {
+    console.warn(e)
+    process.exit(1)
 })

@@ -3,58 +3,62 @@
  * Created by xiamx on 2016-08-10.
  */
 
-import { TableDefinition } from './schema'
+import * as _ from 'lodash'
 
-function columnNameIsReservedKeyword(columnName: string): boolean {
+import { TableDefinition } from './schemaInterfaces'
+import Options from './options'
+
+function nameIsReservedKeyword (name: string): boolean {
     const reservedKeywords = [
         'string',
-        'number'
+        'number',
+        'package'
     ]
-    return reservedKeywords.indexOf(columnName) !== -1
+    return reservedKeywords.indexOf(name) !== -1
 }
 
-function normalizeColumnName(columnName: string): string {
-    if (columnNameIsReservedKeyword(columnName)) {
-        return columnName + '_'
+function normalizeName (name: string, options: Options): string {
+    if (nameIsReservedKeyword(name)) {
+        return name + '_'
     } else {
-        return columnName
+        return name
     }
 }
 
-export function generateTableInterface(tableName: string, tableDefinition: TableDefinition) {
+export function generateTableInterface (tableNameRaw: string, tableDefinition: TableDefinition, options: Options) {
+    const tableName = options.transformTypeName(tableNameRaw)
     let members = ''
-    for (let columnName in tableDefinition) {
-        if (tableDefinition.hasOwnProperty(columnName)) {
-            members += `${columnName}: ${tableName}Fields.${normalizeColumnName(columnName)};\n`
-        }
-    }
+    Object.keys(tableDefinition).map(c => options.transformColumnName(c)).forEach((columnName) => {
+        members += `${columnName}: ${tableName}Fields.${normalizeName(columnName, options)};\n`
+    })
 
     return `
-        export interface ${tableName} {
+        export interface ${normalizeName(tableName, options)} {
         ${members}
         }
     `
 }
 
-export function generateEnumType(enumObject: any) {
+export function generateEnumType (enumObject: any, options: Options) {
     let enumString = ''
-    for (let enumName in enumObject) {
+    for (let enumNameRaw in enumObject) {
+        const enumName = options.transformTypeName(enumNameRaw)
         enumString += `export type ${enumName} = `
-        enumString += enumObject[enumName].map((v: string) => `'${v}'`).join(' | ')
+        enumString += enumObject[enumNameRaw].map((v: string) => `'${v}'`).join(' | ')
         enumString += ';\n'
     }
     return enumString
 }
 
-export function generateTableTypes(tableName: string, tableDefinition: TableDefinition) {
+export function generateTableTypes (tableNameRaw: string, tableDefinition: TableDefinition, options: Options) {
+    const tableName = options.transformTypeName(tableNameRaw)
     let fields = ''
-    for (let columnName in tableDefinition) {
-        if (tableDefinition.hasOwnProperty(columnName)) {
-            let type = tableDefinition[columnName].tsType
-            let nullable = tableDefinition[columnName].nullable ? '| null' : ''
-            fields += `export type ${normalizeColumnName(columnName)} = ${type}${nullable};\n`
-        }
-    }
+    Object.keys(tableDefinition).forEach((columnNameRaw) => {
+        let type = tableDefinition[columnNameRaw].tsType
+        let nullable = tableDefinition[columnNameRaw].nullable ? '| null' : ''
+        const columnName = options.transformColumnName(columnNameRaw)
+        fields += `export type ${normalizeName(columnName, options)} = ${type}${nullable};\n`
+    })
 
     return `
         export namespace ${tableName}Fields {

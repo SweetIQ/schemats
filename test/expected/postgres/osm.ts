@@ -1,13 +1,4 @@
-
-/**
- * AUTO-GENERATED FILE @ 2016-12-07 13:17:46 - DO NOT EDIT!
- *
- * This file was generated with schemats node package:
- * $ schemats generate -c postgres://username:password@localhost/test -t users -o ./test/osm.ts
- *
- * Re-run the command above.
- *
- */
+/* tslint:disable */
 
 export type format_enum = 'html' | 'markdown' | 'text';
 export type user_status_enum = 'active' | 'confirmed' | 'deleted' | 'pending' | 'suspended';
@@ -67,6 +58,13 @@ export namespace usersFields {
     export type time_with_tz = string | null;
     export type oid_col = number | null;
     export type interval_col = string | null;
+    export type json_col = Object | null;
+    export type date_col = Date | null;
+    export type unspported_path_type = any | null;
+    export type name_type_col = string | null;
+    export type json_array_col = Array<Object> | null;
+    export type jsonb_array_col = Array<Object> | null;
+    export type timestamptz_array_col = Array<Date> | null;
 
 }
 
@@ -125,5 +123,11 @@ export interface users {
     time_with_tz: usersFields.time_with_tz;
     oid_col: usersFields.oid_col;
     interval_col: usersFields.interval_col;
-
+    json_col: usersFields.json_col;
+    date_col: usersFields.date_col;
+    unspported_path_type: usersFields.unspported_path_type;
+    name_type_col: usersFields.name_type_col;
+    json_array_col: usersFields.json_array_col;
+    jsonb_array_col: usersFields.jsonb_array_col;
+    timestamptz_array_col: usersFields.timestamptz_array_col;
 }
