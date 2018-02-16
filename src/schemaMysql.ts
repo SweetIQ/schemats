@@ -53,7 +53,7 @@ export class MysqlDatabase implements Database {
                     column.tsType = 'boolean'
                     return column
                 case 'json':
-                    column.tsType = 'Object'
+                    column.tsType = 'JsonParsed'
                     return column
                 case 'date':
                 case 'datetime':

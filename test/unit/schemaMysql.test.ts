@@ -398,7 +398,7 @@ describe('MysqlDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Object')
+                assert.equal(MysqlDBReflection.mapTableDefinitionToType(td, [], options).column.tsType, 'JsonParsed')
             })
         })
         describe('maps to Date', () => {

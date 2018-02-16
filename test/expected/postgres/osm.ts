@@ -42,7 +42,7 @@ export namespace usersFields {
     export type char_col = string | null;
     export type time_col = string | null;
     export type inet_col = string | null;
-    export type jsonb_col = Object | null;
+    export type jsonb_col = JsonParsed | null;
     export type numeric_col = number | null;
     export type bytea_col = string | null;
     export type bool_array_col = Array<boolean> | null;
@@ -58,12 +58,12 @@ export namespace usersFields {
     export type time_with_tz = string | null;
     export type oid_col = number | null;
     export type interval_col = string | null;
-    export type json_col = Object | null;
+    export type json_col = JsonParsed | null;
     export type date_col = Date | null;
     export type unspported_path_type = any | null;
     export type name_type_col = string | null;
-    export type json_array_col = Array<Object> | null;
-    export type jsonb_array_col = Array<Object> | null;
+    export type json_array_col = Array<JsonParsed> | null;
+    export type jsonb_array_col = Array<JsonParsed> | null;
     export type timestamptz_array_col = Array<Date> | null;
 
 }

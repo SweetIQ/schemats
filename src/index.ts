@@ -45,10 +45,23 @@ function buildHeader (db: Database, tables: string[], schema: string|null, optio
     `
 }
 
-export async function typescriptOfTable (db: Database|string, 
-                                         table: string,
-                                         schema: string,
-                                         options = new Options()) {
+/**
+ * Define common interfaces used for db column types (eg : Json) 
+ */
+function getCommonInterfaces(): string {
+
+    return `
+    interface JsonParsed {
+            [k: string]: string | number | boolean | Date | JsonParsed | JsonParsedArray;
+        }
+    interface JsonParsedArray extends Array<string | number | boolean | Date | JsonParsed | JsonParsedArray> { }
+    `
+}
+
+export async function typescriptOfTable(db: Database | string,
+    table: string,
+    schema: string,
+    options = new Options()) {
     if (typeof db === 'string') {
         db = getDatabase(db)
     }
@@ -87,6 +100,7 @@ export async function typescriptOfSchema (db: Database|string,
     if (optionsObject.options.writeHeader) {
         output += buildHeader(db, tables, schema, options)
     }
+    output += getCommonInterfaces()
     output += enumTypes
     output += interfaces
 
