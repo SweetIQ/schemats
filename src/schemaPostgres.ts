@@ -46,7 +46,7 @@ export class PostgresDatabase implements Database {
                     return column
                 case 'json':
                 case 'jsonb':
-                    column.tsType = 'Object'
+                    column.tsType = 'JsonParsed'
                     return column
                 case 'date':
                 case 'timestamp':
@@ -74,7 +74,7 @@ export class PostgresDatabase implements Database {
                     return column
                 case '_json':
                 case '_jsonb':
-                    column.tsType = 'Array<Object>'
+                    column.tsType = 'Array<JsonParsed>'
                     return column
                 case '_timestamptz':
                     column.tsType = 'Array<Date>'

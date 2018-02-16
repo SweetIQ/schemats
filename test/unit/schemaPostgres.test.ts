@@ -350,7 +350,7 @@ describe('PostgresDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Object')
+                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td, [], options).column.tsType, 'JsonParsed')
             })
             it('jsonb', () => {
                 const td: TableDefinition = {
@@ -359,7 +359,7 @@ describe('PostgresDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Object')
+                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td, [], options).column.tsType, 'JsonParsed')
             })
         })
         describe('maps to Date', () => {
@@ -523,7 +523,7 @@ describe('PostgresDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Array<Object>')
+                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td, [], options).column.tsType, 'Array<JsonParsed>')
             })
             it('_jsonb', () => {
                 const td: TableDefinition = {
@@ -532,7 +532,7 @@ describe('PostgresDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Array<Object>')
+                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td, [], options).column.tsType, 'Array<JsonParsed>')
             })
         })
         
