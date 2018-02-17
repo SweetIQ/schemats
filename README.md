@@ -53,8 +53,8 @@ schemats generate -c mysql://mysql@localhost/osm -t users -o osm.ts
 ```
 
 
-The above commands will generate typescript interfaces for [`osm`](test/osm_schema.sql) database 
-with table [`users`](test/osm_schema.sql#L18). The resulting file is stored as [`osm.ts`](test/example/osm.ts).
+The above commands will generate typescript interfaces for [`osm`](test/fixture/postgres/osm.sql) database 
+with table [`users`](test/osm_schema.sql#L18). The resulting file is stored as [`osm.ts`](test/expected/postgres/osm.ts).
 
 ### Generating the type definition for all the tables in a postgres schema
 
