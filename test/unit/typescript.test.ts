@@ -135,7 +135,7 @@ describe('Typescript', () => {
                 '        export namespace tableNameFields {' +
                 '\n        export type col1 = {type: string| null,primaryKey: true,unique: false,};' +
                 '\nexport type col2 = {type: number| null,primaryKey: false,unique: true,};' +
-                '\nexport type col3 = {type: number| null,unique: false,};' +
+                '\nexport type col3 = {type: number,unique: false,};' +
                 '\n' +
                 '\n        }' +
                 '\n    ')
