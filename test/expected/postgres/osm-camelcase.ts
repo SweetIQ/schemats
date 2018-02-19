@@ -1,5 +1,15 @@
 /* tslint:disable */
 
+type HasTypeKey<T> = {
+    [K in keyof T]: {
+        type: any
+    }
+}
+
+type SimpleSchema<T extends HasTypeKey<T>> = {
+    [K in keyof T]: T[K]['type']
+}
+
 export type FormatEnum = 'html' | 'markdown' | 'text';
 export type UserStatusEnum = 'active' | 'confirmed' | 'deleted' | 'pending' | 'suspended';
 
@@ -7,7 +17,7 @@ export namespace UsersFields {
     export type email = { type: string, primaryKey: false, unique: false, };
     export type id = { type: number, primaryKey: false, unique: false, };
     export type passCrypt = { type: string, primaryKey: false, unique: false, };
-    export type creationTime = Date{ type: ;, primaryKey: false, unique: false, }
+    export type creationTime = { type: Date, primaryKey: false, unique: false, };
     export type displayName = { type: string, primaryKey: false, unique: false, };
     export type dataPublic = { type: boolean, primaryKey: false, unique: false, };
     export type description = { type: string, primaryKey: false, unique: false, };

@@ -1,5 +1,15 @@
 /* tslint:disable */
 
+type HasTypeKey<T> = {
+    [K in keyof T]: {
+        type: any
+    }
+}
+
+type SimpleSchema<T extends HasTypeKey<T>> = {
+    [K in keyof T]: T[K]['type']
+}
+
 export type enum_enum_col = 'enum1' | 'enum2' | 'enum3';
 export type enum_nullable_enum_col = 'enum1' | 'enum2' | 'enum3';
 export type set_set_col = 'set1' | 'set2' | 'set3';
@@ -137,7 +147,7 @@ export namespace user_enumsFields {
     export type enum_col = { type: enum_enum_col, };
     export type nullable_enum_col = { type: enum_nullable_enum_col | null, };
     export type set_col = { type: set_set_col, };
-    export type nullable_set_col = set_nullable_set_col { type: | null, };
+    export type nullable_set_col = { type: set_nullable_set_col | null, };
 
 }
 
@@ -149,7 +159,7 @@ interface user_enumsMeta {
 
 }
 
-export type users = SimpleSchema<usersMeta>
+export type user_enums = SimpleSchema<user_enumsMeta>
 
 export namespace packageFields {
     export type number_ = { type: number, };
