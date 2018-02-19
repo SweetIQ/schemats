@@ -6,69 +6,69 @@ export type set_set_col = 'set1' | 'set2' | 'set3';
 export type set_nullable_set_col = 'set1' | 'set2' | 'set3';
 
 export namespace usersFields {
-    export type char_col = string;
-    export type nullable_char_col = string | null;
-    export type text_col = string;
-    export type nullable_text_col = string | null;
-    export type tinytext_col = string;
-    export type nullable_tinytext_col = string | null;
-    export type mediumtext_col = string;
-    export type nullable_mediumtext_col = string | null;
-    export type longtext_col = string;
-    export type nullable_longtext_col = string | null;
-    export type time_col = string;
-    export type nullable_time_col = string | null;
-    export type geometry_col = string;
-    export type nullable_geometry_col = string | null;
-    export type integer_col = number;
-    export type nullable_integer_col = number | null;
-    export type int_col = number;
-    export type nullable_int_col = number | null;
-    export type smallint_col = number;
-    export type nullable_smallint_col = number | null;
-    export type mediumint_col = number;
-    export type nullable_mediumint_col = number | null;
-    export type bigint_col = number;
-    export type nullable_bigint_col = number | null;
-    export type double_col = number;
-    export type nullable_double_col = number | null;
-    export type decimal_col = number;
-    export type nullable_decimal_col = number | null;
-    export type numeric_col = number;
-    export type nullable_numeric_col = number | null;
-    export type float_col = number;
-    export type nullable_float_col = number | null;
-    export type year_col = number;
-    export type nullable_year_col = number | null;
-    export type tinyint_col = boolean;
-    export type nullable_tinyint_col = boolean | null;
-    export type date_col = Date;
-    export type nullable_date_col = Date | null;
-    export type datetime_col = Date;
-    export type nullable_datetime_col = Date | null;
-    export type timestamp_col = Date;
-    export type tinyblob_col = Buffer;
-    export type nullable_tinyblob_col = Buffer | null;
-    export type mediumblob_col = Buffer;
-    export type nullable_mediumblob_col = Buffer | null;
-    export type longblob_col = Buffer;
-    export type nullable_longblob_col = Buffer | null;
-    export type blob_col = Buffer;
-    export type nullable_blob_col = Buffer | null;
-    export type binary_col = Buffer;
-    export type nullable_binary_col = Buffer | null;
-    export type varbinary_col = Buffer;
-    export type nullable_varbinary_col = Buffer | null;
-    export type bit_col = Buffer;
-    export type nullable_bit_col = Buffer | null;
-    export type enum_col = enum_enum_col;
-    export type nullable_enum_col = enum_nullable_enum_col | null;
-    export type set_col = set_set_col;
-    export type nullable_set_col = set_nullable_set_col | null;
+    export type char_col = { type: string, };
+    export type nullable_char_col = { type: string | null, };
+    export type text_col = { type: string, };
+    export type nullable_text_col = { type: string | null, };
+    export type tinytext_col = { type: string, };
+    export type nullable_tinytext_col = { type: string | null, };
+    export type mediumtext_col = { type: string, };
+    export type nullable_mediumtext_col = { type: string | null, };
+    export type longtext_col = { type: string, };
+    export type nullable_longtext_col = { type: string | null, };
+    export type time_col = { type: string, };
+    export type nullable_time_col = { type: string | null, };
+    export type geometry_col = { type: string, };
+    export type nullable_geometry_col = { type: string | null, };
+    export type integer_col = { type: number, };
+    export type nullable_integer_col = { type: number | null, };
+    export type int_col = { type: number, };
+    export type nullable_int_col = { type: number | null, };
+    export type smallint_col = { type: number, };
+    export type nullable_smallint_col = { type: number | null, };
+    export type mediumint_col = { type: number, };
+    export type nullable_mediumint_col = { type: number | null, };
+    export type bigint_col = { type: number, };
+    export type nullable_bigint_col = { type: number | null, };
+    export type double_col = { type: number, };
+    export type nullable_double_col = { type: number | null, };
+    export type decimal_col = { type: number, };
+    export type nullable_decimal_col = { type: number | null, };
+    export type numeric_col = { type: number, };
+    export type nullable_numeric_col = { type: number | null, };
+    export type float_col = { type: number, };
+    export type nullable_float_col = { type: number | null, };
+    export type year_col = { type: number, };
+    export type nullable_year_col = { type: number | null, };
+    export type tinyint_col = { type: boolean, };
+    export type nullable_tinyint_col = { type: boolean | null, };
+    export type date_col = { type: Date, };
+    export type nullable_date_col = { type: Date | null, };
+    export type datetime_col = { type: Date, };
+    export type nullable_datetime_col = { type: Date | null, };
+    export type timestamp_col = { type: Date, };
+    export type tinyblob_col = { type: Buffer, };
+    export type nullable_tinyblob_col = { type: Buffer | null, };
+    export type mediumblob_col = { type: Buffer, };
+    export type nullable_mediumblob_col = { type: Buffer | null, };
+    export type longblob_col = { type: Buffer, };
+    export type nullable_longblob_col = { type: Buffer | null, };
+    export type blob_col = { type: Buffer, };
+    export type nullable_blob_col = { type: Buffer | null, };
+    export type binary_col = { type: Buffer, };
+    export type nullable_binary_col = { type: Buffer | null, };
+    export type varbinary_col = { type: Buffer, };
+    export type nullable_varbinary_col = { type: Buffer | null, };
+    export type bit_col = { type: Buffer, };
+    export type nullable_bit_col = { type: Buffer | null, };
+    export type enum_col = { type: enum_enum_col, };
+    export type nullable_enum_col = { type: enum_nullable_enum_col | null, };
+    export type set_col = { type: set_set_col, };
+    export type nullable_set_col = { type: set_nullable_set_col | null, };
 
 }
 
-export interface users {
+interface usersMeta {
     char_col: usersFields.char_col;
     nullable_char_col: usersFields.nullable_char_col;
     text_col: usersFields.text_col;
@@ -131,15 +131,17 @@ export interface users {
 
 }
 
+export type users = SimpleSchema<usersMeta>
+
 export namespace user_enumsFields {
-    export type enum_col = enum_enum_col;
-    export type nullable_enum_col = enum_nullable_enum_col | null;
-    export type set_col = set_set_col;
-    export type nullable_set_col = set_nullable_set_col | null;
+    export type enum_col = { type: enum_enum_col, };
+    export type nullable_enum_col = { type: enum_nullable_enum_col | null, };
+    export type set_col = { type: set_set_col, };
+    export type nullable_set_col = set_nullable_set_col { type: | null, };
 
 }
 
-export interface user_enums {
+interface user_enumsMeta {
     enum_col: user_enumsFields.enum_col;
     nullable_enum_col: user_enumsFields.nullable_enum_col;
     set_col: user_enumsFields.set_col;
@@ -147,14 +149,18 @@ export interface user_enums {
 
 }
 
+export type users = SimpleSchema<usersMeta>
+
 export namespace packageFields {
-    export type number_ = number;
-    export type string_ = string;
+    export type number_ = { type: number, };
+    export type string_ = { type: string, };
 
 }
 
-export interface package_ {
+interface package_Meta {
     number: packageFields.number_;
     string: packageFields.string_;
 
 }
+
+export type package_ = SimpleSchema<package_Meta>
