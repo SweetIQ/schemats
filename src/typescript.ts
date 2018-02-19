@@ -86,12 +86,12 @@ export function generateExports (tableNameRaw: string, tableDefinition: TableDef
     if (options.exposeConstraintInfo()) {
         // If `--exposeConstraintInfo` flag is passed, simply rename <table>Meta to <table>
         return `
-            export type ${tableName} = ${tableName}Meta
+            export type ${normalizeName(tableName, options)} = ${normalizeName(tableName, options)}Meta
         `
     }
 
     // If no `--exposeConstraintInfo` flag is passed, transform the meta interfaces to simple interfaces
     return `
-        export type ${tableName} = SimpleSchema<${tableName}Meta>
+        export type ${normalizeName(tableName, options)} = SimpleSchema<${normalizeName(tableName, options)}Meta>
     `
 }
