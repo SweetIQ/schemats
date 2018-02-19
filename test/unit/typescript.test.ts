@@ -124,6 +124,18 @@ describe('Typescript', () => {
                 '\n        }' +
                 '\n    ')
         })
+        it('with primary key and unique column definitions', () => {
+            const tableTypes = Typescript.generateTableTypes('tableName', {
+                col1: {udtName: 'name1', nullable: true, tsType: 'string', primaryKey: true, unique: false},
+                col2: {udtName: 'name2', nullable: true, tsType: 'number', primaryKey: false, unique: true},
+                col3: {udtName: 'name3', nullable: false, tsType: 'number', unique: false}
+            }, options)
+            assert.equal(tableTypes,
+                '\n' +
+                '        export namespace tableNameFields {' +
+                '\n        export type col1 = {type: string| null,primaryKey: true,unique: false,};' +
+                '\nexport type col2 = {type: number| null,primaryKey: false,unique: true,};' +
+                '\nexport type col3 = {type: number| null,unique: false,};' +
                 '\n' +
                 '\n        }' +
                 '\n    ')
