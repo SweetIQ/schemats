@@ -103,7 +103,7 @@ export async function typescriptOfSchema (db: Database|string,
     if (optionsObject.options.writeHeader) {
         output += buildHeader(db, tables, schema, options)
     }
-    if (!options.verbose) {
+    if (!optionsObject.exposeConstraintInfo()) {
         output += helperTypes()
     }
     output += enumTypes

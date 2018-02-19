@@ -3,13 +3,13 @@ import { camelCase, upperFirst } from 'lodash'
 const DEFAULT_OPTIONS: OptionValues = {
     writeHeader: true,
     camelCase: false,
-    verbose: false
+    exposeConstraintInfo: false
 }
 
 export type OptionValues = {
     camelCase?: boolean
     writeHeader?: boolean // write schemats description header
-    verbose?: boolean
+    exposeConstraintInfo?: boolean
 }
 
 export default class Options {
@@ -27,7 +27,7 @@ export default class Options {
         return this.options.camelCase ? camelCase(columnName) : columnName
     }
 
-    isVerbose () {
-        return this.options.verbose
+    exposeConstraintInfo () {
+        return this.options.exposeConstraintInfo
     }
 }
