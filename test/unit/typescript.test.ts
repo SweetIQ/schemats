@@ -10,7 +10,7 @@ describe('Typescript', () => {
             const tableInterface = Typescript.generateTableInterface('tableName', {}, options)
             assert.equal(tableInterface,
                 '\n' +
-                '        export interface tableName {\n' +
+                '        interface tableNameMeta {\n' +
                 '        \n' +
                 '        }\n' +
                 '    ')
@@ -19,7 +19,7 @@ describe('Typescript', () => {
             const tableInterface = Typescript.generateTableInterface('package', {}, options)
             assert.equal(tableInterface,
                 '\n' +
-                '        export interface package_ {\n' +
+                '        interface package_Meta {\n' +
                 '        \n' +
                 '        }\n' +
                 '    ')
@@ -31,7 +31,7 @@ describe('Typescript', () => {
             }, options)
             assert.equal(tableInterface,
                 '\n' +
-                '        export interface tableName {\n' +
+                '        interface tableNameMeta {\n' +
                 '        col1: tableNameFields.col1;\n' +
                 'col2: tableNameFields.col2;\n' +
                 '\n' +
@@ -46,7 +46,7 @@ describe('Typescript', () => {
             }, options)
             assert.equal(tableInterface,
                 '\n' +
-                '        export interface tableName {\n' +
+                '        interface tableNameMeta {\n' +
                 '        string: tableNameFields.string_;\n' +
                 'number: tableNameFields.number_;\n' +
                 'package: tableNameFields.package_;\n' +
@@ -104,8 +104,8 @@ describe('Typescript', () => {
             assert.equal(tableTypes,
                 '\n' +
                 '        export namespace tableNameFields {' +
-                '\n        export type col1 = string;' +
-                '\nexport type col2 = number;' +
+                '\n        export type col1 = {type: string,};' +
+                '\nexport type col2 = {type: number,};' +
                 '\n' +
                 '\n        }' +
                 '\n    ')
@@ -118,8 +118,12 @@ describe('Typescript', () => {
             assert.equal(tableTypes,
                 '\n' +
                 '        export namespace tableNameFields {' +
-                '\n        export type col1 = string| null;' +
-                '\nexport type col2 = number| null;' +
+                '\n        export type col1 = {type: string| null,};' +
+                '\nexport type col2 = {type: number| null,};' +
+                '\n' +
+                '\n        }' +
+                '\n    ')
+        })
                 '\n' +
                 '\n        }' +
                 '\n    ')

@@ -87,8 +87,8 @@ describe('PostgresDatabase', () => {
             ]
             dbResponse.forEach(callback)
             assert.deepEqual(tableDefinition, {
-                col1: { udtName: 'int2', nullable: true },
-                col2: { udtName: 'text', nullable: false }
+                col1: { udtName: 'int2', nullable: true, primaryKey: false, unique: false },
+                col2: { udtName: 'text', nullable: false, primaryKey: false, unique: false }
             })
         })
     })
