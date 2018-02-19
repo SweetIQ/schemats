@@ -2,12 +2,14 @@ import { camelCase, upperFirst } from 'lodash'
 
 const DEFAULT_OPTIONS: OptionValues = {
     writeHeader: true,
-    camelCase: false
+    camelCase: false,
+    exposeConstraintInfo: false
 }
 
 export type OptionValues = {
     camelCase?: boolean
     writeHeader?: boolean // write schemats description header
+    exposeConstraintInfo?: boolean
 }
 
 export default class Options {
@@ -23,5 +25,9 @@ export default class Options {
 
     transformColumnName (columnName: string) {
         return this.options.camelCase ? camelCase(columnName) : columnName
+    }
+
+    exposeConstraintInfo () {
+        return this.options.exposeConstraintInfo
     }
 }

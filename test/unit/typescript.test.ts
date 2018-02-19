@@ -10,7 +10,7 @@ describe('Typescript', () => {
             const tableInterface = Typescript.generateTableInterface('tableName', {}, options)
             assert.equal(tableInterface,
                 '\n' +
-                '        export interface tableName {\n' +
+                '        interface tableNameMeta {\n' +
                 '        \n' +
                 '        }\n' +
                 '    ')
@@ -19,7 +19,7 @@ describe('Typescript', () => {
             const tableInterface = Typescript.generateTableInterface('package', {}, options)
             assert.equal(tableInterface,
                 '\n' +
-                '        export interface package_ {\n' +
+                '        interface package_Meta {\n' +
                 '        \n' +
                 '        }\n' +
                 '    ')
@@ -31,7 +31,7 @@ describe('Typescript', () => {
             }, options)
             assert.equal(tableInterface,
                 '\n' +
-                '        export interface tableName {\n' +
+                '        interface tableNameMeta {\n' +
                 '        col1: tableNameFields.col1;\n' +
                 'col2: tableNameFields.col2;\n' +
                 '\n' +
@@ -46,7 +46,7 @@ describe('Typescript', () => {
             }, options)
             assert.equal(tableInterface,
                 '\n' +
-                '        export interface tableName {\n' +
+                '        interface tableNameMeta {\n' +
                 '        string: tableNameFields.string_;\n' +
                 'number: tableNameFields.number_;\n' +
                 'package: tableNameFields.package_;\n' +
@@ -104,8 +104,8 @@ describe('Typescript', () => {
             assert.equal(tableTypes,
                 '\n' +
                 '        export namespace tableNameFields {' +
-                '\n        export type col1 = string;' +
-                '\nexport type col2 = number;' +
+                '\n        export type col1 = {type: string,};' +
+                '\nexport type col2 = {type: number,};' +
                 '\n' +
                 '\n        }' +
                 '\n    ')
@@ -118,8 +118,24 @@ describe('Typescript', () => {
             assert.equal(tableTypes,
                 '\n' +
                 '        export namespace tableNameFields {' +
-                '\n        export type col1 = string| null;' +
-                '\nexport type col2 = number| null;' +
+                '\n        export type col1 = {type: string| null,};' +
+                '\nexport type col2 = {type: number| null,};' +
+                '\n' +
+                '\n        }' +
+                '\n    ')
+        })
+        it('with primary key and unique column definitions', () => {
+            const tableTypes = Typescript.generateTableTypes('tableName', {
+                col1: {udtName: 'name1', nullable: true, tsType: 'string', primaryKey: true, unique: false},
+                col2: {udtName: 'name2', nullable: true, tsType: 'number', primaryKey: false, unique: true},
+                col3: {udtName: 'name3', nullable: false, tsType: 'number', unique: false}
+            }, options)
+            assert.equal(tableTypes,
+                '\n' +
+                '        export namespace tableNameFields {' +
+                '\n        export type col1 = {type: string| null,primaryKey: true,unique: false,};' +
+                '\nexport type col2 = {type: number| null,primaryKey: false,unique: true,};' +
+                '\nexport type col3 = {type: number,unique: false,};' +
                 '\n' +
                 '\n        }' +
                 '\n    ')

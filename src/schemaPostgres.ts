@@ -119,7 +119,7 @@ export class PostgresDatabase implements Database {
 
     public async getTableDefinition (tableName: string, tableSchema: string) {
         let tableDefinition: TableDefinition = {}
-        type T = { column_name: string, udt_name: string, is_nullable: string }
+        type T = { column_name: string, udt_name: string, is_nullable: string, constraint_type: 'UNIQUE' | 'PRIMARY KEY' }
         await this.db.each<T>(
             'SELECT column_name, udt_name, is_nullable ' +
             'FROM information_schema.columns ' +
@@ -128,9 +128,25 @@ export class PostgresDatabase implements Database {
             (schemaItem: T) => {
                 tableDefinition[schemaItem.column_name] = {
                     udtName: schemaItem.udt_name,
-                    nullable: schemaItem.is_nullable === 'YES'
+                    nullable: schemaItem.is_nullable === 'YES',
+                    primaryKey: false,
+                    unique: false
                 }
             })
+
+        // Fill in PRIMARY KEY and UNIQUE constraint details
+        await this.db.each<T>(
+            'SELECT kcu.column_name, tc.constraint_type ' +
+            'FROM information_schema.table_constraints AS tc ' +
+            'JOIN information_schema.key_column_usage AS kcu ' +
+            'ON tc.constraint_name = kcu.constraint_name ' +
+            'WHERE tc.table_name = $1 and tc.table_schema = $2',
+            [tableName, tableSchema],
+            (schemaItem: T) => {
+                tableDefinition[schemaItem.column_name].unique = schemaItem.constraint_type === 'UNIQUE'
+                tableDefinition[schemaItem.column_name].primaryKey = schemaItem.constraint_type === 'PRIMARY KEY'
+            }
+            )
         return tableDefinition
     }
 

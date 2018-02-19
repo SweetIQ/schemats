@@ -33,7 +33,7 @@ export function generateTableInterface (tableNameRaw: string, tableDefinition: T
     })
 
     return `
-        export interface ${normalizeName(tableName, options)} {
+        interface ${normalizeName(tableName, options)}Meta {
         ${members}
         }
     `
@@ -54,15 +54,44 @@ export function generateTableTypes (tableNameRaw: string, tableDefinition: Table
     const tableName = options.transformTypeName(tableNameRaw)
     let fields = ''
     Object.keys(tableDefinition).forEach((columnNameRaw) => {
-        let type = tableDefinition[columnNameRaw].tsType
-        let nullable = tableDefinition[columnNameRaw].nullable ? '| null' : ''
         const columnName = options.transformColumnName(columnNameRaw)
-        fields += `export type ${normalizeName(columnName, options)} = ${type}${nullable};\n`
+        fields += `export type ${normalizeName(columnName, options)} = {`
+
+        const { tsType, nullable, primaryKey, unique } = tableDefinition[columnNameRaw]
+
+        // Mapped TS type
+        fields += `type: ${tsType}`
+        fields += nullable ? '| null' : ''
+        fields += `,`
+
+        // Primary key constraint
+        fields += primaryKey !== undefined ? `primaryKey: ${primaryKey},` : ''
+
+        // Unique constraint
+        fields += unique !== undefined ? `unique: ${unique},` : ''
+
+        fields += '};\n'
     })
 
     return `
         export namespace ${tableName}Fields {
         ${fields}
         }
+    `
+}
+
+export function generateExports (tableNameRaw: string, tableDefinition: TableDefinition, options: Options) {
+    const tableName = options.transformTypeName(tableNameRaw)
+
+    if (options.exposeConstraintInfo()) {
+        // If `--exposeConstraintInfo` flag is passed, simply rename <table>Meta to <table>
+        return `
+            export type ${normalizeName(tableName, options)} = ${normalizeName(tableName, options)}Meta
+        `
+    }
+
+    // If no `--exposeConstraintInfo` flag is passed, transform the meta interfaces to simple interfaces
+    return `
+        export type ${normalizeName(tableName, options)} = SimpleSchema<${normalizeName(tableName, options)}Meta>
     `
 }

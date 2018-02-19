@@ -3,7 +3,7 @@
  * Created by xiamx on 2016-08-10.
  */
 
-import { generateEnumType, generateTableTypes, generateTableInterface } from './typescript'
+import { generateEnumType, generateTableTypes, generateTableInterface, generateExports } from './typescript'
 import { getDatabase, Database } from './schema'
 import Options, { OptionValues } from './options'
 import { processString, Options as ITFOptions } from 'typescript-formatter'
@@ -45,6 +45,20 @@ function buildHeader (db: Database, tables: string[], schema: string|null, optio
     `
 }
 
+function helperTypes () {
+    return `
+type HasTypeKey<T> = {
+    [K in keyof T]: {
+        type: any
+    }
+}
+
+type SimpleSchema<T extends HasTypeKey<T>> = {
+    [K in keyof T] : T[K]['type']
+}
+`
+}
+
 export async function typescriptOfTable (db: Database|string, 
                                          table: string,
                                          schema: string,
@@ -57,6 +71,8 @@ export async function typescriptOfTable (db: Database|string,
     let tableTypes = await db.getTableTypes(table, schema, options)
     interfaces += generateTableTypes(table, tableTypes, options)
     interfaces += generateTableInterface(table, tableTypes, options)
+    interfaces += generateExports(table, tableTypes, options)
+
     return interfaces
 }
 
@@ -86,6 +102,9 @@ export async function typescriptOfSchema (db: Database|string,
     let output = '/* tslint:disable */\n\n'
     if (optionsObject.options.writeHeader) {
         output += buildHeader(db, tables, schema, options)
+    }
+    if (!optionsObject.exposeConstraintInfo()) {
+        output += helperTypes()
     }
     output += enumTypes
     output += interfaces

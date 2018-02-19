@@ -1,74 +1,84 @@
 /* tslint:disable */
 
+type HasTypeKey<T> = {
+    [K in keyof T]: {
+        type: any
+    }
+}
+
+type SimpleSchema<T extends HasTypeKey<T>> = {
+    [K in keyof T]: T[K]['type']
+}
+
 export type format_enum = 'html' | 'markdown' | 'text';
 export type user_status_enum = 'active' | 'confirmed' | 'deleted' | 'pending' | 'suspended';
 
 export namespace usersFields {
-    export type email = string;
-    export type id = number;
-    export type pass_crypt = string;
-    export type creation_time = Date;
-    export type display_name = string;
-    export type data_public = boolean;
-    export type description = string;
-    export type home_lat = number | null;
-    export type home_lon = number | null;
-    export type home_zoom = number | null;
-    export type nearby = number | null;
-    export type pass_salt = string | null;
-    export type image_file_name = string | null;
-    export type email_valid = boolean;
-    export type new_email = string | null;
-    export type creation_ip = string | null;
-    export type languages = string | null;
-    export type status = user_status_enum;
-    export type terms_agreed = Date | null;
-    export type consider_pd = boolean;
-    export type preferred_editor = string | null;
-    export type terms_seen = boolean;
-    export type auth_uid = string | null;
-    export type description_format = format_enum;
-    export type image_fingerprint = string | null;
-    export type changesets_count = number;
-    export type traces_count = number;
-    export type diary_entries_count = number;
-    export type image_use_gravatar = boolean;
-    export type image_content_type = string | null;
-    export type auth_provider = string | null;
-    export type uuid_column = string | null;
-    export type number_ = number | null;
-    export type string_ = string | null;
-    export type money_col = number | null;
-    export type char_col = string | null;
-    export type time_col = string | null;
-    export type inet_col = string | null;
-    export type jsonb_col = Object | null;
-    export type numeric_col = number | null;
-    export type bytea_col = string | null;
-    export type bool_array_col = Array<boolean> | null;
-    export type varchar_array_col = Array<string> | null;
-    export type int2_array_col = Array<number> | null;
-    export type int4_array_col = Array<number> | null;
-    export type int8_array_col = Array<number> | null;
-    export type uuid_array_col = Array<string> | null;
-    export type text_array_col = Array<string> | null;
-    export type bytea_array_col = Array<string> | null;
-    export type real_col = number | null;
-    export type double_col = number | null;
-    export type time_with_tz = string | null;
-    export type oid_col = number | null;
-    export type interval_col = string | null;
-    export type json_col = Object | null;
-    export type date_col = Date | null;
-    export type unspported_path_type = any | null;
-    export type name_type_col = string | null;
-    export type json_array_col = Array<Object> | null;
-    export type jsonb_array_col = Array<Object> | null;
-    export type timestamptz_array_col = Array<Date> | null;
+    export type email = { type: string, primaryKey: false, unique: false, };
+    export type id = { type: number, primaryKey: false, unique: false, };
+    export type pass_crypt = { type: string, primaryKey: false, unique: false, };
+    export type creation_time = { type: Date, primaryKey: false, unique: false, };
+    export type display_name = { type: string, primaryKey: false, unique: false, };
+    export type data_public = { type: boolean, primaryKey: false, unique: false, };
+    export type description = { type: string, primaryKey: false, unique: false, };
+    export type home_lat = { type: number | null, primaryKey: false, unique: false, };
+    export type home_lon = { type: number | null, primaryKey: false, unique: false, };
+    export type home_zoom = { type: number | null, primaryKey: false, unique: false, };
+    export type nearby = { type: number | null, primaryKey: false, unique: false, };
+    export type pass_salt = { type: string | null, primaryKey: false, unique: false, };
+    export type image_file_name = { type: string | null, primaryKey: false, unique: false, };
+    export type email_valid = { type: boolean, primaryKey: false, unique: false, };
+    export type new_email = { type: string | null, primaryKey: false, unique: false, };
+    export type creation_ip = { type: string | null, primaryKey: false, unique: false, };
+    export type languages = { type: string | null, primaryKey: false, unique: false, };
+    export type status = { type: user_status_enum, primaryKey: false, unique: false, };
+    export type terms_agreed = { type: Date | null, primaryKey: false, unique: false, };
+    export type consider_pd = { type: boolean, primaryKey: false, unique: false, };
+    export type preferred_editor = { type: string | null, primaryKey: false, unique: false, };
+    export type terms_seen = { type: boolean, primaryKey: false, unique: false, };
+    export type auth_uid = { type: string | null, primaryKey: false, unique: false, };
+    export type description_format = { type: format_enum, primaryKey: false, unique: false, };
+    export type image_fingerprint = { type: string | null, primaryKey: false, unique: false, };
+    export type changesets_count = { type: number, primaryKey: false, unique: false, };
+    export type traces_count = { type: number, primaryKey: false, unique: false, };
+    export type diary_entries_count = { type: number, primaryKey: false, unique: false, };
+    export type image_use_gravatar = { type: boolean, primaryKey: false, unique: false, };
+    export type image_content_type = { type: string | null, primaryKey: false, unique: false, };
+    export type auth_provider = { type: string | null, primaryKey: false, unique: false, };
+    export type uuid_column = { type: string | null, primaryKey: false, unique: false, };
+    export type number_ = { type: number | null, primaryKey: false, unique: false, };
+    export type string_ = { type: string | null, primaryKey: false, unique: false, };
+    export type money_col = { type: number | null, primaryKey: false, unique: false, };
+    export type char_col = { type: string | null, primaryKey: false, unique: false, };
+    export type time_col = { type: string | null, primaryKey: false, unique: false, };
+    export type inet_col = { type: string | null, primaryKey: false, unique: false, };
+    export type jsonb_col = { type: Object | null, primaryKey: false, unique: false, };
+    export type numeric_col = { type: number | null, primaryKey: false, unique: false, };
+    export type bytea_col = { type: string | null, primaryKey: false, unique: false, };
+    export type bool_array_col = { type: Array<boolean> | null, primaryKey: false, unique: false, };
+    export type varchar_array_col = { type: Array<string> | null, primaryKey: false, unique: false, };
+    export type int2_array_col = { type: Array<number> | null, primaryKey: false, unique: false, };
+    export type int4_array_col = { type: Array<number> | null, primaryKey: false, unique: false, };
+    export type int8_array_col = { type: Array<number> | null, primaryKey: false, unique: false, };
+    export type uuid_array_col = { type: Array<string> | null, primaryKey: false, unique: false, };
+    export type text_array_col = { type: Array<string> | null, primaryKey: false, unique: false, };
+    export type bytea_array_col = { type: Array<string> | null, primaryKey: false, unique: false, };
+    export type real_col = { type: number | null, primaryKey: false, unique: false, };
+    export type double_col = { type: number | null, primaryKey: false, unique: false, };
+    export type time_with_tz = { type: string | null, primaryKey: false, unique: false, };
+    export type oid_col = { type: number | null, primaryKey: false, unique: false, };
+    export type interval_col = { type: string | null, primaryKey: false, unique: false, };
+    export type json_col = { type: Object | null, primaryKey: false, unique: false, };
+    export type date_col = { type: Date | null, primaryKey: false, unique: false, };
+    export type unspported_path_type = { type: any | null, primaryKey: false, unique: false, };
+    export type name_type_col = { type: string | null, primaryKey: false, unique: false, };
+    export type json_array_col = { type: Array<Object> | null, primaryKey: false, unique: false, };
+    export type jsonb_array_col = { type: Array<Object> | null, primaryKey: false, unique: false, };
+    export type timestamptz_array_col = { type: Array<Date> | null, primaryKey: false, unique: false, };
 
 }
 
-export interface users {
+interface usersMeta {
     email: usersFields.email;
     id: usersFields.id;
     pass_crypt: usersFields.pass_crypt;
@@ -131,3 +141,5 @@ export interface users {
     jsonb_array_col: usersFields.jsonb_array_col;
     timestamptz_array_col: usersFields.timestamptz_array_col;
 }
+
+export type users = SimpleSchema<usersMeta>

@@ -24,6 +24,7 @@ describe('index', () => {
         typedTableSandbox.stub(Typescript, 'generateEnumType')
         typedTableSandbox.stub(Typescript, 'generateTableTypes')
         typedTableSandbox.stub(Typescript, 'generateTableInterface')
+        typedTableSandbox.stub(Typescript, 'generateExports')
     })
     beforeEach(() => {
         typedTableSandbox.reset()
@@ -55,8 +56,9 @@ describe('index', () => {
             dbReflection.getTableTypes.returns(Promise.resolve('tableTypes'))
             tsReflection.generateTableTypes.returns('generatedTableTypes\n')
             tsReflection.generateTableInterface.returns('generatedTableInterfaces\n')
+            tsReflection.generateExports.returns('generatedExports\n')
             const typescriptString = await Index.typescriptOfTable(db, 'tableName', 'schemaName', new Options(options))
-            assert.equal(typescriptString, 'generatedTableTypes\ngeneratedTableInterfaces\n')
+            assert.equal(typescriptString, 'generatedTableTypes\ngeneratedTableInterfaces\ngeneratedExports\n')
         })
     })
     describe('typescriptOfSchema', () => {
