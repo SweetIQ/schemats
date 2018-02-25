@@ -1,5 +1,5 @@
-import { ConnectionPool } from 'mssql'
-import { mapValues, keys, isEqual } from 'lodash'
+import { ConnectionPool, VarChar } from 'mssql'
+import { mapValues, keys } from 'lodash'
 import { parse as urlParse } from 'url'
 import { TableDefinition, Database } from './schemaInterfaces'
 import Options from './options'
@@ -12,18 +12,17 @@ export class MSsqlDatabase implements Database {
         this.db = new ConnectionPool(this.connectionString)
         let url = urlParse(connectionString, true)
         if (url && url.pathname) {
-            let database = url.pathname.substr(1)
-            this.defaultSchema = database
+            this.defaultSchema = url.pathname.substr(1)
         } else {
             this.defaultSchema = 'master'
         }
     }
 
-    // uses the type mappings from https://github.com/mysqljs/ where sensible
+    // uses the type mappings from https://github.com/tediousjs/node-mssql where sensible
     private static mapTableDefinitionToType (tableDefinition: TableDefinition, customTypes: string[], options: Options): TableDefinition {
         if (!options) throw new Error()
         return mapValues(tableDefinition, column => {
-            switch (column.udtName.toLowerCase()) {
+            switch (column.udtName) {
                 case 'bit':
                     column.tsType = 'boolean'
                     return column
@@ -57,11 +56,11 @@ export class MSsqlDatabase implements Database {
                 case 'smalldatetime' :
                     column.tsType = 'date'
                     return column
-                case 'binary' :
-                case 'varbinary' :
-                case 'image' :
-                    column.tsType = 'mssqlBuffer'
-                    return column
+                // case 'binary' :
+                // case 'varbinary' :
+                // case 'image' :
+                //     column.tsType = 'mssqlBuffer'
+                //     return column
                 default:
                     if (customTypes.indexOf(column.udtName) !== -1) {
                         column.tsType = options.transformTypeName(column.udtName)
@@ -76,10 +75,63 @@ export class MSsqlDatabase implements Database {
     }
 
     public async query (queryString: string) {
+        return this.templateQuery`${queryString}`
+    }
+    public async templateQuery (queryString: TemplateStringsArray, ...interpolations: any[]) {
         if (!this.db.connected) {
             await this.db.connect()
         }
-        const { recordset } = await this.db.query`${queryString}`
+        const { recordset } = await this.db.query(queryString, interpolations)
         return recordset as Object[]
+    }
+
+    public getDefaultSchema (): string {
+        return this.defaultSchema
+    }
+
+    public async getEnumTypes (schema?: string) {
+        return {}
+    }
+
+    public async getTableDefinition (tableName: string, tableSchema: string) {
+        let tableDefinition: TableDefinition = {}
+        if (!this.db.connected) {
+            await this.db.connect()
+        }
+
+        const { recordset } = await this.db.request()
+            .input('table_name', VarChar, tableName)
+            .input('table_schema', VarChar, tableSchema)
+            .query(
+                'SELECT column_name, data_type, is_nullable ' +
+                'FROM information_schema.columns ' +
+                'WHERE table_name = @table_name and table_catalog = @table_schema'
+            )
+
+        recordset.forEach((schemaItem: { column_name: string, data_type: string, is_nullable: string }) => {
+            const columnName = schemaItem.column_name
+            const dataType = schemaItem.data_type
+            tableDefinition[columnName] = {
+                udtName: dataType.toLowerCase(),
+                nullable: schemaItem.is_nullable === 'YES'
+            }
+        })
+        return tableDefinition
+    }
+
+    public async getTableTypes (tableName: string, tableSchema: string, options: Options) {
+        let enumTypes = await this.getEnumTypes()
+        let customTypes = keys(enumTypes)
+        return MSsqlDatabase.mapTableDefinitionToType(await this.getTableDefinition(tableName, tableSchema), customTypes, options)
+    }
+
+    public async getSchemaTables (schemaName: string): Promise<string[]> {
+        const schemaTables = await this.templateQuery`
+        SELECT table_name
+        FROM information_schema.columns
+        WHERE table_catalog = ${schemaName}
+        GROUP BY table_name
+        `
+        return schemaTables.map((schemaItem: { table_name: string }) => schemaItem.table_name)
     }
 }
