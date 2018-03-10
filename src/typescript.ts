@@ -7,6 +7,7 @@ import * as _ from 'lodash'
 
 import { TableDefinition } from './schemaInterfaces'
 import Options from './options'
+import { upperFirst, camelCase } from 'lodash'
 
 function nameIsReservedKeyword (name: string): boolean {
     const reservedKeywords = [
@@ -23,6 +24,10 @@ function normalizeName (name: string, options: Options): string {
     } else {
         return name
     }
+}
+
+export function transformEnumNameForReference (name: string): string {
+    return upperFirst(camelCase(name))
 }
 
 export function generateTableInterface (tableNameRaw: string, tableDefinition: TableDefinition, options: Options) {
@@ -46,6 +51,10 @@ export function generateEnumType (enumObject: any, options: Options) {
         enumString += `export type ${enumName} = `
         enumString += enumObject[enumNameRaw].map((v: string) => `'${v}'`).join(' | ')
         enumString += ';\n'
+        const enumNameReference = transformEnumNameForReference(enumName)
+        if (enumNameReference !== enumName) {
+            enumString += `export type ${enumNameReference} = ${enumName};\n`
+        }
     }
     return enumString
 }

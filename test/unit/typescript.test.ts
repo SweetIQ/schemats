@@ -67,7 +67,9 @@ describe('Typescript', () => {
             }, options)
             assert.equal(enumType,
                 'export type enum1 = \'val1\' | \'val2\' | \'val3\' | \'val4\';\n' +
-                'export type enum2 = \'val5\' | \'val6\' | \'val7\' | \'val8\';\n')
+                'export type Enum1 = enum1;\n' +
+                'export type enum2 = \'val5\' | \'val6\' | \'val7\' | \'val8\';\n' +
+                'export type Enum2 = enum2;\n')
         })
     })
     describe('generateEnumType', () => {
@@ -82,7 +84,9 @@ describe('Typescript', () => {
             }, options)
             assert.equal(enumType,
                 'export type enum1 = \'val1\' | \'val2\' | \'val3\' | \'val4\';\n' +
-                'export type enum2 = \'val5\' | \'val6\' | \'val7\' | \'val8\';\n')
+                'export type Enum1 = enum1;\n' +
+                'export type enum2 = \'val5\' | \'val6\' | \'val7\' | \'val8\';\n' +
+                'export type Enum2 = enum2;\n')
         })
     })
     describe('generateTableTypes', () => {

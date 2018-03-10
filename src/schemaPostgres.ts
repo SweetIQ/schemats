@@ -2,8 +2,8 @@ import * as PgPromise from 'pg-promise'
 import { mapValues } from 'lodash'
 import { keys } from 'lodash'
 import Options from './options'
-
 import { TableDefinition, Database } from './schemaInterfaces'
+import { transformEnumNameForReference } from './typescript'
 
 const pgp = PgPromise()
 
@@ -81,7 +81,7 @@ export class PostgresDatabase implements Database {
                     return column
                 default:
                     if (customTypes.indexOf(column.udtName) !== -1) {
-                        column.tsType = options.transformTypeName(column.udtName)
+                        column.tsType = transformEnumNameForReference(column.udtName)
                         return column
                     } else {
                         console.log(`Type [${column.udtName} has been mapped to [any] because no specific type has been found.`)
