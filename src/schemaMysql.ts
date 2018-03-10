@@ -3,6 +3,7 @@ import { mapValues, keys, isEqual } from 'lodash'
 import { parse as urlParse } from 'url'
 import { TableDefinition, Database } from './schemaInterfaces'
 import Options from './options'
+import { transformEnumNameForReference } from './typescript'
 
 export class MysqlDatabase implements Database {
     private db: mysql.IConnection
@@ -71,7 +72,7 @@ export class MysqlDatabase implements Database {
                     return column
                 default:
                     if (customTypes.indexOf(column.udtName) !== -1) {
-                        column.tsType = options.transformTypeName(column.udtName)
+                        column.tsType = transformEnumNameForReference(column.udtName)
                         return column
                     } else {
                         console.log(`Type [${column.udtName}] has been mapped to [any] because no specific type has been found.`)
