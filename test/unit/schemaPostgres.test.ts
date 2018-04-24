@@ -192,7 +192,7 @@ describe('PostgresDatabase', () => {
                     }
                 }
                 assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'string')
-            })            
+            })
             it('uuid', () => {
                 const td: TableDefinition = {
                     column: {
@@ -362,7 +362,7 @@ describe('PostgresDatabase', () => {
                 assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Object')
             })
         })
-        describe('maps to Date', () => {
+        describe('maps to Date or infinity', () => {
             it('date', () => {
                 const td: TableDefinition = {
                     column: {
@@ -370,7 +370,7 @@ describe('PostgresDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Date')
+                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Date | \'infinity\'')
             })
             it('timestamp', () => {
                 const td: TableDefinition = {
@@ -379,7 +379,7 @@ describe('PostgresDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Date')
+                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Date | \'infinity\'')
             })
             it('timestamptz', () => {
                 const td: TableDefinition = {
@@ -388,7 +388,7 @@ describe('PostgresDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Date')
+                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Date | \'infinity\'')
             })
         })
         describe('maps to Array<number>', () => {
@@ -494,7 +494,7 @@ describe('PostgresDatabase', () => {
                     }
                 }
                 assert.equal(PostgresDBReflection.mapTableDefinitionToType(td, ['CustomType'], options).column.tsType, 'Array<string>')
-            })            
+            })
             it('_uuid', () => {
                 const td: TableDefinition = {
                     column: {
@@ -514,7 +514,7 @@ describe('PostgresDatabase', () => {
                 assert.equal(PostgresDBReflection.mapTableDefinitionToType(td, ['CustomType'], options).column.tsType, 'Array<string>')
             })
         })
-        
+
         describe('maps to Array<Object>', () => {
             it('_json', () => {
                 const td: TableDefinition = {
@@ -535,8 +535,8 @@ describe('PostgresDatabase', () => {
                 assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Array<Object>')
             })
         })
-        
-        describe('maps to Array<Date>', () => {
+
+        describe('maps to Array<Date | \'infinity\'>', () => {
             it('_timestamptz', () => {
                 const td: TableDefinition = {
                     column: {
@@ -544,10 +544,10 @@ describe('PostgresDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Array<Date>')
+                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td,[],options).column.tsType, 'Array<Date | \'infinity\'>')
             })
         })
-        
+
         describe('maps to custom', () => {
             it('CustomType', () => {
                 const td: TableDefinition = {
