@@ -7,7 +7,7 @@ export namespace usersFields {
     export type email = string;
     export type id = number;
     export type pass_crypt = string;
-    export type creation_time = Date;
+    export type creation_time = Date | Infinity;
     export type display_name = string;
     export type data_public = boolean;
     export type description = string;
@@ -22,7 +22,7 @@ export namespace usersFields {
     export type creation_ip = string | null;
     export type languages = string | null;
     export type status = user_status_enum;
-    export type terms_agreed = Date | null;
+    export type terms_agreed = Date | Infinity | null;
     export type consider_pd = boolean;
     export type preferred_editor = string | null;
     export type terms_seen = boolean;
@@ -59,12 +59,12 @@ export namespace usersFields {
     export type oid_col = number | null;
     export type interval_col = string | null;
     export type json_col = Object | null;
-    export type date_col = Date | null;
+    export type date_col = Date | Infinity | null;
     export type unspported_path_type = any | null;
     export type name_type_col = string | null;
     export type json_array_col = Array<Object> | null;
     export type jsonb_array_col = Array<Object> | null;
-    export type timestamptz_array_col = Array<Date> | null;
+    export type timestamptz_array_col = Array<Date | Infinity> | null;
 
 }
 
