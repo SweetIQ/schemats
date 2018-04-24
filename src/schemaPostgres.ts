@@ -51,7 +51,7 @@ export class PostgresDatabase implements Database {
                 case 'date':
                 case 'timestamp':
                 case 'timestamptz':
-                    column.tsType = 'Date | \'infinity\''
+                    column.tsType = 'Date | Infinity'
                     return column
                 case '_int2':
                 case '_int4':
@@ -77,7 +77,7 @@ export class PostgresDatabase implements Database {
                     column.tsType = 'Array<Object>'
                     return column
                 case '_timestamptz':
-                    column.tsType = 'Array<Date | \'infinity\'>'
+                    column.tsType = 'Array<Date | Infinity>'
                     return column
                 default:
                     if (customTypes.indexOf(column.udtName) !== -1) {
