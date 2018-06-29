@@ -1,9 +1,9 @@
 # Schemats
 
 [![npm](https://img.shields.io/npm/v/schemats.svg)](https://www.npmjs.com/package/schemats)
-[![GitHub tag](https://img.shields.io/github/tag/SweetIQ/schemats.svg)](https://github.com/SweetIQ/schemats)
-[![TravisCI Build Status](https://travis-ci.org/SweetIQ/schemats.svg?branch=master)](https://travis-ci.org/SweetIQ/schemats)
-[![Coverage Status](https://coveralls.io/repos/github/SweetIQ/schemats/badge.svg?branch=coverage)](https://coveralls.io/github/SweetIQ/schemats?branch=coverage)
+[![GitHub tag](https://img.shields.io/github/tag/xiamx/schemats.svg)](https://github.com/xiamx/schemats)
+[![TravisCI Build Status](https://travis-ci.org/xiamx/schemats.svg?branch=master)](https://travis-ci.org/xiamx/schemats)
+[![Coverage Status](https://coveralls.io/repos/github/xiamx/schemats/badge.svg?branch=coverage)](https://coveralls.io/github/xiamx/schemats?branch=coverage)
 
 Using Schemats, you can generate TypeScript interface definitions from (Postgres, MySQL) SQL database schema automatically.
 
@@ -116,10 +116,10 @@ let emailOfUsersCreatedAfter2013: Array<{
 With generated type definition for our database schema, we can write code with autocompletion and static type checks.
 
 <p align="center">
-<img align="center" src="https://github.com/SweetIQ/schemats/raw/master/demo.gif" width="100%" alt="demo 1"/>
+<img align="center" src="https://github.com/xiamx/schemats/raw/master/demo.gif" width="100%" alt="demo 1"/>
 </p>
 <p align="center">
-<img align="center" src="https://github.com/SweetIQ/schemats/raw/master/demo2.gif" width="100%" alt="demo 2"/>
+<img align="center" src="https://github.com/xiamx/schemats/raw/master/demo2.gif" width="100%" alt="demo 2"/>
 </p>
 
 ### Using schemats as a library
@@ -154,13 +154,13 @@ import {table_a, table_b} from './db'
 ```
 
 As [TypeScript's documentation](https://www.typescriptlang.org/docs/handbook/namespaces-and-modules.html) describes,
-having a top level namespace is needless. This was discussed in [#25](https://github.com/SweetIQ/schemats/issues/25).
+having a top level namespace is needless. This was discussed in [#25](https://github.com/xiamx/schemats/issues/25).
 
 Generating schema typescript files with namespace still works in v1.0, but it is discouraged and subjected to 
 removal in the future.
 
 #### Support Strict Null-Checking
 
-Version 1.0 [supports](https://github.com/SweetIQ/schemats/issues/19)
+Version 1.0 [supports](https://github.com/xiamx/schemats/issues/19)
  [strict null-checking](https://github.com/Microsoft/TypeScript/pull/7140)
 and reflects the _NOT NULL_ constraint defined in PostgreSQL schema.
