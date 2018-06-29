@@ -11,10 +11,9 @@ describe('schemats cli tool integration testing', () => {
         it('should run without error', () => {
             let {status, stdout, stderr} = spawnSync('node', [
                 'bin/schemats', 'generate',
-                '-c', process.env.POSTGRES_URL,
+                '-c', process.env.POSTGRES_URL as string,
                 '-o', '/tmp/schemats_cli_postgres.ts'
             ], { encoding: 'utf-8' })
-            console.log('opopopopop', stdout, stderr)
             assert.equal(0, status)
         })
     })
@@ -27,7 +26,7 @@ describe('schemats cli tool integration testing', () => {
         it('should run without error', () => {
             let {status} = spawnSync('node', [
                 'bin/schemats', 'generate',
-                '-c', process.env.MYSQL_URL,
+                '-c', process.env.MYSQL_URL as string,
                 '-s', 'test',
                 '-o', '/tmp/schemats_cli_postgres.ts'
             ])
