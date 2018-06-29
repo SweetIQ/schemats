@@ -16,7 +16,7 @@
     "dependency-check": "dependency-check . --entry bin/schemats.js --missing --no-dev",
     "test": "npm run lint && npm run build && npm run dependency-check && mocha",
     "prepublish": "npm run build",
-    "clean": "del-cli node_modules **/*.js",
+    "clean": "del-cli node_modules **/*.js **/*.d.ts **/*.js.map",
     "coverage": "npm run lint && npm run build && npm run dependency-check && nyc mocha",
     "coverage:ci": "npm run lint && npm run build && npm run dependency-check && nyc mocha && nyc report --reporter=text-lcov | coveralls"
   },
@@ -25,10 +25,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sweetiq/schemats.git"
+    "url": "https://github.com/xiamx/schemats.git"
   },
   "bugs": {
-    "url": "https://github.com/sweetiq/schemats/issues"
+    "url": "https://github.com/xiamx/schemats/issues"
   },
   "author": "Mengxuan Xia <xiamx2004@gmail.com>",
   "contributors": [
@@ -44,7 +44,7 @@
     "@types/mocha": "^2.2.39",
     "@types/mysql": "0.0.33",
     "@types/mz": "^0.0.31",
-    "@types/node": "^6.0.77",
+    "@types/node": "^10.5.1",
     "@types/power-assert": "^1.4.29",
     "@types/proxyquire": "^1.3.27",
     "@types/sinon": "^2.1.2",
