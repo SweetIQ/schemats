@@ -112,11 +112,14 @@ export class MysqlDatabase implements Database {
             params
         )
         rawEnumRecords.forEach((enumItem: { column_name: string, column_type: string, data_type: string }) => {
-            const enumName = MysqlDatabase.getEnumNameFromColumn(enumItem.data_type, enumItem.column_name)
-            const enumValues = MysqlDatabase.parseMysqlEnumeration(enumItem.column_type)
+            const dataType = enumItem.data_type || enumItem.DATA_TYPE
+            const columnType = enumItem.column_type || enumItem.COLUMN_TYPE
+            const columnName = enumItem.column_name || enumItem.COLUMN_NAME
+            const enumName = MysqlDatabase.getEnumNameFromColumn(dataType, columnName)
+            const enumValues = MysqlDatabase.parseMysqlEnumeration(columnType)
             if (enums[enumName] && !isEqual(enums[enumName], enumValues)) {
                 const errorMsg = `Multiple enums with the same name and contradicting types were found: ` +
-                    `${enumItem.column_name}: ${JSON.stringify(enums[enumName])} and ${JSON.stringify(enumValues)}`
+                    `${enumItem.column_name || enumItem.COLUMN_NAME}: ${JSON.stringify(enums[enumName])} and ${JSON.stringify(enumValues)}`
                 throw new Error(errorMsg)
             }
             enums[enumName] = enumValues
