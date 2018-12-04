@@ -77,5 +77,6 @@ CREATE TABLE users (
     name_type_col name,
     json_array_col json[],
     jsonb_array_col jsonb[],
-    timestamptz_array_col timestamptz[]
+    timestamptz_array_col timestamptz[],
+    formats format_enum[]
 );
