@@ -86,8 +86,8 @@ export class MysqlDatabase implements Database {
         return mysqlEnum.replace(/(^(enum|set)\('|'\)$)/gi, '').split(`','`)
     }
 
-    private static getEnumNameFromColumn (dataType: string, columnName: string): string {
-        return `${dataType}_${columnName}`
+    private static getEnumNameFromColumn (tableName: string, columnName: string): string {
+        return `${tableName}_${columnName}`
     }
 
     public query (queryString: string) {
@@ -106,13 +106,13 @@ export class MysqlDatabase implements Database {
             params = []
         }
         const rawEnumRecords = await this.queryAsync(
-            'SELECT column_name, column_type, data_type ' +
+            'SELECT table_name, column_name, column_type, data_type ' +
             'FROM information_schema.columns ' +
             `WHERE data_type IN ('enum', 'set') ${enumSchemaWhereClause}`,
             params
         )
-        rawEnumRecords.forEach((enumItem: { column_name: string, column_type: string, data_type: string }) => {
-            const enumName = MysqlDatabase.getEnumNameFromColumn(enumItem.data_type, enumItem.column_name)
+        rawEnumRecords.forEach((enumItem: { table_name: string, column_name: string, column_type: string, data_type: string }) => {
+            const enumName = MysqlDatabase.getEnumNameFromColumn(enumItem.table_name, enumItem.column_name)
             const enumValues = MysqlDatabase.parseMysqlEnumeration(enumItem.column_type)
             if (enums[enumName] && !isEqual(enums[enumName], enumValues)) {
                 const errorMsg = `Multiple enums with the same name and contradicting types were found: ` +
@@ -137,7 +137,7 @@ export class MysqlDatabase implements Database {
             const columnName = schemaItem.column_name
             const dataType = schemaItem.data_type
             tableDefinition[columnName] = {
-                udtName: /^(enum|set)$/i.test(dataType) ? MysqlDatabase.getEnumNameFromColumn(dataType, columnName) : dataType,
+                udtName: /^(enum|set)$/i.test(dataType) ? MysqlDatabase.getEnumNameFromColumn(tableName, columnName) : dataType,
                 nullable: schemaItem.is_nullable === 'YES'
             }
         })
