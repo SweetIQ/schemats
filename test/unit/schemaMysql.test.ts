@@ -66,7 +66,7 @@ describe('MysqlDatabase', () => {
             MysqlDBReflection.prototype.queryAsync.returns(Promise.resolve([]))
             await db.getEnumTypes('testschema')
             assert.deepEqual(MysqlDBReflection.prototype.queryAsync.getCall(0).args, [
-                'SELECT column_name, column_type, data_type ' +
+                'SELECT table_name, column_name, column_type, data_type ' +
                 'FROM information_schema.columns ' +
                 'WHERE data_type IN (\'enum\', \'set\') and table_schema = ?',
                 ['testschema']
@@ -76,7 +76,7 @@ describe('MysqlDatabase', () => {
             MysqlDBReflection.prototype.queryAsync.returns(Promise.resolve([]))
             await db.getEnumTypes()
             assert.deepEqual(MysqlDBReflection.prototype.queryAsync.getCall(0).args, [
-                'SELECT column_name, column_type, data_type ' +
+                'SELECT table_name, column_name, column_type, data_type ' +
                 'FROM information_schema.columns ' +
                 'WHERE data_type IN (\'enum\', \'set\') ',
                 []
@@ -84,29 +84,29 @@ describe('MysqlDatabase', () => {
         })
         it('handles response', async () => {
             MysqlDBReflection.prototype.queryAsync.returns(Promise.resolve([
-                { column_name: 'column1', column_type: 'enum(\'enum1\')', data_type: 'enum' },
-                { column_name: 'column2', column_type: 'set(\'set1\')', data_type: 'set' }
+                { table_name: 'testschema', column_name: 'column1', column_type: 'enum(\'enum1\')', data_type: 'enum' },
+                { table_name: 'testschema', column_name: 'column2', column_type: 'set(\'set1\')', data_type: 'set' }
             ]))
             const enumTypes = await db.getEnumTypes('testschema')
             assert.deepEqual(enumTypes, {
-                enum_column1: [ 'enum1' ],
-                set_column2: [ 'set1' ]
+                testschema_column1: [ 'enum1' ],
+                testschema_column2: [ 'set1' ]
             })
         })
         it('same column same value is accepted', async () => {
             MysqlDBReflection.prototype.queryAsync.returns(Promise.resolve([
-                { column_name: 'column1', column_type: 'enum(\'enum1\',\'enum2\')', data_type: 'enum' },
-                { column_name: 'column1', column_type: 'enum(\'enum1\',\'enum2\')', data_type: 'enum' }
+                { table_name: 'testschema', column_name: 'column1', column_type: 'enum(\'enum1\',\'enum2\')', data_type: 'enum' },
+                { table_name: 'testschema', column_name: 'column1', column_type: 'enum(\'enum1\',\'enum2\')', data_type: 'enum' }
             ]))
             const enumTypes = await db.getEnumTypes('testschema')
             assert.deepEqual(enumTypes, {
-                enum_column1: [ 'enum1', 'enum2' ]
+                testschema_column1: [ 'enum1', 'enum2' ]
             })
         })
         it('same column different value conflict', async () => {
             MysqlDBReflection.prototype.queryAsync.returns(Promise.resolve([
-                { column_name: 'column1', column_type: 'enum(\'enum1\')', data_type: 'enum' },
-                { column_name: 'column1', column_type: 'enum(\'enum2\')', data_type: 'enum' }
+                { table_name: 'testschema', column_name: 'column1', column_type: 'enum(\'enum1\')', data_type: 'enum' },
+                { table_name: 'testschema', column_name: 'column1', column_type: 'enum(\'enum2\')', data_type: 'enum' }
             ]))
             try {
                 await db.getEnumTypes('testschema')
@@ -135,8 +135,8 @@ describe('MysqlDatabase', () => {
             const schemaTables = await db.getTableDefinition('testtable', 'testschema')
             assert.deepEqual(schemaTables, {
                 column1: { udtName: 'data1', nullable: false },
-                column2: { udtName: 'enum_column2', nullable: true },
-                column3: { udtName: 'set_column3', nullable: true }
+                column2: { udtName: 'testtable_column2', nullable: true },
+                column3: { udtName: 'testtable_column3', nullable: true }
             })
         })
     })
