@@ -556,7 +556,7 @@ describe('PostgresDatabase', () => {
                         nullable: false
                     }
                 }
-                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td, ['CustomType'], options).column.tsType, 'CustomType')
+                assert.equal(PostgresDBReflection.mapTableDefinitionToType(td, ['CustomType'], options).column.tsType, 'customTypes.CustomType')
             })
         })
         describe('maps to any', () => {

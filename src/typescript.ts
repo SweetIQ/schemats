@@ -3,8 +3,6 @@
  * Created by xiamx on 2016-08-10.
  */
 
-import * as _ from 'lodash'
-
 import { TableDefinition } from './schemaInterfaces'
 import Options from './options'
 
@@ -27,42 +25,43 @@ function normalizeName (name: string, options: Options): string {
 
 export function generateTableInterface (tableNameRaw: string, tableDefinition: TableDefinition, options: Options) {
     const tableName = options.transformTypeName(tableNameRaw)
-    let members = ''
-    Object.keys(tableDefinition).map(c => options.transformColumnName(c)).forEach((columnName) => {
-        members += `${columnName}: ${tableName}Fields.${normalizeName(columnName, options)};\n`
+    const members = options.getKeys(tableDefinition).map((columnNameRaw) => {
+        const columnName = options.transformColumnName(columnNameRaw)
+        return `${columnName}: ${tableName}Fields.${normalizeName(columnName, options)};`
     })
 
     return `
         export interface ${normalizeName(tableName, options)} {
-        ${members}
+        ${members.join('\n')}
         }
     `
 }
 
 export function generateEnumType (enumObject: any, options: Options) {
-    let enumString = ''
-    for (let enumNameRaw in enumObject) {
+    const enumNamespace = options.getKeys(enumObject).map((enumNameRaw) => {
         const enumName = options.transformTypeName(enumNameRaw)
-        enumString += `export type ${enumName} = `
-        enumString += enumObject[enumNameRaw].map((v: string) => `'${v}'`).join(' | ')
-        enumString += ';\n'
-    }
-    return enumString
+        return `export type ${enumName} = '${options.getMaybeSorted(enumObject[enumNameRaw]).join(`' | '`)}';`
+    })
+
+    return `
+        export namespace customTypes {
+        ${enumNamespace.join('\n')}
+        }
+    `
 }
 
 export function generateTableTypes (tableNameRaw: string, tableDefinition: TableDefinition, options: Options) {
     const tableName = options.transformTypeName(tableNameRaw)
-    let fields = ''
-    Object.keys(tableDefinition).forEach((columnNameRaw) => {
+    const tableNamespace = options.getKeys(tableDefinition).map((columnNameRaw) => {
         let type = tableDefinition[columnNameRaw].tsType
         let nullable = tableDefinition[columnNameRaw].nullable ? '| null' : ''
         const columnName = options.transformColumnName(columnNameRaw)
-        fields += `export type ${normalizeName(columnName, options)} = ${type}${nullable};\n`
+        return `export type ${normalizeName(columnName, options)} = ${type}${nullable};`
     })
 
     return `
         export namespace ${tableName}Fields {
-        ${fields}
+        ${tableNamespace.join('\n')}
         }
     `
 }
