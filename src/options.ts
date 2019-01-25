@@ -1,20 +1,30 @@
-import { camelCase, upperFirst } from 'lodash'
+import { camelCase, upperFirst, sortBy, keys } from 'lodash'
 
-const DEFAULT_OPTIONS: OptionValues = {
-    writeHeader: true,
-    camelCase: false
+const DEFAULT_OPTIONS: Required<OptionValues> = {
+    camelCase: false,
+    order: false,
+    writeHeader: true
 }
 
 export type OptionValues = {
     camelCase?: boolean
+    order?: boolean
     writeHeader?: boolean // write schemats description header
 }
 
 export default class Options {
-    public options: OptionValues
+    public options: Required<OptionValues>
 
-    constructor (options: OptionValues = {}) {
+    constructor (options?: OptionValues) {
         this.options = {...DEFAULT_OPTIONS, ...options}
+    }
+
+    getKeys (obj: any): string[] {
+        return this.getMaybeSorted(keys(obj))
+    }
+
+    getMaybeSorted (arr: string[]): string[] {
+        return this.options.order ? sortBy(arr) : arr
     }
 
     transformTypeName (typename: string) {

@@ -7,13 +7,13 @@
 import * as yargs from 'yargs'
 import * as fs from 'fs'
 import { typescriptOfSchema, getDatabase } from '../src/index'
-import Options from '../src/options'
 
 interface SchematsConfig {
     conn: string,
     table: string[] | string,
     schema: string,
     output: string,
+    order: boolean,
     camelCase: boolean,
     noHeader: boolean,
 }
@@ -41,6 +41,7 @@ let argv: SchematsConfig = yargs
     .alias('C', 'camelCase')
     .describe('C', 'Camel-case columns')
     .describe('noHeader', 'Do not write header')
+    .describe('order', 'Sort type and interface properties')
     .demand('o')
     .nargs('o', 1)
     .alias('o', 'output')
@@ -61,7 +62,7 @@ let argv: SchematsConfig = yargs
         }
 
         let formattedOutput = await typescriptOfSchema(
-            argv.conn, argv.table, argv.schema, { camelCase: argv.camelCase, writeHeader: !argv.noHeader })
+            argv.conn, argv.table, argv.schema, { camelCase: argv.camelCase, order: argv.order, writeHeader: !argv.noHeader })
         fs.writeFileSync(argv.output, formattedOutput)
 
     } catch (e) {
