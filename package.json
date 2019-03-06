@@ -11,7 +11,7 @@
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "scripts": {
-    "lint": "tslint --project tsconfig.json --type-check 'src/**/*.ts' 'test/**/*.test.ts' 'bin/**/*.ts' --exclude '**/*.d.ts'",
+    "lint": "tslint --project tsconfig.json",
     "build": "tsc",
     "dependency-check": "dependency-check . --entry bin/schemats.js --missing --no-dev",
     "test": "npm run lint && npm run build && npm run dependency-check && mocha",

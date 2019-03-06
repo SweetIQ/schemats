@@ -60,6 +60,16 @@ describe('MysqlDatabase', () => {
             const results = await testDb.query('SELECT * FROM test_table')
             assert.deepEqual(results, [])
         })
+        it('query returns with results with columns as lower-case', async () => {
+            (mysql.createConnection as any).returns({
+                query: function query (queryString: string, params: Array<any>, cb: Function) {
+                    cb(null, [{COLUMN_1: 'val1', COLUMN_2: 'val1'}, {COLUMN_1: 'val2', COLUMN_2: 'val2'}])
+                }
+            })
+            const testDb: any = new MysqlDatabase('mysql://user:password@localhost/test')
+            const results = await testDb.query('SELECT * FROM test_table')
+            assert.deepEqual(results, [{column_1: 'val1', column_2: 'val1'}, {column_1: 'val2', column_2: 'val2'}])
+        })
     })
     describe('getEnumTypes', () => {
         it('writes correct query with schema name', async () => {
