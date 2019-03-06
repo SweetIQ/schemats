@@ -167,12 +167,19 @@ export class MysqlDatabase implements Database {
                 if (error) {
                     return reject(error)
                 }
-                return resolve(results)
+                return resolve(this.toLowerCaseColumnName(results))
             })
         })
     }
 
     public getDefaultSchema (): string {
         return this.defaultSchema
+    }
+
+    private toLowerCaseColumnName (results: Object[]): Object[] {
+        return results.map((row: any) => Object.keys(row).reduce((newRow, key) => {
+            newRow[key.toLowerCase()] = row[key]
+            return newRow
+        }, {} as any))
     }
 }
