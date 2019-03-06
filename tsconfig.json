@@ -14,6 +14,12 @@
         "dts",
         "test/actual",
         "test/expected",
-        "test/fixture"
+        "test/fixture",
+        "**/*.d.ts"
+    ],
+    "include": [
+        "src/**/*.ts",
+        "test/**/*.test.ts",
+        "bin/**/*.ts"
     ]
 }
