@@ -1,3 +1,9 @@
+# Publishing
+
+Run `npm install` followed by `npm pack`. Next, tag and upload the packed tarball.
+
+--------------------------------- 
+
 # Schemats
 
 [![npm](https://img.shields.io/npm/v/schemats.svg)](https://www.npmjs.com/package/schemats)
