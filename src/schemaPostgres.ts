@@ -1,6 +1,5 @@
 import * as PgPromise from 'pg-promise'
-import { mapValues } from 'lodash'
-import { keys } from 'lodash'
+import { mapValues, keys } from 'lodash'
 import Options from './options'
 
 import { TableDefinition, Database } from './schemaInterfaces'
@@ -67,7 +66,7 @@ export class PostgresDatabase implements Database {
                     return column
                 case '_varchar':
                 case '_text':
-                case '_citext':                    
+                case '_citext':
                 case '_uuid':
                 case '_bytea':
                     column.tsType = 'Array<string>'
@@ -81,7 +80,7 @@ export class PostgresDatabase implements Database {
                     return column
                 default:
                     if (customTypes.indexOf(column.udtName) !== -1) {
-                        column.tsType = options.transformTypeName(column.udtName)
+                        column.tsType = `customTypes.${options.transformTypeName(column.udtName)}`
                         return column
                     } else {
                         console.log(`Type [${column.udtName} has been mapped to [any] because no specific type has been found.`)
