@@ -15,6 +15,8 @@ interface SchematsConfig {
     schema: string,
     output: string,
     camelCase: boolean,
+    camelCaseTypes: boolean,
+    camelCaseColumns: boolean,
     noHeader: boolean,
 }
 
@@ -39,7 +41,11 @@ let argv: SchematsConfig = yargs
     .nargs('s', 1)
     .describe('s', 'schema name')
     .alias('C', 'camelCase')
-    .describe('C', 'Camel-case columns')
+    .describe('C', 'Camel-case columns and types')
+    .alias('CT', 'camelCaseTypes')
+    .describe('CT', 'Camel-case only types')
+    .alias('CC', 'camelCaseColumns')
+    .describe('CC', 'Camel-case only columns')
     .describe('noHeader', 'Do not write header')
     .demand('o')
     .nargs('o', 1)
@@ -61,7 +67,7 @@ let argv: SchematsConfig = yargs
         }
 
         let formattedOutput = await typescriptOfSchema(
-            argv.conn, argv.table, argv.schema, { camelCase: argv.camelCase, writeHeader: !argv.noHeader })
+            argv.conn, argv.table, argv.schema, { camelCase: argv.camelCase, camelCaseColumns: argv.camelCaseColumns, camelCaseTypes: argv.camelCaseTypes, writeHeader: !argv.noHeader })
         fs.writeFileSync(argv.output, formattedOutput)
 
     } catch (e) {
