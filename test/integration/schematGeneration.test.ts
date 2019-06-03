@@ -29,6 +29,22 @@ describe('schemat generation integration testing', () => {
             await writeTsFile(inputSQLFile, config, outputFile, db)
             return assert(await compare(expectedFile, outputFile))
         })
+        it('Camelcase (types only) generation', async () => {
+            const inputSQLFile = 'test/fixture/postgres/osm.sql'
+            const outputFile = './test/actual/postgres/osm-camelcase-types.ts'
+            const expectedFile = './test/expected/postgres/osm-camelcase-types.ts'
+            const config: any = './fixture/postgres/osm-camelcase-types.json'
+            await writeTsFile(inputSQLFile, config, outputFile, db)
+            return assert(await compare(expectedFile, outputFile))
+        })
+        it('Camelcase (columns only) generation', async () => {
+            const inputSQLFile = 'test/fixture/postgres/osm.sql'
+            const outputFile = './test/actual/postgres/osm-camelcase-columns.ts'
+            const expectedFile = './test/expected/postgres/osm-camelcase-columns.ts'
+            const config: any = './fixture/postgres/osm-camelcase-columns.json'
+            await writeTsFile(inputSQLFile, config, outputFile, db)
+            return assert(await compare(expectedFile, outputFile))
+        })
     })
 
     describe('mysql', () => {
