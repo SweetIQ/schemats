@@ -50,7 +50,7 @@ export class PostgresDatabase implements Database {
                 case 'date':
                 case 'timestamp':
                 case 'timestamptz':
-                    column.tsType = 'Date'
+                    column.tsType = `Date | 'NOW()'`
                     return column
                 case '_int2':
                 case '_int4':
@@ -76,7 +76,7 @@ export class PostgresDatabase implements Database {
                     column.tsType = 'Array<Object>'
                     return column
                 case '_timestamptz':
-                    column.tsType = 'Array<Date>'
+                    column.tsType = `Array<Date | 'NOW()'>`
                     return column
                 default:
                     if (customTypes.indexOf(column.udtName) !== -1) {
