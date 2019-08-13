@@ -1,5 +1,9 @@
 # Schemats
 
+```
+yarn install @tgriesser/schemats
+```
+
 Using Schemats, you can generate TypeScript interface definitions from (Postgres, MySQL) SQL database schema automatically.
 
 Start with a database schema:
