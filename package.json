@@ -18,7 +18,7 @@
         "prepublish": "npm run build",
         "clean": "del-cli node_modules **/*.js",
         "coverage": "npm run lint && npm run build && npm run dependency-check && nyc mocha",
-        "coverage:ci": "npm run lint && npm run build && npm run dependency-check && nyc mocha && nyc report --reporter=text-lcov | coveralls"
+        "coverage:ci": "npm run lint && npm run build && npm run dependency-check && nyc mocha && nyc report --reporter=text-lcov"
     },
     "bin": {
         "schemats": "bin/schemats.js"
