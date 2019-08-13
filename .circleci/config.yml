@@ -18,7 +18,7 @@ jobs:
             - run: yarn
             - run:
                   environment:
-                      POSTGRES_URL: 'postgres://ubuntu:password@localhost/schemats_test'
+                      POSTGRES_URL: 'postgres://ubuntu:@localhost/schemats_test'
                       MYSQL_URL: 'mysql://ubuntu:@localhost/schemats_test'
                   command: yarn coverage:ci
             - store_artifacts:
