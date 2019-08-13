@@ -1,0 +1,21 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/schemats
+    docker: # run the steps with Docker
+      - image: node:10
+      - image: postgres:9.6
+        environment:
+          POSTGRES_USER: ubuntu
+          POSTGRES_DB: schemats_test
+      - image: mysql:5.7
+        environment:
+          MYSQL_USER: ubuntu
+          MYSQL_DB: schemats_test
+    steps: # a collection of executable commands
+      - checkout # special step to check out source code to working directory
+      - run: yarn
+      - run: yarn coverage:ci
+      - store_artifacts:
+          path: coverage
+          prefix: coverage

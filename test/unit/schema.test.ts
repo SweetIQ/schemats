@@ -7,7 +7,10 @@ describe('Schema', () => {
             try {
                 getDatabase('mongodb://localhost:27017')
             } catch (e) {
-                assert.equal(e.message, 'SQL version unsupported in connection: mongodb://localhost:27017')
+                assert.equal(
+                    e.message,
+                    'SQL version unsupported in connection: mongodb://localhost:27017'
+                )
             }
         })
         it('mysql connection', () => {

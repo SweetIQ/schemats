@@ -1,5 +1,10 @@
 {
     "tables": ["users"],
     "schema": null,
-    "writeHeader": false
+    "writeHeader": false,
+    "prettierConfig": {
+        "tabWidth": 4,
+        "singleQuote": true,
+        "semi": false
+    }
 }

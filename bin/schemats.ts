@@ -10,12 +10,12 @@ import { typescriptOfSchema, getDatabase } from '../src/index'
 import Options from '../src/options'
 
 interface SchematsConfig {
-    conn: string,
-    table: string[] | string,
-    schema: string,
-    output: string,
-    camelCase: boolean,
-    noHeader: boolean,
+    conn: string
+    table: string[] | string
+    schema: string
+    output: string
+    camelCase: boolean
+    noHeader: boolean
 }
 
 let argv: SchematsConfig = yargs
@@ -27,7 +27,10 @@ let argv: SchematsConfig = yargs
     .command('generate', 'generate type definition')
     .demand(1)
     // tslint:disable-next-line
-    .example('$0 generate -c postgres://username:password@localhost/db -t table1 -t table2 -s schema -o interface_output.ts', 'generate typescript interfaces from schema')
+    .example(
+        '$0 generate -c postgres://username:password@localhost/db -t table1 -t table2 -s schema -o interface_output.ts',
+        'generate typescript interfaces from schema'
+    )
     .demand('c')
     .alias('c', 'conn')
     .nargs('c', 1)
@@ -46,11 +49,8 @@ let argv: SchematsConfig = yargs
     .alias('o', 'output')
     .describe('o', 'output file name')
     .help('h')
-    .alias('h', 'help')
-    .argv;
-
-(async () => {
-
+    .alias('h', 'help').argv
+;(async () => {
     try {
         if (!Array.isArray(argv.table)) {
             if (!argv.table) {
@@ -61,17 +61,21 @@ let argv: SchematsConfig = yargs
         }
 
         let formattedOutput = await typescriptOfSchema(
-            argv.conn, argv.table, argv.schema, { camelCase: argv.camelCase, writeHeader: !argv.noHeader })
+            argv.conn,
+            argv.table,
+            argv.schema,
+            { camelCase: argv.camelCase, writeHeader: !argv.noHeader }
+        )
         fs.writeFileSync(argv.output, formattedOutput)
-
     } catch (e) {
         console.error(e)
         process.exit(1)
     }
-
-})().then(() => {
-    process.exit()
-}).catch((e: any) => {
-    console.warn(e)
-    process.exit(1)
-})
+})()
+    .then(() => {
+        process.exit()
+    })
+    .catch((e: any) => {
+        console.warn(e)
+        process.exit(1)
+    })
