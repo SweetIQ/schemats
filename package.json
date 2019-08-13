@@ -1,6 +1,6 @@
 {
     "name": "@tgriesser/schemats",
-    "version": "3.0.3",
+    "version": "4.0.0",
     "description": "Fork of schemats - Generate typescript interface definitions from (postgres) SQL database schema",
     "keywords": [
         "postgres",
@@ -39,7 +39,6 @@
     "license": "MIT",
     "devDependencies": {
         "@types/bluebird": "^3.0.35",
-        "@types/prettier": "^1.18.2",
         "@types/diff": "^3.2.0",
         "@types/lodash": "^4.14.37",
         "@types/mocha": "^5.2.6",
@@ -47,6 +46,7 @@
         "@types/mz": "^0.0.31",
         "@types/node": "^6.0.77",
         "@types/power-assert": "^1.4.29",
+        "@types/prettier": "^1.18.2",
         "@types/proxyquire": "^1.3.27",
         "@types/sinon": "^2.1.2",
         "@types/yargs": "^6.3.3",
@@ -57,14 +57,14 @@
         "mocha": "^6.0.1",
         "nyc": "^11.0.2",
         "power-assert": "^1.4.2",
+        "prettier": "^1.18.2",
         "proxyquire": "^1.7.11",
         "sinon": "^2.1.0",
         "source-map-support": "^0.4.15",
         "ts-node": "^3.0.4",
         "tslint": "^5.4.2",
-        "tslint-config-standard": "^5.0.2",
         "tslint-config-prettier": "^1.18.0",
-        "prettier": "^1.18.2"
+        "tslint-config-standard": "^5.0.2"
     },
     "dependencies": {
         "bluebird": "^3.5.0",
