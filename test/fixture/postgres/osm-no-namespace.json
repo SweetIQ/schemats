@@ -8,5 +8,10 @@
         "tabWidth": 4,
         "singleQuote": true,
         "semi": false
+    },
+    "customTypes": {
+        "users": {
+            "custom_table_type": "'a' | 'b' | 'c'"
+        }
     }
 }

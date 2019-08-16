@@ -4,5 +4,10 @@
     "camelCase": true,
     "writeHeader": false,
     "tableNamespaces": false,
-    "inlineEnum": true
+    "inlineEnum": true,
+    "customTypes": {
+        "users": {
+            "custom_table_type": "'a' | 'b' | 'c'"
+        }
+    }
 }

@@ -16,6 +16,7 @@ export type OptionValues = {
     writeHeader?: boolean // write schemats description header
     customHeader?: string
     tableNamespaces?: boolean // whether to namespace field types
+    customTypes?: Record<string, any>
     // inlineEnum?: boolean // whether to create/export enum types
 }
 

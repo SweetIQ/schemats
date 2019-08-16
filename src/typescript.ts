@@ -53,7 +53,11 @@ export function generateTableInterfaceOnly(
     let members = ''
     Object.keys(tableDefinition).forEach(columnNameRaw => {
         const type = tableDefinition[columnNameRaw].tsType
-        const nullable = tableDefinition[columnNameRaw].nullable ? '| null' : ''
+        const nullable =
+            tableDefinition[columnNameRaw].nullable &&
+            !tableDefinition[columnNameRaw].tsCustomType
+                ? '| null'
+                : ''
         const columnName = options.transformColumnName(columnNameRaw)
         members += `${columnName}: ${type}${nullable};\n`
     })
@@ -87,7 +91,11 @@ export function generateTableTypes(
     let fields = ''
     Object.keys(tableDefinition).forEach(columnNameRaw => {
         let type = tableDefinition[columnNameRaw].tsType
-        let nullable = tableDefinition[columnNameRaw].nullable ? '| null' : ''
+        let nullable =
+            tableDefinition[columnNameRaw].nullable &&
+            !tableDefinition[columnNameRaw].tsCustomType
+                ? '| null'
+                : ''
         const columnName = options.transformColumnName(columnNameRaw)
         fields += `export type ${normalizeName(
             columnName,

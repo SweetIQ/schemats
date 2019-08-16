@@ -4,6 +4,7 @@ export interface ColumnDefinition {
     udtName: string
     nullable: boolean
     tsType?: string
+    tsCustomType?: boolean
 }
 
 export interface TableDefinition {

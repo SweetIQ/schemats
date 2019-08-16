@@ -1,5 +1,5 @@
 import * as PgPromise from 'pg-promise'
-import { mapValues } from 'lodash'
+import { transform } from 'lodash'
 import { keys } from 'lodash'
 import Options from './options'
 
@@ -17,9 +17,23 @@ export class PostgresDatabase implements Database {
     private static mapTableDefinitionToType(
         tableDefinition: TableDefinition,
         customTypes: string[],
-        options: Options
+        options: Options,
+        tableName: string
     ): TableDefinition {
-        return mapValues(tableDefinition, column => {
+        return transform(tableDefinition, (acc, column, columnName) => {
+            acc[columnName] = column
+            if (
+                options.options.customTypes &&
+                options.options.customTypes[tableName] &&
+                typeof options.options.customTypes[tableName][columnName] !==
+                    'undefined'
+            ) {
+                column.tsCustomType = true
+                column.tsType =
+                    options.options.customTypes[tableName][columnName]
+                return
+            }
+            // console.log(column, columnName)
             switch (column.udtName) {
                 case 'bpchar':
                 case 'char':
@@ -34,7 +48,7 @@ export class PostgresDatabase implements Database {
                 case 'interval':
                 case 'name':
                     column.tsType = 'string'
-                    return column
+                    break
                 case 'int2':
                 case 'int4':
                 case 'int8':
@@ -44,19 +58,19 @@ export class PostgresDatabase implements Database {
                 case 'money':
                 case 'oid':
                     column.tsType = 'number'
-                    return column
+                    break
                 case 'bool':
                     column.tsType = 'boolean'
-                    return column
+                    break
                 case 'json':
                 case 'jsonb':
                     column.tsType = 'any'
-                    return column
+                    break
                 case 'date':
                 case 'timestamp':
                 case 'timestamptz':
                     column.tsType = 'Date'
-                    return column
+                    break
                 case '_int2':
                 case '_int4':
                 case '_int8':
@@ -65,36 +79,34 @@ export class PostgresDatabase implements Database {
                 case '_numeric':
                 case '_money':
                     column.tsType = 'Array<number>'
-                    return column
+                    break
                 case '_bool':
                     column.tsType = 'Array<boolean>'
-                    return column
+                    break
                 case '_varchar':
                 case '_text':
                 case '_citext':
                 case '_uuid':
                 case '_bytea':
                     column.tsType = 'Array<string>'
-                    return column
+                    break
                 case '_json':
                 case '_jsonb':
                     column.tsType = 'Array<Object>'
-                    return column
+                    break
                 case '_timestamptz':
                     column.tsType = 'Array<Date>'
-                    return column
+                    break
                 default:
                     if (customTypes.indexOf(column.udtName) !== -1) {
                         column.tsType = options.transformTypeName(
                             column.udtName
                         )
-                        return column
                     } else {
                         console.log(
                             `Type [${column.udtName} has been mapped to [any] because no specific type has been found.`
                         )
                         column.tsType = 'any'
-                        return column
                     }
             }
         })
@@ -156,7 +168,8 @@ export class PostgresDatabase implements Database {
         return PostgresDatabase.mapTableDefinitionToType(
             await this.getTableDefinition(tableName, tableSchema),
             customTypes,
-            options
+            options,
+            tableName
         )
     }
 
