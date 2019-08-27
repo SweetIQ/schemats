@@ -124,7 +124,71 @@ With generated type definition for our database schema, we can write code with a
 
 ### Using schemats as a library
 
-Schemats exposes two high-level functions for generating typescript definition from a database schema. They can be used by a build tool such as grunt and gulp.
+Schemats exposes a few high-level functions for generating typescript definition from a database schema. They can be used by a build tool such as grunt and gulp.
+
+typescriptOfTable (db, table, schema, options) 
+
+**db** - database connection string or database object. If you are calling the function multiple times in your script, use a database object. 
+
+**table** - database table you want to generate definitions for
+
+**schema** - database schema
+
+**options** - options object
+
+```typescript
+import { typescriptOfTable, Options, getDatabase } from 'schemats'
+import fs from 'fs'
+
+//optional - defaults shown
+const options = new Options({
+    camelCase: true,
+    writeHeader: true
+})
+
+typescriptOfTable('postgres://username:password@hostname/osm', 'users', 'public', options)
+    .then(types => fs.writeFile('osm.ts', types, (err) => { if (err) console.log(err) }))
+```
+
+typescriptOfSchema (db, table, schema, options) 
+
+**db** - database connection string or database object. If you are calling the function multiple times in your script, use a database object. 
+
+**table** - array of database tables you want to generate definitions for
+
+**schema** - database schema, defaults to default schema in the db
+
+**options** - options object - just a plain object, not an instance of Options
+
+```typescript
+import { typescriptOfSchema, getDatabase } from 'schemats'
+
+//optional - defaults shown
+const options = {
+    camelCase: true,
+    writeHeader: true
+}
+
+const schemas = ['osm', 'foo', 'bar']
+
+/* 
+    If you just passed in the connection string instead of getting a 
+    connection like this you would get an error like
+    WARNING: Creating a duplicate database object for the same connection
+    and you may even get errors if you use all your configured connections on your db
+*/
+const database = getDatabase('postgres://username:password@hostname/dbname')
+
+schemas.forEach(async (schema) => {
+    const types = await typescriptOfSchema(
+        database,
+        [], //this will generate types for all tables in the schema unless you put table names in here
+        schema
+    )
+    fs.writeFile(`types/${schema}.ts`, types, (err) => { if (err) console.log(err) })
+})
+
+```
 
 ### Upgrading to v1.0
 
