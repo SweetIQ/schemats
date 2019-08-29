@@ -14,7 +14,7 @@ interface SchematsConfig {
     table: string[] | string,
     schema: string,
     output: string,
-    camelCase: boolean,
+    camelCase: boolean | 'columns' | 'types',
     noHeader: boolean,
 }
 
@@ -39,7 +39,8 @@ let argv: SchematsConfig = yargs
     .nargs('s', 1)
     .describe('s', 'schema name')
     .alias('C', 'camelCase')
-    .describe('C', 'Camel-case columns')
+    .choices('C', [undefined, true, 'columns', 'types'])
+    .describe('C', 'Camel-case columns and types')
     .describe('noHeader', 'Do not write header')
     .demand('o')
     .nargs('o', 1)
