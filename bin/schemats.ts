@@ -39,7 +39,7 @@ let argv: SchematsConfig = yargs
     .nargs('s', 1)
     .describe('s', 'schema name')
     .alias('C', 'camelCase')
-    .choices('C', [true, 'columns', 'types'])
+    .choices('C', [undefined, true, 'columns', 'types'])
     .describe('C', 'Camel-case columns and types')
     .describe('noHeader', 'Do not write header')
     .demand('o')
