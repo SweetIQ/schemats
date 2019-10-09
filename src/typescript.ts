@@ -40,7 +40,7 @@ export function generateTableInterface (tableNameRaw: string, tableDefinition: T
 export function generateEnumType (enumObject: any, options: Options) {
     const enumNamespace = options.getKeys(enumObject).map((enumNameRaw) => {
         const enumName = options.transformTypeName(enumNameRaw)
-        return `export type ${enumName} = '${options.getMaybeSorted(enumObject[enumNameRaw]).join(`' | '`)}';`
+        return `export type ${enumName} = '${options.getMaybeSorted(enumObject[enumNameRaw]).join(`'\n| '`)}';`
     })
 
     return `
