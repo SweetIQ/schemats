@@ -29,6 +29,7 @@ export function generateTableInterface(
     const tableName = options.transformTypeName(tableNameRaw)
     let members = ''
     Object.keys(tableDefinition)
+        .sort()
         .map(c => options.transformColumnName(c))
         .forEach(columnName => {
             members += `${columnName}: ${tableName}Fields.${normalizeName(
@@ -51,16 +52,18 @@ export function generateTableInterfaceOnly(
 ) {
     const tableName = options.transformTypeName(tableNameRaw)
     let members = ''
-    Object.keys(tableDefinition).forEach(columnNameRaw => {
-        const type = tableDefinition[columnNameRaw].tsType
-        const nullable =
-            tableDefinition[columnNameRaw].nullable &&
-            !tableDefinition[columnNameRaw].tsCustomType
-                ? '| null'
-                : ''
-        const columnName = options.transformColumnName(columnNameRaw)
-        members += `${columnName}: ${type}${nullable};\n`
-    })
+    Object.keys(tableDefinition)
+        .sort()
+        .forEach(columnNameRaw => {
+            const type = tableDefinition[columnNameRaw].tsType
+            const nullable =
+                tableDefinition[columnNameRaw].nullable &&
+                !tableDefinition[columnNameRaw].tsCustomType
+                    ? '| null'
+                    : ''
+            const columnName = options.transformColumnName(columnNameRaw)
+            members += `${columnName}: ${type}${nullable};\n`
+        })
 
     return `
         export interface ${normalizeName(tableName, options)} {
@@ -89,19 +92,21 @@ export function generateTableTypes(
 ) {
     const tableName = options.transformTypeName(tableNameRaw)
     let fields = ''
-    Object.keys(tableDefinition).forEach(columnNameRaw => {
-        let type = tableDefinition[columnNameRaw].tsType
-        let nullable =
-            tableDefinition[columnNameRaw].nullable &&
-            !tableDefinition[columnNameRaw].tsCustomType
-                ? '| null'
-                : ''
-        const columnName = options.transformColumnName(columnNameRaw)
-        fields += `export type ${normalizeName(
-            columnName,
-            options
-        )} = ${type}${nullable};\n`
-    })
+    Object.keys(tableDefinition)
+        .sort()
+        .forEach(columnNameRaw => {
+            let type = tableDefinition[columnNameRaw].tsType
+            let nullable =
+                tableDefinition[columnNameRaw].nullable &&
+                !tableDefinition[columnNameRaw].tsCustomType
+                    ? '| null'
+                    : ''
+            const columnName = options.transformColumnName(columnNameRaw)
+            fields += `export type ${normalizeName(
+                columnName,
+                options
+            )} = ${type}${nullable};\n`
+        })
 
     return `
         export namespace ${tableName}Fields {

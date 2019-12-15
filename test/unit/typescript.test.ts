@@ -47,9 +47,9 @@ describe('Typescript', () => {
             assert.equal(tableInterface,
                 '\n' +
                 '        export interface tableName {\n' +
-                '        string: tableNameFields.string_;\n' +
-                'number: tableNameFields.number_;\n' +
+                '        number: tableNameFields.number_;\n' +
                 'package: tableNameFields.package_;\n' +
+                'string: tableNameFields.string_;\n' +
                 '\n' +
                 '        }\n' +
                 '    ')

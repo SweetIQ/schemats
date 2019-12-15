@@ -167,7 +167,7 @@ export class PostgresDatabase implements Database {
         let customTypes = keys(enumTypes)
         return PostgresDatabase.mapTableDefinitionToType(
             await this.getTableDefinition(tableName, tableSchema),
-            customTypes,
+            customTypes.sort(),
             options,
             tableName
         )
