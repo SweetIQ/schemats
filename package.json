@@ -72,7 +72,7 @@
     "pg-promise": "^6.3.6",
     "typescript": "^2.7.1",
     "typescript-formatter": "^7.0.1",
-    "yargs": "^8.0.1"
+    "yargs": "^15.0.2"
   },
   "nyc": {
     "extension": [
