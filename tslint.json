@@ -1,9 +1,0 @@
-{
-    "extends": "tslint-config-standard",
-    "rules": {
-        "ter-indent": [true, 4, {"SwitchCase": 1}],
-        "no-trailing-whitespace": false,
-        "max-line-length": [0],
-        "align": [true, "parameters", "statements"]
-    }
-}

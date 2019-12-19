@@ -1,4 +1,4 @@
-/* tslint:disable */
+/* eslint-disable */
 
 export type FormatEnum = 'html' | 'markdown' | 'text';
 export type UserStatusEnum = 'active' | 'confirmed' | 'deleted' | 'pending' | 'suspended';
@@ -42,7 +42,7 @@ export namespace UsersFields {
     export type charCol = string | null;
     export type timeCol = string | null;
     export type inetCol = string | null;
-    export type jsonbCol = Object | null;
+    export type jsonbCol = Record<string, any> | null;
     export type numericCol = number | null;
     export type byteaCol = string | null;
     export type boolArrayCol = Array<boolean> | null;
@@ -58,12 +58,12 @@ export namespace UsersFields {
     export type timeWithTz = string | null;
     export type oidCol = number | null;
     export type intervalCol = string | null;
-    export type jsonCol = Object | null;
+    export type jsonCol = Record<string, any> | null;
     export type dateCol = Date | null;
     export type unspportedPathType = any | null;
     export type nameTypeCol = string | null;
-    export type jsonArrayCol = Array<Object> | null;
-    export type jsonbArrayCol = Array<Object> | null;
+    export type jsonArrayCol = Record<string, any>[] | null;
+    export type jsonbArrayCol = Record<string, any>[] | null;
     export type timestamptzArrayCol = Array<Date> | null;
 
 }

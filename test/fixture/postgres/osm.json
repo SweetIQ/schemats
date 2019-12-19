@@ -1,5 +1,7 @@
 {
-    "tables": ["users"],
-    "schema": null,
-    "writeHeader": false
+  "tables": [
+    "users"
+  ],
+  "schema": null,
+  "writeHeader": false
 }

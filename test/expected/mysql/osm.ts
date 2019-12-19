@@ -1,4 +1,4 @@
-/* tslint:disable */
+/* eslint-disable */
 
 export type enum_enum_col = 'enum1' | 'enum2' | 'enum3';
 export type enum_nullable_enum_col = 'enum1' | 'enum2' | 'enum3';
