@@ -1,5 +1,5 @@
 {
-  "name": "schemats",
+  "name": "@nthalk/schemats",
   "version": "3.0.3",
   "description": "Generate typescript interface definitions from (postgres) SQL database schema",
   "keywords": [
@@ -25,16 +25,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sweetiq/schemats.git"
+    "url": "https://github.com/Nthalk/schemats.git"
   },
   "bugs": {
-    "url": "https://github.com/sweetiq/schemats/issues"
+    "url": "https://github.com/Nthalk/schemats/issues"
   },
   "author": "Mengxuan Xia <xiamx2004@gmail.com>",
   "contributors": [
     "Arnaud Benhamdine <arnaud.benhamdine@gmail.com>",
     "zigomir <zigomir@gmail.com>",
-    "Mark Crisp <macr1324@gmail.com>"
+    "Mark Crisp <macr1324@gmail.com>",
+    "Carl Taylor <carl@etaylor.me>"
   ],
   "license": "MIT",
   "devDependencies": {
