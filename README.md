@@ -1,5 +1,13 @@
 # Schemats
 
+Upstream fork of https://github.com/SweetIQ/schemats, with new features / options:
+
+-   `forInsert`: defines any nullable / columns with defaults optional `?:`
+-   `customTypes`: define a mapping of custom types, e.g. for emulating enum behavior
+-   `customHeader`: allows adding a custom string header to the generated document
+-   `prettierConfig`: specify a path to prettier to auto-format the output
+-   `tableNamespaces`: whether to add extra namespaces for columns, default to `false`
+
 ```
 yarn install @tgriesser/schemats
 ```
@@ -123,47 +131,3 @@ With generated type definition for our database schema, we can write code with a
 ### Using schemats as a library
 
 Schemats exposes two high-level functions for generating typescript definition from a database schema. They can be used by a build tool such as grunt and gulp.
-
-### Upgrading to v1.0
-
-#### Deprecation of Namespace
-
-Version 1.0 deprecates generating schema typescript files with namespace.
-
-Instead of generating schema typescript files with
-
-```bash
-schemats generate -c postgres://postgres@localhost/db -n yournamespace -o db.ts
-```
-
-and import them with
-
-```typescript
-import { yournamespace } from './db'
-```
-
-It is now encouraged to generate without namespace
-
-```bash
-schemats generate -c postgres://postgres@localhost/db -o db.ts
-```
-
-and import them with
-
-```typescript
-import * as yournamespace from './db'
-// or
-import { table_a, table_b } from './db'
-```
-
-As [TypeScript's documentation](https://www.typescriptlang.org/docs/handbook/namespaces-and-modules.html) describes,
-having a top level namespace is needless. This was discussed in [#25](https://github.com/SweetIQ/schemats/issues/25).
-
-Generating schema typescript files with namespace still works in v1.0, but it is discouraged and subjected to
-removal in the future.
-
-#### Support Strict Null-Checking
-
-Version 1.0 [supports](https://github.com/SweetIQ/schemats/issues/19)
-[strict null-checking](https://github.com/Microsoft/TypeScript/pull/7140)
-and reflects the _NOT NULL_ constraint defined in PostgreSQL schema.
