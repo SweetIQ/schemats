@@ -22,7 +22,11 @@ function normalizeName(name: string, options: Options): string {
 }
 
 function colon(def: ColumnDefinition, options: Options) {
-    return options.options.forInsert ? def.defaultValue !== null ? '?:' : ':' : ':'
+    return options.options.forInsert
+        ? def.defaultValue !== null || def.nullable
+            ? '?:'
+            : ':'
+        : ':'
 }
 
 export function generateTableInterface(
@@ -37,10 +41,10 @@ export function generateTableInterface(
         .forEach(c => {
             const d = tableDefinition[c]
             const columnName = options.transformColumnName(c)
-            members += `${columnName}${colon(d, options)} ${tableName}Fields.${normalizeName(
-                columnName,
+            members += `${columnName}${colon(
+                d,
                 options
-            )};\n`
+            )} ${tableName}Fields.${normalizeName(columnName, options)};\n`
         })
 
     return `
@@ -62,13 +66,12 @@ export function generateTableInterfaceOnly(
         .forEach(columnNameRaw => {
             const def = tableDefinition[columnNameRaw]
             const type = def.tsType
-            const nullable =
-                def.nullable &&
-                !def.tsCustomType
-                    ? '| null'
-                    : ''
+            const nullable = def.nullable && !def.tsCustomType ? '| null' : ''
             const columnName = options.transformColumnName(columnNameRaw)
-            members += `${columnName}${colon(def, options)}${type}${nullable};\n`
+            members += `${columnName}${colon(
+                def,
+                options
+            )}${type}${nullable};\n`
         })
 
     return `
