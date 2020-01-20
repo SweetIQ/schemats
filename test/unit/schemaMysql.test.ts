@@ -175,7 +175,7 @@ describe('MysqlDatabase', () => {
             assert.deepEqual(
                 MysqlDBReflection.prototype.queryAsync.getCall(0).args,
                 [
-                    'SELECT column_name, data_type, is_nullable ' +
+                    'SELECT column_name, data_type, is_nullable, column_default ' +
                         'FROM information_schema.columns ' +
                         'WHERE table_name = ? and table_schema = ?',
                     ['testtable', 'testschema']
@@ -188,17 +188,20 @@ describe('MysqlDatabase', () => {
                     {
                         column_name: 'column1',
                         data_type: 'data1',
-                        is_nullable: 'NO'
+                        is_nullable: 'NO',
+                        column_default: null
                     },
                     {
                         column_name: 'column2',
                         data_type: 'enum',
-                        is_nullable: 'YES'
+                        is_nullable: 'YES',
+                        column_default: null
                     },
                     {
                         column_name: 'column3',
                         data_type: 'set',
-                        is_nullable: 'YES'
+                        is_nullable: 'YES',
+                        column_default: null
                     }
                 ])
             )
@@ -207,9 +210,9 @@ describe('MysqlDatabase', () => {
                 'testschema'
             )
             assert.deepEqual(schemaTables, {
-                column1: { udtName: 'data1', nullable: false },
-                column2: { udtName: 'enum_column2', nullable: true },
-                column3: { udtName: 'set_column3', nullable: true }
+                column1: { udtName: 'data1', nullable: false, defaultValue: null },
+                column2: { udtName: 'enum_column2', nullable: true, defaultValue: null },
+                column3: { udtName: 'set_column3', nullable: true, defaultValue: null }
             })
         })
     })
@@ -305,7 +308,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'char',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -318,7 +322,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'varchar',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -331,7 +336,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'text',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -344,7 +350,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'tinytext',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -357,7 +364,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'mediumtext',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -370,7 +378,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'longtext',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -383,7 +392,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'time',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -396,7 +406,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'geometry',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -409,7 +420,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'set',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -422,7 +434,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'enum',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -437,7 +450,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'integer',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -450,7 +464,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'int',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -463,7 +478,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'smallint',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -476,7 +492,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'mediumint',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -489,7 +506,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'bigint',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -502,7 +520,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'double',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -515,7 +534,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'decimal',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -528,7 +548,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'numeric',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -541,7 +562,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'float',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -554,7 +576,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'year',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -569,7 +592,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'tinyint',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -584,7 +608,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'json',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -599,7 +624,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'date',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -612,7 +638,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'datetime',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -625,7 +652,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'timestamp',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -640,7 +668,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'tinyblob',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -653,7 +682,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'mediumblob',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -666,7 +696,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'longblob',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -679,7 +710,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'blob',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -692,7 +724,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'binary',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -705,7 +738,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'varbinary',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -718,7 +752,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'bit',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -733,7 +768,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'CustomType',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(
@@ -751,7 +787,8 @@ describe('MysqlDatabase', () => {
                 const td: TableDefinition = {
                     column: {
                         udtName: 'UnknownType',
-                        nullable: false
+                        nullable: false,
+                        defaultValue: null
                     }
                 }
                 assert.equal(

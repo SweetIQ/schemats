@@ -3,6 +3,7 @@ import Options from './options'
 export interface ColumnDefinition {
     udtName: string
     nullable: boolean
+    defaultValue: string | null
     tsType?: string
     tsCustomType?: boolean
 }

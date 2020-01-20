@@ -26,8 +26,8 @@ describe('Typescript', () => {
         })
         it('table with columns', () => {
             const tableInterface = Typescript.generateTableInterface('tableName', {
-                col1: {udtName: 'name1', nullable: false},
-                col2: {udtName: 'name2', nullable: false}
+                col1: {udtName: 'name1', nullable: false, defaultValue: null},
+                col2: {udtName: 'name2', nullable: false, defaultValue: null}
             }, options)
             assert.equal(tableInterface,
                 '\n' +
@@ -40,9 +40,9 @@ describe('Typescript', () => {
         })
         it('table with reserved columns', () => {
             const tableInterface = Typescript.generateTableInterface('tableName', {
-                string: {udtName: 'name1', nullable: false},
-                number: {udtName: 'name2', nullable: false},
-                package: {udtName: 'name3', nullable: false}
+                string: {udtName: 'name1', nullable: false, defaultValue: null},
+                number: {udtName: 'name2', nullable: false, defaultValue: null},
+                package: {udtName: 'name3', nullable: false, defaultValue: null}
             }, options)
             assert.equal(tableInterface,
                 '\n' +
@@ -98,8 +98,8 @@ describe('Typescript', () => {
         })
         it('with table definitions', () => {
             const tableTypes = Typescript.generateTableTypes('tableName', {
-                col1: {udtName: 'name1', nullable: false, tsType: 'string'},
-                col2: {udtName: 'name2', nullable: false, tsType: 'number'}
+                col1: {udtName: 'name1', nullable: false, tsType: 'string', defaultValue: ''},
+                col2: {udtName: 'name2', nullable: false, tsType: 'number', defaultValue: '0'}
             }, options)
             assert.equal(tableTypes,
                 '\n' +
@@ -112,8 +112,8 @@ describe('Typescript', () => {
         })
         it('with nullable column definitions', () => {
             const tableTypes = Typescript.generateTableTypes('tableName', {
-                col1: {udtName: 'name1', nullable: true, tsType: 'string'},
-                col2: {udtName: 'name2', nullable: true, tsType: 'number'}
+                col1: {udtName: 'name1', nullable: true, tsType: 'string', defaultValue: ''},
+                col2: {udtName: 'name2', nullable: true, tsType: 'number', defaultValue: '0'}
             }, options)
             assert.equal(tableTypes,
                 '\n' +

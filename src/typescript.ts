@@ -5,7 +5,7 @@
 
 import * as _ from 'lodash'
 
-import { TableDefinition } from './schemaInterfaces'
+import { TableDefinition, ColumnDefinition } from './schemaInterfaces'
 import Options from './options'
 
 function nameIsReservedKeyword(name: string): boolean {
@@ -21,6 +21,10 @@ function normalizeName(name: string, options: Options): string {
     }
 }
 
+function colon(def: ColumnDefinition, options: Options) {
+    return options.options.forInsert ? def.defaultValue !== null ? '?:' : ':' : ':'
+}
+
 export function generateTableInterface(
     tableNameRaw: string,
     tableDefinition: TableDefinition,
@@ -30,9 +34,10 @@ export function generateTableInterface(
     let members = ''
     Object.keys(tableDefinition)
         .sort()
-        .map(c => options.transformColumnName(c))
-        .forEach(columnName => {
-            members += `${columnName}: ${tableName}Fields.${normalizeName(
+        .forEach(c => {
+            const d = tableDefinition[c]
+            const columnName = options.transformColumnName(c)
+            members += `${columnName}${colon(d, options)} ${tableName}Fields.${normalizeName(
                 columnName,
                 options
             )};\n`
@@ -55,14 +60,15 @@ export function generateTableInterfaceOnly(
     Object.keys(tableDefinition)
         .sort()
         .forEach(columnNameRaw => {
-            const type = tableDefinition[columnNameRaw].tsType
+            const def = tableDefinition[columnNameRaw]
+            const type = def.tsType
             const nullable =
-                tableDefinition[columnNameRaw].nullable &&
-                !tableDefinition[columnNameRaw].tsCustomType
+                def.nullable &&
+                !def.tsCustomType
                     ? '| null'
                     : ''
             const columnName = options.transformColumnName(columnNameRaw)
-            members += `${columnName}: ${type}${nullable};\n`
+            members += `${columnName}${colon(def, options)}${type}${nullable};\n`
         })
 
     return `

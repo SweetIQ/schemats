@@ -5,7 +5,8 @@ const DEFAULT_OPTIONS: OptionValues = {
     prettier: true,
     writeHeader: true,
     camelCase: false,
-    tableNamespaces: false
+    tableNamespaces: false,
+    forInsert: false
     // inlineEnum: false
 }
 

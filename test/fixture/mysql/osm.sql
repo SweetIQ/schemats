@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS users;
+
 CREATE TABLE users (
     char_col varchar(255) NOT NULL,
     nullable_char_col varchar(255),

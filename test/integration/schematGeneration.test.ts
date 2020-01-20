@@ -37,6 +37,14 @@ describe('schemat generation integration testing', () => {
       await writeTsFile(inputSQLFile, config, outputFile, db)
       return assert(await compare(expectedFile, outputFile))
     })
+    it('For insert generation', async () => {
+      const inputSQLFile = 'test/fixture/postgres/osm.sql'
+      const outputFile = './test/actual/postgres/osm-for-insert.ts'
+      const expectedFile = './test/expected/postgres/osm-for-insert.ts'
+      const config: any = './fixture/postgres/osm-for-insert.json'
+      await writeTsFile(inputSQLFile, config, outputFile, db)
+      return assert(await compare(expectedFile, outputFile))
+    })
   })
 
   describe('mysql', () => {
@@ -55,6 +63,14 @@ describe('schemat generation integration testing', () => {
       const config: any = './fixture/mysql/osm.json'
       await writeTsFile(inputSQLFile, config, outputFile, db)
       return assert(await compare(expectedFile, outputFile))
+    })
+    it('for insert generation', async () => {
+      const inputSQLFile = 'test/fixture/mysql/osm.sql'
+      const outputFile = './test/actual/mysql/osm-for-insert.ts'
+      const expectedFile = './test/expected/mysql/osm-for-insert.ts'
+      const config: any = './fixture/mysql/osm-for-insert.json'
+      await writeTsFile(inputSQLFile, config, outputFile, db)
+      return assert(await compare(expectedFile, outputFile))      
     })
     it('Enum conflict in columns', async () => {
       const inputSQLFile = 'test/fixture/mysql/conflict.sql'

@@ -146,16 +146,18 @@ export class PostgresDatabase implements Database {
             column_name: string
             udt_name: string
             is_nullable: string
+            column_default: string | null
         }
         await this.db.each<T>(
-            'SELECT column_name, udt_name, is_nullable ' +
+            'SELECT column_name, udt_name, is_nullable, column_default ' +
                 'FROM information_schema.columns ' +
                 'WHERE table_name = $1 and table_schema = $2',
             [tableName, tableSchema],
             (schemaItem: T) => {
                 tableDefinition[schemaItem.column_name] = {
                     udtName: schemaItem.udt_name,
-                    nullable: schemaItem.is_nullable === 'YES'
+                    nullable: schemaItem.is_nullable === 'YES',
+                    defaultValue: schemaItem.column_default
                 }
             }
         )

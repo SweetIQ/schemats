@@ -153,7 +153,7 @@ export class MysqlDatabase implements Database {
         let tableDefinition: TableDefinition = {}
 
         const tableColumns = await this.queryAsync(
-            'SELECT column_name, data_type, is_nullable ' +
+            'SELECT column_name, data_type, is_nullable, column_default ' +
                 'FROM information_schema.columns ' +
                 'WHERE table_name = ? and table_schema = ?',
             [tableName, tableSchema]
@@ -163,6 +163,7 @@ export class MysqlDatabase implements Database {
                 column_name: string
                 data_type: string
                 is_nullable: string
+                column_default: string | null
             }) => {
                 const columnName = schemaItem.column_name
                 const dataType = schemaItem.data_type
@@ -173,7 +174,8 @@ export class MysqlDatabase implements Database {
                               columnName
                           )
                         : dataType,
-                    nullable: schemaItem.is_nullable === 'YES'
+                    nullable: schemaItem.is_nullable === 'YES',
+                    defaultValue: schemaItem.column_default
                 }
             }
         )
