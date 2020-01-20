@@ -5,7 +5,7 @@ const DEFAULT_OPTIONS: OptionValues = {
     prettier: true,
     writeHeader: true,
     camelCase: false,
-    tableNamespaces: true
+    tableNamespaces: false
     // inlineEnum: false
 }
 
@@ -16,6 +16,7 @@ export type OptionValues = {
     writeHeader?: boolean // write schemats description header
     customHeader?: string
     tableNamespaces?: boolean // whether to namespace field types
+    forInsert?: boolean
     customTypes?: Record<string, any>
     // inlineEnum?: boolean // whether to create/export enum types
 }

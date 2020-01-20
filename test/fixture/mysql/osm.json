@@ -1,6 +1,7 @@
 {
     "tables": ["users", "user_enums", "package"],
     "writeHeader": false,
+    "tableNamespaces": true,
     "prettierConfig": {
         "tabWidth": 4,
         "singleQuote": true,

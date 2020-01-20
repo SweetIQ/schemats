@@ -70,11 +70,7 @@ export async function writeTsFile(
         config.tables,
         config.schema,
         {
-            ...config,
-            tableNamespaces:
-                typeof config.tableNamespaces === 'boolean'
-                    ? config.tableNamespaces
-                    : true
+            ...config
         }
     )
     await fs.writeFile(outputFile, formattedOutput)

@@ -142,7 +142,11 @@ export class PostgresDatabase implements Database {
 
     public async getTableDefinition(tableName: string, tableSchema: string) {
         let tableDefinition: TableDefinition = {}
-        type T = { column_name: string; udt_name: string; is_nullable: string }
+        type T = {
+            column_name: string
+            udt_name: string
+            is_nullable: string
+        }
         await this.db.each<T>(
             'SELECT column_name, udt_name, is_nullable ' +
                 'FROM information_schema.columns ' +

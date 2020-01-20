@@ -3,7 +3,6 @@
     "schema": null,
     "camelCase": true,
     "writeHeader": false,
-    "tableNamespaces": false,
     "prettierConfig": {
         "tabWidth": 4,
         "singleQuote": true,

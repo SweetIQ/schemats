@@ -16,6 +16,8 @@ interface SchematsConfig {
     output: string
     camelCase: boolean
     noHeader: boolean
+    tableNamespaces: boolean
+    forInsert: boolean
 }
 
 let argv: SchematsConfig = yargs
@@ -41,6 +43,10 @@ let argv: SchematsConfig = yargs
     .alias('s', 'schema')
     .nargs('s', 1)
     .describe('s', 'schema name')
+    .alias('n', 'tableNamespaces')
+    .describe('n', 'print table namspaces')
+    .alias('i', 'forInsert')
+    .describe('i', 'for insert (optional on cols with defaults)')
     .alias('C', 'camelCase')
     .describe('C', 'Camel-case columns')
     .describe('noHeader', 'Do not write header')
@@ -64,7 +70,12 @@ let argv: SchematsConfig = yargs
             argv.conn,
             argv.table,
             argv.schema,
-            { camelCase: argv.camelCase, writeHeader: !argv.noHeader }
+            {
+                camelCase: argv.camelCase,
+                writeHeader: !argv.noHeader,
+                tableNamespaces: Boolean(argv.tableNamespaces),
+                forInsert: Boolean(argv.forInsert)
+            }
         )
         fs.writeFileSync(argv.output, formattedOutput)
     } catch (e) {

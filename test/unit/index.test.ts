@@ -38,21 +38,25 @@ describe('index', () => {
                 db,
                 'tableName',
                 'schemaName',
-                new Options(options)
+                new Options({ tableNamespaces: true })
             )
             assert.deepEqual(dbReflection.getTableTypes.getCall(0).args, [
                 'tableName',
                 'schemaName',
-                new Options(options)
+                new Options({ tableNamespaces: true })
             ])
             assert.deepEqual(tsReflection.generateTableTypes.getCall(0).args, [
                 'tableName',
                 'tableTypes',
-                new Options(options)
+                new Options({ tableNamespaces: true })
             ])
             assert.deepEqual(
                 tsReflection.generateTableInterface.getCall(0).args,
-                ['tableName', 'tableTypes', new Options(options)]
+                [
+                    'tableName',
+                    'tableTypes',
+                    new Options({ tableNamespaces: true })
+                ]
             )
         })
         it('merges string results', async () => {
@@ -65,7 +69,7 @@ describe('index', () => {
                 db,
                 'tableName',
                 'schemaName',
-                new Options(options)
+                new Options({ tableNamespaces: true })
             )
             assert.equal(
                 typescriptString,
@@ -83,7 +87,7 @@ describe('index', () => {
                 db,
                 [],
                 'schemaName',
-                options
+                { tableNamespaces: true }
             )
 
             assert.deepEqual(
@@ -112,7 +116,7 @@ describe('index', () => {
                 db,
                 ['differentTablename'],
                 null,
-                options
+                { tableNamespaces: true }
             )
 
             assert(!dbReflection.getSchemaTables.called)

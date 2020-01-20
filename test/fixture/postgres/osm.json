@@ -2,6 +2,7 @@
     "tables": ["users"],
     "schema": null,
     "writeHeader": false,
+    "tableNamespaces": true,
     "prettierConfig": {
         "tabWidth": 4,
         "singleQuote": true,
