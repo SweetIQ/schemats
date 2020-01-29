@@ -18,4 +18,5 @@ export interface Database {
     getTableDefinition (tableName: string, tableSchema: string): Promise<TableDefinition>
     getTableTypes (tableName: string, tableSchema: string, options: Options): Promise<TableDefinition>
     getSchemaTables (schemaName: string): Promise<string[]>
+    end (): Promise<void>
 }

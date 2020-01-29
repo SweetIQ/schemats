@@ -151,6 +151,15 @@ export class PostgresDatabase implements Database {
         )
     }
 
+    public async end (): Promise<void> {
+        // As of pg-promise 6.10.3, their types dependencies are pretty bad.
+        // Here is what it should be refering to:
+        // https://github.com/DefinitelyTyped/DefinitelyTyped/blob/3e1e03d0d43d9cf569c93e27c8763e2e94a6674c/types/pg/index.d.ts#L150
+        const pool = this.db.$pool as {end (): Promise<void>}
+
+        return pool.end()
+    }
+
     getDefaultSchema (): string {
         return 'public'
     }

@@ -49,14 +49,21 @@ export async function typescriptOfTable (db: Database|string,
                                          table: string,
                                          schema: string,
                                          options = new Options()) {
+    let shouldEndConnection = false
     if (typeof db === 'string') {
         db = getDatabase(db)
+        shouldEndConnection = true
     }
 
     let interfaces = ''
     let tableTypes = await db.getTableTypes(table, schema, options)
     interfaces += generateTableTypes(table, tableTypes, options)
     interfaces += generateTableInterface(table, tableTypes, options)
+
+    if (shouldEndConnection) {
+        db.end().catch(() => { /* we can safely ignore this error */ })
+    }
+
     return interfaces
 }
 
@@ -64,8 +71,10 @@ export async function typescriptOfSchema (db: Database|string,
                                           tables: string[] = [],
                                           schema: string|null = null,
                                           options: OptionValues = {}): Promise<string> {
+    let shouldEndConnection = false
     if (typeof db === 'string') {
         db = getDatabase(db)
+        shouldEndConnection = true
     }
 
     if (!schema) {
@@ -82,6 +91,10 @@ export async function typescriptOfSchema (db: Database|string,
     const interfacePromises = tables.map((table) => typescriptOfTable(db, table, schema as string, optionsObject))
     const interfaces = await Promise.all(interfacePromises)
         .then(tsOfTable => tsOfTable.join(''))
+
+    if (shouldEndConnection) {
+        db.end().catch(() => { /* we can safely ignore this error */ })
+    }
 
     let output = '/* tslint:disable */\n\n'
     if (optionsObject.options.writeHeader) {

@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import * as sinon from 'sinon'
 import * as Index from '../../src/index'
 import * as Typescript from '../../src/typescript'
-import { Database } from '../../src/schema'
+import * as Schema from '../../src/schema'
 import Options, { OptionValues } from '../../src/options'
 
 const options: OptionValues = {}
@@ -16,14 +16,17 @@ describe('index', () => {
         getEnumTypes: typedTableSandbox.stub(),
         getTableDefinition: typedTableSandbox.stub(),
         getSchemaTables: typedTableSandbox.stub(),
+        end: typedTableSandbox.stub(),
         connectionString: 'sql://'
-    } as Database
+    } as Schema.Database
     const tsReflection = Typescript as any
     const dbReflection = db as any
+    const schemaReflection = Schema as any
     before(() => {
         typedTableSandbox.stub(Typescript, 'generateEnumType')
         typedTableSandbox.stub(Typescript, 'generateTableTypes')
         typedTableSandbox.stub(Typescript, 'generateTableInterface')
+        typedTableSandbox.stub(Schema, 'getDatabase')
     })
     beforeEach(() => {
         typedTableSandbox.reset()
@@ -50,6 +53,7 @@ describe('index', () => {
                 'tableTypes',
                 new Options(options)
             ])
+            assert.strictEqual(dbReflection.end.getCall(0), null)
         })
         it('merges string results', async () => {
             dbReflection.getTableTypes.returns(Promise.resolve('tableTypes'))
@@ -57,6 +61,15 @@ describe('index', () => {
             tsReflection.generateTableInterface.returns('generatedTableInterfaces\n')
             const typescriptString = await Index.typescriptOfTable(db, 'tableName', 'schemaName', new Options(options))
             assert.equal(typescriptString, 'generatedTableTypes\ngeneratedTableInterfaces\n')
+        })
+        it('disconnects from database if it created the db instance', async () => {
+            dbReflection.getTableTypes.returns(Promise.resolve('tableTypes'))
+            dbReflection.end.returns(Promise.resolve())
+            schemaReflection.getDatabase.returns(dbReflection)
+            await Index.typescriptOfTable('sql://', 'tableName', 'schemaName', new Options(options))
+
+            assert.deepEqual(dbReflection.end.getCall(0).args, [])
+            assert.strictEqual(dbReflection.end.callCount, 1)
         })
     })
     describe('typescriptOfSchema', () => {
@@ -71,6 +84,7 @@ describe('index', () => {
             assert.deepEqual(dbReflection.getEnumTypes.getCall(0).args[0], 'schemaName')
             assert.deepEqual(tsReflection.generateEnumType.getCall(0).args[0], 'enumTypes')
             assert.deepEqual(tsReflection.generateTableTypes.getCall(0).args[0], 'tablename')
+            assert.strictEqual(dbReflection.end.getCall(0), null)
         })
         it('has tables provided', async () => {
             dbReflection.getSchemaTables.returns(Promise.resolve(['tablename']))
@@ -82,6 +96,16 @@ describe('index', () => {
             assert(!dbReflection.getSchemaTables.called)
             assert.deepEqual(tsReflection.generateEnumType.getCall(0).args[0], 'enumTypes')
             assert.deepEqual(tsReflection.generateTableTypes.getCall(0).args[0], 'differentTablename')
+            assert.strictEqual(dbReflection.end.getCall(0), null)
+        })
+        it('disconnects from database if it created the db instance', async () => {
+            dbReflection.getEnumTypes.returns(Promise.resolve('enumTypes'))
+            dbReflection.end.returns(Promise.resolve())
+            schemaReflection.getDatabase.returns(dbReflection)
+            await Index.typescriptOfSchema('sql://', ['table1', 'table2'], 'schemaName', options)
+
+            assert.deepEqual(dbReflection.end.getCall(0).args, [])
+            assert.strictEqual(dbReflection.end.callCount, 1)
         })
     })
 })

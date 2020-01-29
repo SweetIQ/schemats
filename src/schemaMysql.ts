@@ -172,6 +172,18 @@ export class MysqlDatabase implements Database {
         })
     }
 
+    public async end (): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            this.db.end(error => {
+                if (error) {
+                    reject(error)
+                } else {
+                    resolve()
+                }
+            })
+        })
+    }
+
     public getDefaultSchema (): string {
         return this.defaultSchema
     }
