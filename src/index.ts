@@ -83,7 +83,7 @@ export async function typescriptOfSchema (db: Database|string,
     const interfaces = await Promise.all(interfacePromises)
         .then(tsOfTable => tsOfTable.join(''))
 
-    let output = '/* tslint:disable */\n\n'
+    let output = '/* eslint-disable */\n\n'
     if (optionsObject.options.writeHeader) {
         output += buildHeader(db, tables, schema, options)
     }
