@@ -10,6 +10,8 @@ import Options from './options'
 
 function nameIsReservedKeyword (name: string): boolean {
     const reservedKeywords = [
+        'object',
+        'default',
         'string',
         'number',
         'package'
