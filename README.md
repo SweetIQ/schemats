@@ -117,8 +117,6 @@ let emailOfUsersCreatedAfter2013: Array<Pick<users, 'email' | 'creation_time'>>
     = await db.query("SELECT (email, creation_time) FROM users WHERE creation_time >= '2013-01-01'");
 ```
 
-
-
 With generated type definition for our database schema, we can write code with autocompletion and static type checks.
 
 <p align="center">
