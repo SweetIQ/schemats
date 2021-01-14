@@ -106,7 +106,7 @@ export class MysqlDatabase implements Database {
             params = []
         }
         const rawEnumRecords = await this.queryAsync(
-            'SELECT column_name, column_type, data_type ' +
+            'SELECT column_name as column_name, column_type as column_type, data_type as data_type ' +
             'FROM information_schema.columns ' +
             `WHERE data_type IN ('enum', 'set') ${enumSchemaWhereClause}`,
             params
@@ -128,7 +128,7 @@ export class MysqlDatabase implements Database {
         let tableDefinition: TableDefinition = {}
 
         const tableColumns = await this.queryAsync(
-            'SELECT column_name, data_type, is_nullable ' +
+            'SELECT column_name as column_name, data_type as data_type, is_nullable as is_nullable ' +
             'FROM information_schema.columns ' +
             'WHERE table_name = ? and table_schema = ?',
             [tableName, tableSchema]
@@ -152,7 +152,7 @@ export class MysqlDatabase implements Database {
 
     public async getSchemaTables (schemaName: string): Promise<string[]> {
         const schemaTables = await this.queryAsync(
-            'SELECT table_name ' +
+            'SELECT table_name as table_name ' +
             'FROM information_schema.columns ' +
             'WHERE table_schema = ? ' +
             'GROUP BY table_name',
