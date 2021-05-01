@@ -11,7 +11,7 @@ const MysqlDBReflection = MysqlDatabase as any
 
 describe('MysqlDatabase', () => {
     let db: MysqlDatabase
-    const sandbox = sinon.sandbox.create()
+    const sandbox = sinon.createSandbox()
     before(() => {
         sandbox.stub(mysql, 'createConnection')
         sandbox.stub(MysqlDBReflection.prototype, 'queryAsync')
@@ -141,7 +141,7 @@ describe('MysqlDatabase', () => {
         })
     })
     describe('getTableTypes', () => {
-        const tableTypesSandbox = sinon.sandbox.create()
+        const tableTypesSandbox = sinon.createSandbox()
         before(() => {
             tableTypesSandbox.stub(MysqlDBReflection.prototype, 'getEnumTypes')
             tableTypesSandbox.stub(MysqlDBReflection.prototype, 'getTableDefinition')
