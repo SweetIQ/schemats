@@ -8,7 +8,7 @@ import Options, { OptionValues } from '../../src/options'
 const options: OptionValues = {}
 
 describe('index', () => {
-    const typedTableSandbox = sinon.sandbox.create()
+    const typedTableSandbox = sinon.createSandbox()
     const db = {
         getDefaultSchema: typedTableSandbox.stub(),
         getTableTypes: typedTableSandbox.stub(),
