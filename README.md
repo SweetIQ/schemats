@@ -170,3 +170,12 @@ removal in the future.
 Version 1.0 [supports](https://github.com/SweetIQ/schemats/issues/19)
  [strict null-checking](https://github.com/Microsoft/TypeScript/pull/7140)
 and reflects the _NOT NULL_ constraint defined in PostgreSQL schema.
+
+## Testing Changes
+
+Testing changes in ProjectAussie requires you to install a local version of schemats in ProjectAussie.
+
+Sample steps for installing a local version of schemats to test:
+1. `npm pack` (NOTE: installing the local directory does not install peer deps because it is only a symlink)
+2. cd to_project_aussie
+3. npm install <path_to_schema_ts>/<tarball>.tgz
