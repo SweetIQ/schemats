@@ -177,5 +177,6 @@ Testing changes in ProjectAussie requires you to install a local version of sche
 
 Sample steps for installing a local version of schemats to test:
 1. `npm pack` (NOTE: installing the local directory does not install peer deps because it is only a symlink)
-2. cd to_project_aussie
-3. npm install <path_to_schema_ts>/<tarball>.tgz
+1. cd to_project_aussie
+1. npm install <path_to_schema_ts>/<tarball>.tgz
+1. npm run generate:schemats
