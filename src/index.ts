@@ -108,5 +108,5 @@ export async function typescriptOfSchema (db: Database|string,
     return processedResult.dest
 }
 
-export {Database, getDatabase} from './schema'
-export {Options, OptionValues}
+export { Database, getDatabase } from './schema'
+export { Options, OptionValues }

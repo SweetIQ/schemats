@@ -29,4 +29,4 @@ export function getDatabase (connection: string): Database {
     }
 }
 
-export {Database} from './schemaInterfaces'
+export { Database } from './schemaInterfaces'
