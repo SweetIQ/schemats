@@ -1,6 +1,6 @@
 {
   "name": "schemats",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Generate typescript interface definitions from (postgres) SQL database schema",
   "keywords": [
     "postgres",
@@ -69,7 +69,8 @@
     "lodash": "^4.17.4",
     "mysql": "^2.13.0",
     "mz": "^2.6.0",
-    "pg-promise": "^6.3.6",
+    "pg": "^8.7.1",
+    "pg-promise": "^10.11.1",
     "typescript": "^2.7.1",
     "typescript-formatter": "^7.0.1",
     "yargs": "^8.0.1"
